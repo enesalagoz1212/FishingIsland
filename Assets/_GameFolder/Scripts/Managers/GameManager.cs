@@ -29,6 +29,7 @@ namespace FishingIsland.Managers
 		[SerializeField] private UiManager uiManager;
 		[SerializeField] private InputManager inputManager;
 		[SerializeField] private CameraController cameraController;
+		[SerializeField] private CharacterManager characterManager;
 		private void Awake()
 		{
 			if ( Instance !=null && Instance!=this)
@@ -48,9 +49,10 @@ namespace FishingIsland.Managers
 
 		private void GameInitialize()
 		{
-			uiManager.Initialize(this,inputManager);
+			uiManager.Initialize(this,inputManager,characterManager);
 			inputManager.Initialize(cameraController);
 			cameraController.Initialize();
+			characterManager.Initialize();
 
 			ChangeState(GameState.Menu);
 		}

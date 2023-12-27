@@ -25,9 +25,9 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		public void Initialize(GameManager gameManager,InputManager inputManager)
+		public void Initialize(GameManager gameManager,InputManager inputManager,CharacterManager characterManager)
 		{
-			menuCanvas.Initialize(gameManager);
+			menuCanvas.Initialize(gameManager,characterManager);
 			inputCanvas.Initialize(inputManager);
 			
 		}
