@@ -31,7 +31,7 @@ namespace FishingIsland.Controllers
 			switch (BoatState)
 			{
 				case BoatState.Idle:
-
+					Debug.Log("Idle");
 					break;
 				case BoatState.Moving:
 

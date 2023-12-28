@@ -41,7 +41,7 @@ namespace FishingIsland.Controllers
 
 		}
 
-		public void SetTargetForCharacter(Transform newTarget)
+		public void SetTargetForPlayer(Transform newTarget)
 		{
 			target = newTarget;
 		}
