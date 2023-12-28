@@ -31,7 +31,7 @@ namespace FishingIsland.Managers
 		public void InstantiateCharacter(bool isMale)
 		{
 			GameObject characterPrefab = isMale ? maleCharacterPrefab : femaleCharacterPrefab;
-			Instantiate(characterPrefab, new Vector3(-32.5f,0f,0f),Quaternion.identity,character);
+			Instantiate(characterPrefab, new Vector3(-22f,0f,-7f),Quaternion.identity,character);
 		}
 	}
 }
