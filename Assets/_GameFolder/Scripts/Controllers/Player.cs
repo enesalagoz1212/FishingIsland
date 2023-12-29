@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FishingIsland.Managers;
 
 namespace FishingIsland.Controllers
 {
@@ -11,6 +12,8 @@ namespace FishingIsland.Controllers
 	}
 	public class Player : MonoBehaviour
 	{
+		private BoatController boatController;
+
 		public float movementSpeed = 5f;
 		public Transform target;
 		public PlayerState PlayerState { get; private set; }
@@ -21,23 +24,27 @@ namespace FishingIsland.Controllers
 		}
 		private void Start()
 		{
-
+			boatController = FindObjectOfType<BoatController>();
 		}
 
 		private void Update()
 		{
-			switch (PlayerState)
+			if (GameManager.Instance.GameState==GameState.Playing)
 			{
-				case PlayerState.OnLand:
-					MoveTowardsTarget();
+				switch (PlayerState)
+				{
+					case PlayerState.OnLand:
+						MoveTowardsTarget();
 
-					break;
-				case PlayerState.OnBoat:
-
-					break;
-				default:
-					break;
+						break;
+					case PlayerState.OnBoat:
+						boatController.PlayerBoarded();
+						break;
+					default:
+						break;
+				}
 			}
+			
 
 		}
 
@@ -71,6 +78,8 @@ namespace FishingIsland.Controllers
 				Debug.LogError("No target assigned!");
 			}
 		}
+
+		
 	}
 }
 

@@ -30,6 +30,9 @@ namespace FishingIsland.Managers
 		[SerializeField] private InputManager inputManager;
 		[SerializeField] private CameraController cameraController;
 		[SerializeField] private CharacterManager characterManager;
+		[SerializeField] private PlayerController playerController;
+		[SerializeField] private BoatController boatController;
+		[SerializeField] private Player player;
 		private void Awake()
 		{
 			if ( Instance !=null && Instance!=this)
@@ -53,6 +56,8 @@ namespace FishingIsland.Managers
 			inputManager.Initialize(cameraController);
 			cameraController.Initialize();
 			characterManager.Initialize();
+			playerController.Initialize(boatController);
+			boatController.Initialize(playerController);
 
 			ChangeState(GameState.Menu);
 		}

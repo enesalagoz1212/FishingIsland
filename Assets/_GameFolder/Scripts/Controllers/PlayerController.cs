@@ -6,6 +6,11 @@ namespace FishingIsland.Controllers
 {
 	public class PlayerController : MonoBehaviour
 	{
+		private BoatController _boatController;
+		public void Initialize(BoatController boatController)
+		{
+			_boatController=boatController;
+		}
 		void Start()
 		{
 
@@ -15,6 +20,11 @@ namespace FishingIsland.Controllers
 		{
 
 		}
+		public void FollowBoat(Vector3 boatPosition)
+		{
+			transform.position = new Vector3(boatPosition.x, transform.position.y, boatPosition.z);
+		}
+
 	}
 }
 
