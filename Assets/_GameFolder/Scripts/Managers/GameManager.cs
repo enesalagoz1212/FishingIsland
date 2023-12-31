@@ -12,7 +12,7 @@ namespace FishingIsland.Managers
 		Start = 1,
 		Playing = 2,
 		Reset = 3,
-		End = 4,
+		LevelCompleted = 4,
 	}
 	public class GameManager : MonoBehaviour
 	{
@@ -21,7 +21,7 @@ namespace FishingIsland.Managers
 
 		public static Action OnMenuOpen;
 		public static Action OnGameStarted;
-		public static Action<bool> OnGameEnd;
+		public static Action<bool> OnGameLevelCompleted;
 		public static Action OnGameReset;
 		public static Action<int> OnDiamondScored;
 		public static Action<int> OnMoneyScored;
@@ -30,7 +30,6 @@ namespace FishingIsland.Managers
 		[SerializeField] private InputManager inputManager;
 		[SerializeField] private CameraController cameraController;
 		[SerializeField] private CharacterManager characterManager;
-		[SerializeField] private PlayerController playerController;
 		[SerializeField] private BoatController boatController;
 		[SerializeField] private Player player;
 		private void Awake()
@@ -56,8 +55,7 @@ namespace FishingIsland.Managers
 			inputManager.Initialize(cameraController);
 			cameraController.Initialize();
 			characterManager.Initialize();
-			playerController.Initialize(boatController);
-			boatController.Initialize(playerController);
+			boatController.Initialize();
 
 			ChangeState(GameState.Menu);
 		}
@@ -72,7 +70,7 @@ namespace FishingIsland.Managers
 
 		}
 
-		public void GameEnd(bool isSuccessful)
+		public void LevelCompleted(bool isSuccessful)
 		{
 
 		}
@@ -94,7 +92,7 @@ namespace FishingIsland.Managers
 					break;
 				case GameState.Reset:
 					break;
-				case GameState.End:
+				case GameState.LevelCompleted:
 					break;
 				default:
 					break;

@@ -2,31 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FishingIsland.Managers;
+using DG.Tweening;
+using TMPro;
+using UnityEngine.UI;
 
 namespace FishingIsland.Controllers
 {
 	public enum BoatState
 	{
-		Idle,
-		Moving,
+		InThePort,
+		GoingFishing,
 		Fishing,
+		ReturningToPort,
 	}
 	public class BoatController : MonoBehaviour
 	{
-		
 		public BoatState BoatState { get; private set; }
-		private PlayerController _playerController;
+		private Vector3 _initialPosition;
+		private int _fishCapacity = 0;
+		private int _maxFishCapacity = 10;
 
-		public Transform fishingDestination;
-		public float movementSpeed;
-
-		public void Initialize(PlayerController playerController)
+		public TextMeshProUGUI fishCapacityText;
+		public void Initialize()
 		{
-			_playerController = playerController;
+			_initialPosition = transform.position;
 		}
+
 		private void Awake()
 		{
-			BoatState = BoatState.Idle;
+			BoatState = BoatState.InThePort;
 		}
 
 		public void ChangeState(BoatState boatState)
@@ -35,57 +39,57 @@ namespace FishingIsland.Controllers
 			Debug.Log($"BoatState: {boatState}");
 		}
 
-		public void PlayerBoarded()
-		{
-			ChangeState(BoatState.Moving);
-			Debug.Log("Player Boarded");
-		}
+
 
 		private void Update()
 		{
-			if (GameManager.Instance.GameState==GameState.Playing)
+			if (GameManager.Instance.GameState == GameState.Playing)
 			{
 				switch (BoatState)
 				{
-					case BoatState.Idle:
-						Debug.Log("Idle");
-
+					case BoatState.InThePort:
+						transform.position = _initialPosition;
 						break;
-					case BoatState.Moving:
-						MoveToDestination();
+					case BoatState.GoingFishing:
+						MoveToPosition(new Vector3(-40f, 0f, 0f), 3f);
+						DOVirtual.DelayedCall(3f, () =>
+						{
+							ChangeState(BoatState.Fishing);
+						});
 						break;
 					case BoatState.Fishing:
+						if (_fishCapacity < _maxFishCapacity)
+						{
+							_fishCapacity++;
+							UpdateFishCapacityText();
+						}
 
+						else
+						{
+							ChangeState(BoatState.ReturningToPort);
+						}
 						break;
-					default:
+					case BoatState.ReturningToPort:
+						MoveToPosition(_initialPosition, 3f);
 						break;
 				}
 			}
-			
 		}
 
-		private void MoveToDestination()
+		private void MoveToPosition(Vector3 targetPosition, float duration)
 		{
-			if (fishingDestination != null)
-			{
-				transform.position = Vector3.MoveTowards(transform.position, fishingDestination.position, movementSpeed * Time.deltaTime);
+			transform.DOMove(targetPosition, duration);
+		}
 
-				if (Vector3.Distance(transform.position, fishingDestination.position) < 0.1f)
-				{
-					Debug.Log("fishing");
-					ChangeState(BoatState.Fishing);
-				}
+		private void OnMouseDown()
+		{
+			Debug.Log("OnMouseDown");
+			ChangeState(BoatState.GoingFishing);
+		}
 
-				if (_playerController != null)
-				{
-					_playerController.FollowBoat(transform.position);
-					Debug.Log("1");
-				}
-			}
-			else
-			{
-				Debug.LogError("No fishing spot assigned");
-			}
+		private void UpdateFishCapacityText()
+		{
+			fishCapacityText.text = $" {_maxFishCapacity}";
 		}
 	}
 

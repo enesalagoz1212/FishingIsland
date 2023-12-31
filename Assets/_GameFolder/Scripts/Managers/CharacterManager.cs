@@ -8,9 +8,7 @@ namespace FishingIsland.Managers
     {
         public static CharacterManager Instance { get; private set; }
 
-		public GameObject maleCharacterPrefab;
-		public GameObject femaleCharacterPrefab;
-		public Transform character;
+		
 		public void Initialize()
 		{
 
@@ -30,8 +28,7 @@ namespace FishingIsland.Managers
 
 		public void InstantiateCharacter(bool isMale)
 		{
-			GameObject characterPrefab = isMale ? maleCharacterPrefab : femaleCharacterPrefab;
-			Instantiate(characterPrefab, new Vector3(-22f,0f,-7f),Quaternion.identity,character);
+			
 		}
 	}
 }

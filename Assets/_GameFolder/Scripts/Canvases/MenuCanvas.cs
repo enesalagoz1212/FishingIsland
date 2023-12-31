@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using FishingIsland.Managers;
+using DG.Tweening;
 
 namespace FishingIsland.Canvases
 {
@@ -12,8 +13,7 @@ namespace FishingIsland.Canvases
         private CharacterManager _characterManager;
 
         public Button playButton;
-        public Button maleButton;
-        public Button femaleButton;
+
         public Image characterSelectionImage;
         public Image menuBackgroundImage;
 
@@ -24,9 +24,6 @@ namespace FishingIsland.Canvases
             _gameManager = gameManager;
             _characterManager = characterManager;
 
-            playButton.onClick.AddListener(OnPlayButtonClicked);
-            maleButton.onClick.AddListener(OnMaleButtonClicked);
-            femaleButton.onClick.AddListener(OnFemaleButtonClicked);
         }
 
 		private void OnEnable()
@@ -43,42 +40,20 @@ namespace FishingIsland.Canvases
 
 		private void OnMenuOpen()
 		{
-            characterSelectionImage.gameObject.SetActive(true);
-		}
+            menuBackgroundImage.gameObject.SetActive(true);
+            DOVirtual.DelayedCall(1.5f, () =>
+            {
+                _gameManager.OnGameStart();
+            });
+        }
 
         private void OnGameStart()
 		{
             menuBackgroundImage.gameObject.SetActive(false);
 		}
 
-        private void OnPlayButtonClicked()
-		{
-			if (_isMaleSelected)
-			{
-                _characterManager.InstantiateCharacter(_isMaleSelected);
-			}
-			else
-			{
-                _characterManager.InstantiateCharacter(_isMaleSelected);
-			}
-            _gameManager.OnGameStart();
-		}
-
-        private void OnMaleButtonClicked()
-		{
-            Debug.Log("male");
-            _isMaleSelected = true;
-            menuBackgroundImage.gameObject.SetActive(true);
-            characterSelectionImage.gameObject.SetActive(false);
-        }
-
-        private void OnFemaleButtonClicked()
-		{
-            Debug.Log("female");
-            _isMaleSelected = false;
-            menuBackgroundImage.gameObject.SetActive(true);
-            characterSelectionImage.gameObject.SetActive(false);
-		}
+        
+      
     }
 }
 

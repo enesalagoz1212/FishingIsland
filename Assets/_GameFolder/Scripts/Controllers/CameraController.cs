@@ -18,7 +18,7 @@ namespace FishingIsland.Controllers
         public void MoveCamera(float deltaY)
         {
             Vector3 cameraPosition = transform.position;
-            cameraPosition.z = Mathf.Clamp(cameraPosition.z + deltaY * moveSpeed * Time.deltaTime, minDistance, maxDistance);
+            cameraPosition.x = Mathf.Clamp(cameraPosition.x + deltaY * moveSpeed * Time.deltaTime, minDistance, maxDistance);
             transform.position = cameraPosition;
         }
     }
