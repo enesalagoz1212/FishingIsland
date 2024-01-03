@@ -30,17 +30,20 @@ namespace FishingIsland.Controllers
 		public GameObject dockTimerPanel;
 		public TextMeshProUGUI boxFishText;
 		private int _totalFishCount = 0;
+
 		public void Initialize()
 		{
 			_initialPosition = transform.position;
-
-
 		}
 
 		private void Awake()
 		{
-			ChangeState(BoatState.InThePort);
 			TimerText();
+		}
+
+		private void Start()
+		{
+			ChangeState(BoatState.InThePort);
 		}
 
 		public void ChangeState(BoatState boatState)
@@ -53,10 +56,10 @@ namespace FishingIsland.Controllers
 				{
 					case BoatState.InThePort:
 						transform.position = _initialPosition;
-					
+
 						break;
 					case BoatState.GoingFishing:
-						_currentTime = 9f;
+						_currentTime = 8f;
 						dockTimerPanel.gameObject.SetActive(true);
 						TimerText();
 						_isTimerRunning = true;
@@ -67,21 +70,19 @@ namespace FishingIsland.Controllers
 						});
 						break;
 					case BoatState.Fishing:
-						if (_fishCapacity < _maxFishCapacity)
-						{
 
-							UpdateFishCapacityText();
-						}
+						StartCoroutine(CollectFish());
+
 						break;
 					case BoatState.ReturningToPort:
 						MoveToPosition(_initialPosition, 1f);
 						_isTimerRunning = false;
-						
+
 						DOVirtual.DelayedCall(1f, () =>
 						{
 							dockTimerPanel.gameObject.SetActive(false);
 							UpdateTransferTheFishText();
-							UpdateGetTheFish();
+							StartCoroutine(DrainFish());
 						});
 
 						break;
@@ -110,20 +111,14 @@ namespace FishingIsland.Controllers
 		private void UpdateFishCapacityText()
 		{
 			_fishCapacity++;
-			fishCapacityText.text = $" {_maxFishCapacity}";
+			fishCapacityText.text = $" {_fishCapacity}";
 		}
 
 		private void UpdateTransferTheFishText()
 		{
-			_fishCapacity= 0;
-			fishCapacityText.text = $" {_fishCapacity}";
+			StartCoroutine(TransferFish());
 		}
 
-		private void UpdateGetTheFish()
-		{
-			_totalFishCount += _maxFishCapacity;
-			boxFishText.text = $" {_totalFishCount}";
-		}
 
 		private void TimerControl()
 		{
@@ -142,6 +137,34 @@ namespace FishingIsland.Controllers
 		{
 			timerText.text = _currentTime.ToString();
 		}
-	}
 
+		private IEnumerator CollectFish()
+		{
+			for (int i = 0; i < _maxFishCapacity; i++)
+			{
+				yield return new WaitForSeconds(0.3f);
+				UpdateFishCapacityText();
+			}
+		}
+
+		private IEnumerator DrainFish()
+		{
+			for (int i = 1; i <= _maxFishCapacity; i++)
+			{
+				yield return new WaitForSeconds(0.4f);
+				_totalFishCount++;
+				boxFishText.text = $" { _totalFishCount}";
+			}
+		}
+
+		private IEnumerator TransferFish()
+		{
+			for (int i = 1; i <= _maxFishCapacity; i++)
+			{
+				yield return new WaitForSeconds(0.4f);
+				_fishCapacity--;
+				fishCapacityText.text = $" {_fishCapacity}";
+			}
+		}
+	}
 }
