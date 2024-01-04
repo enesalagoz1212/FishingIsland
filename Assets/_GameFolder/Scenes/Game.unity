@@ -910,8 +910,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 200812008}
+  - component: {fileID: 200812009}
   m_Layer: 0
-  m_Name: Shack
+  m_Name: ShackController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -938,6 +939,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &200812009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200812007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43be622c6871bd3428e2c0346f3a1c3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shackFishCountText: {fileID: 471196058}
 --- !u!1 &202064223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,6 +1394,7 @@ MonoBehaviour:
   cameraController: {fileID: 1459691915}
   characterManager: {fileID: 919002811}
   boatController: {fileID: 436392119}
+  fishBoxController: {fileID: 721450447}
 --- !u!1 &358719546
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,7 +1677,7 @@ GameObject:
   - component: {fileID: 436392119}
   - component: {fileID: 436392120}
   m_Layer: 0
-  m_Name: Boat
+  m_Name: BoatController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2410,6 +2425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7310f70fc864d64db7c44c6b3c710ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boxFishText: {fileID: 263154029}
 --- !u!4 &721450448
 Transform:
   m_ObjectHideFlags: 0
@@ -5088,7 +5104,7 @@ GameObject:
   - component: {fileID: 1439906769}
   - component: {fileID: 1439906770}
   m_Layer: 0
-  m_Name: MaleFishWorker
+  m_Name: FishWorkerController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5299,7 +5315,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1519325828
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8310,7 +8326,7 @@ GameObject:
   - component: {fileID: 3783004972935205485}
   - component: {fileID: 3783004972935205486}
   m_Layer: 0
-  m_Name: MaleDockWorker
+  m_Name: DockWorkerController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8341,9 +8357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c54330f52fb57d4d929b1a0f49f1897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  dockWorkerFishCountText: {fileID: 0}
-  targetPos: {x: -23, y: 0, z: 1}
+  speed: 1
+  dockWorkerFishCountText: {fileID: 202064225}
 --- !u!1 &3867956153500974301
 GameObject:
   m_ObjectHideFlags: 0

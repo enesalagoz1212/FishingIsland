@@ -5,8 +5,16 @@ using DG.Tweening;
 
 namespace FishingIsland.Controllers
 {
+	public enum FishWorkerState
+	{
+		Idle,
+		CollectingFish,
+		GoingToSellFish,
+		ReturnsFromSellingFish,
+	}
     public class FishWorkerController : BaseCharacterController
     {
+		public FishWorkerState FishWorkerState { get; private set; }
 
 		public override void Initialize(string name, float speed, int initialCapacity)
 		{
@@ -17,13 +25,26 @@ namespace FishingIsland.Controllers
 		public override void WorkerMouseDown()
 		{
 			base.WorkerMouseDown();
-			Debug.Log("FishWorker calisti");
+		
 		}
 
-		//public override void MoveTo(Vector3 targetPosition)
-		//{
-		//	transform.DOMove(targetPosition);
-		//}
+		public void ChangeState(FishWorkerState state)
+		{
+			FishWorkerState = state;
+
+			switch (FishWorkerState)
+			{
+				case FishWorkerState.Idle:
+					break;
+				case FishWorkerState.CollectingFish:
+					break;
+				case FishWorkerState.GoingToSellFish:
+					break;
+				case FishWorkerState.ReturnsFromSellingFish:
+					break;
+			}
+
+		}
 	}
 
 }

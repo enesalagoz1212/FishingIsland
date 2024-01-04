@@ -23,36 +23,20 @@ namespace FishingIsland.Controllers
 		private Vector3 _initialPosition = new Vector3(-23, 0, 6);
 
 		private int _collectedFishCount = 0;
-		public override void Initialize(string name, float speed, int initialCapacity)
-		{
-			base.Initialize(name, speed, initialCapacity);
-			capacity = 10;
-			speed = 1.5f;
-			characterName = "DockWorker";
-		}
+		private int _capacity = 10;
 
-		void Start()
+		public override void Initialize(string name, float initialSpeed, int initialCapacity)
 		{
-		  
+			characterName = name;
+			speed = initialSpeed;
+			capacity = initialCapacity;
+			Debug.Log("2");
 		}
 
 		public override void WorkerMouseDown()
 		{
 			base.WorkerMouseDown();
 			ChangeState(DockWorkerState.GoToCollectFish);
-		}
-
-		public void MoveTo(Vector3 targetPosition)
-		{
-			transform.DOMove(targetPosition, speed).OnComplete(() =>
-			{
-				ChangeState(DockWorkerState.CollectingFish);
-				StartCoroutine(CollectFish());
-
-			}).OnComplete(() =>
-			{
-				ChangeState(DockWorkerState.ReturningFromCollectingFish);
-			});
 		}
 
 		public void ChangeState(DockWorkerState state)
@@ -65,31 +49,52 @@ namespace FishingIsland.Controllers
 				case DockWorkerState.Idle:
 					break;
 				case DockWorkerState.GoToCollectFish:
-					//Debug.Log("Go to Collect Fish");
-					MoveTo(_targetPos);
+					Debug.Log("GotoCollectFish");
+					transform.DOMove(_targetPos, speed).OnComplete(() =>
+					{
+						ChangeState(DockWorkerState.CollectingFish);
+					});
 					break;
-				case DockWorkerState.CollectingFish:
-					//Debug.Log("Collecting Fish");				
-					
+				case DockWorkerState.CollectingFish:			
+					StartCoroutine(CollectFish());
+					StartCoroutine(FishBoxController.Instance.TransferFish());
 					break;
 				case DockWorkerState.ReturningFromCollectingFish:
-					MoveTo(_initialPosition);
+					transform.DOMove(_initialPosition, speed).OnComplete(() =>
+					{
+						StartCoroutine(ShackController.Instance.CollectFish(_capacity));
+						StartCoroutine(TransferFish());
+					});
 					break;
 			}
 		}
 
-		private IEnumerator CollectFish()
+		public IEnumerator CollectFish()
 		{
-			for (int i = 0; i < capacity; i++)
+			Debug.Log("CollectFish Coroutine Started"); 
+
+			for (int i = 0; i < _capacity; i++)
 			{
 				yield return new WaitForSeconds(0.3f);
 				_collectedFishCount++;
 				UpdateFishCountText(_collectedFishCount);
+				Debug.Log("Fish Collected");
 			}
+
+			Debug.Log("CollectFish Coroutine Completed");
 
 			ChangeState(DockWorkerState.ReturningFromCollectingFish);
 		}
 
+		public IEnumerator TransferFish()
+		{
+			while (_capacity > 0)
+			{
+				yield return new WaitForSeconds(0.3f);
+				_capacity--;
+				UpdateFishCountText(_capacity);
+			}
+		}
 		private void UpdateFishCountText(int collectedFishCount)
 		{
 			dockWorkerFishCountText.text = $" {collectedFishCount}";

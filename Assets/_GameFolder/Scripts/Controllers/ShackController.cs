@@ -5,13 +5,11 @@ using TMPro;
 
 namespace FishingIsland.Controllers
 {
-    public class FishBoxController : MonoBehaviour
+    public class ShackController : MonoBehaviour
     {
-        public static FishBoxController Instance;
-
-        public TextMeshProUGUI boxFishText;
-        private int _totalFishCount = 0;
-
+        public static ShackController Instance;
+        public TextMeshProUGUI shackFishCountText;
+        private int _shackFishCount = 0;
 
         private void Awake()
         {
@@ -24,36 +22,21 @@ namespace FishingIsland.Controllers
                 Destroy(gameObject);
             }
         }
-        public void Initialize()
-		{
-
-		}
 
         public IEnumerator CollectFish(int fishCount)
         {
             for (int i = 0; i < fishCount; i++)
             {
                 yield return new WaitForSeconds(0.3f);
-                _totalFishCount++;
-                UpdateFishCountText();
-            }
-        }
-
-
-        public IEnumerator TransferFish()
-        {
-            while (_totalFishCount > 0)
-            {
-                yield return new WaitForSeconds(0.3f);
-                _totalFishCount--;
+                _shackFishCount++;
                 UpdateFishCountText();
             }
         }
 
         private void UpdateFishCountText()
         {
-            boxFishText.text = $" {_totalFishCount}";
+            shackFishCountText.text = $" {_shackFishCount}";
         }
     }
-}
 
+}

@@ -31,6 +31,8 @@ namespace FishingIsland.Managers
 		[SerializeField] private CameraController cameraController;
 		[SerializeField] private CharacterManager characterManager;
 		[SerializeField] private BoatController boatController;
+		[SerializeField] private FishBoxController fishBoxController;
+
 
 		private void Awake()
 		{
@@ -56,8 +58,10 @@ namespace FishingIsland.Managers
 			cameraController.Initialize();
 			characterManager.Initialize();
 			boatController.Initialize();
+			fishBoxController.Initialize();
 
-	
+			DockWorkerController dockWorker = new DockWorkerController();
+			dockWorker.Initialize("DockWorker", 1f, 10);
 
 			ChangeState(GameState.Menu);
 		}

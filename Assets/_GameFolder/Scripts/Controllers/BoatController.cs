@@ -38,7 +38,7 @@ namespace FishingIsland.Controllers
 
 		private void Awake()
 		{
-			TimerText();
+
 		}
 
 		private void Start()
@@ -56,12 +56,11 @@ namespace FishingIsland.Controllers
 				{
 					case BoatState.InThePort:
 						transform.position = _initialPosition;
-
 						break;
 					case BoatState.GoingFishing:
 						_currentTime = 8f;
 						dockTimerPanel.gameObject.SetActive(true);
-						TimerText();
+
 						_isTimerRunning = true;
 						MoveToPosition(new Vector3(-40f, 0f, 0f), 2f);
 						DOVirtual.DelayedCall(3f, () =>
@@ -70,9 +69,7 @@ namespace FishingIsland.Controllers
 						});
 						break;
 					case BoatState.Fishing:
-
-						StartCoroutine(CollectFish());
-
+						UpdateCollectTheFishText();
 						break;
 					case BoatState.ReturningToPort:
 						MoveToPosition(_initialPosition, 1f);
@@ -82,9 +79,8 @@ namespace FishingIsland.Controllers
 						{
 							dockTimerPanel.gameObject.SetActive(false);
 							UpdateTransferTheFishText();
-							StartCoroutine(DrainFish());
+							StartCoroutine(FishBoxController.Instance.CollectFish(_maxFishCapacity));
 						});
-
 						break;
 				}
 
@@ -94,7 +90,6 @@ namespace FishingIsland.Controllers
 		private void Update()
 		{
 			TimerControl();
-
 		}
 
 		private void MoveToPosition(Vector3 targetPosition, float duration)
@@ -110,7 +105,6 @@ namespace FishingIsland.Controllers
 
 		private void UpdateFishCapacityText()
 		{
-			_fishCapacity++;
 			fishCapacityText.text = $" {_fishCapacity}";
 		}
 
@@ -119,6 +113,10 @@ namespace FishingIsland.Controllers
 			StartCoroutine(TransferFish());
 		}
 
+		private void UpdateCollectTheFishText()
+		{
+			StartCoroutine(CollectFish());
+		}
 
 		private void TimerControl()
 		{
@@ -133,27 +131,13 @@ namespace FishingIsland.Controllers
 			}
 		}
 
-		private void TimerText()
-		{
-			timerText.text = _currentTime.ToString();
-		}
-
 		private IEnumerator CollectFish()
 		{
 			for (int i = 0; i < _maxFishCapacity; i++)
 			{
 				yield return new WaitForSeconds(0.3f);
+				_fishCapacity++;
 				UpdateFishCapacityText();
-			}
-		}
-
-		private IEnumerator DrainFish()
-		{
-			for (int i = 1; i <= _maxFishCapacity; i++)
-			{
-				yield return new WaitForSeconds(0.4f);
-				_totalFishCount++;
-				boxFishText.text = $" { _totalFishCount}";
 			}
 		}
 
@@ -163,7 +147,7 @@ namespace FishingIsland.Controllers
 			{
 				yield return new WaitForSeconds(0.4f);
 				_fishCapacity--;
-				fishCapacityText.text = $" {_fishCapacity}";
+				UpdateFishCapacityText();
 			}
 		}
 	}
