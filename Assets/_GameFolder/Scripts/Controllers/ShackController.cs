@@ -24,7 +24,12 @@ namespace FishingIsland.Controllers
             }
         }
 
-        public IEnumerator CollectFish(int fishCount)
+		private void OnMouseDown()
+		{
+            Debug.Log("ShackController");	
+		}
+
+		public IEnumerator CollectFish(int fishCount)
         {
             for (int i = 0; i < fishCount; i++)
             {
