@@ -31,7 +31,7 @@ namespace FishingIsland.Controllers
 
 		public override void WorkerMouseDown()
 		{
-			if (!_isSellingFish)
+			if (!_isSellingFish && ShackController.Instance.HasFishShack)
 			{
 				ChangeState(FishWorkerState.CollectingFish);
 				_isSellingFish = true;

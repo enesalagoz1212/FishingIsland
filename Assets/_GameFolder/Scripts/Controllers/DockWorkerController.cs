@@ -36,7 +36,7 @@ namespace FishingIsland.Controllers
 
 		public override void WorkerMouseDown()
 		{
-			if (!_isBusy)
+			if (!_isBusy&& FishBoxController.Instance.HasFishBox)
 			{
 				ChangeState(DockWorkerState.GoToCollectFish);
 				_isBusy = true;

@@ -12,6 +12,7 @@ namespace FishingIsland.Controllers
         public TextMeshProUGUI boxFishText;
         private int _totalFishCount = 0;
 
+        public bool HasFishBox => _totalFishCount > 0;
 
         private void Awake()
         {
