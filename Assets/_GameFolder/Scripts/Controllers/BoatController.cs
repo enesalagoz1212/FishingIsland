@@ -22,7 +22,7 @@ namespace FishingIsland.Controllers
 		private int _fishCapacity = 0;
 		private int _maxFishCapacity = 10;
 
-		public Image countDown;
+		public Image downOkImage;
 		public TextMeshProUGUI timerText;
 		private bool _isTimerRunning = false;
 		private float _currentTime = 8;
@@ -31,6 +31,7 @@ namespace FishingIsland.Controllers
 		public TextMeshProUGUI boxFishText;
 		private int _totalFishCount = 0;
 
+		private bool _canClick = true;
 		public void Initialize()
 		{
 			_initialPosition = transform.position;
@@ -38,12 +39,12 @@ namespace FishingIsland.Controllers
 
 		private void Awake()
 		{
-
+			
 		}
 
 		private void Start()
 		{
-			ChangeState(BoatState.InThePort);
+			
 		}
 
 		public void ChangeState(BoatState boatState)
@@ -56,8 +57,10 @@ namespace FishingIsland.Controllers
 				{
 					case BoatState.InThePort:
 						transform.position = _initialPosition;
+						downOkImage.gameObject.SetActive(true);
 						break;
 					case BoatState.GoingFishing:
+					
 						_currentTime = 8f;
 						dockTimerPanel.gameObject.SetActive(true);
 
@@ -99,8 +102,14 @@ namespace FishingIsland.Controllers
 
 		private void OnMouseDown()
 		{
-			Debug.Log("OnMouseDown");
-			ChangeState(BoatState.GoingFishing);
+			if (_canClick)
+			{
+				Debug.Log("OnMouseDown");
+				ChangeState(BoatState.GoingFishing);
+				downOkImage.gameObject.SetActive(false);
+				_canClick = false;
+			}
+		
 		}
 
 		private void UpdateFishCapacityText()
@@ -149,6 +158,8 @@ namespace FishingIsland.Controllers
 				_fishCapacity--;
 				UpdateFishCapacityText();
 			}
+			downOkImage.gameObject.SetActive(true);
+			_canClick = true;
 		}
 	}
 }

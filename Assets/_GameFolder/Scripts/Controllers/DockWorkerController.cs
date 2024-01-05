@@ -14,29 +14,33 @@ namespace FishingIsland.Controllers
 		ReturningFromCollectingFish,
 	}
 
-    public class DockWorkerController : BaseCharacterController
-    {
+	public class DockWorkerController : BaseCharacterController
+	{
 		public DockWorkerState DockWorkerState { get; private set; }
 		public float speed = 1f;
 		public TextMeshProUGUI dockWorkerFishCountText;
-		private Vector3 _targetPos= new Vector3(-23, 0, 1);
+		private Vector3 _targetPos = new Vector3(-23, 0, 1);
 		private Vector3 _initialPosition = new Vector3(-23, 0, 6);
 
 		private int _collectedFishCount = 0;
 		private int _capacity = 10;
 
+		private bool _isBusy = false;
 		public override void Initialize(string name, float initialSpeed, int initialCapacity)
 		{
 			characterName = name;
 			speed = initialSpeed;
 			capacity = initialCapacity;
-			Debug.Log("2");
+
 		}
 
 		public override void WorkerMouseDown()
 		{
-			base.WorkerMouseDown();
-			ChangeState(DockWorkerState.GoToCollectFish);
+			if (!_isBusy)
+			{
+				ChangeState(DockWorkerState.GoToCollectFish);
+				_isBusy = true;
+			}
 		}
 
 		public void ChangeState(DockWorkerState state)
@@ -55,7 +59,7 @@ namespace FishingIsland.Controllers
 						ChangeState(DockWorkerState.CollectingFish);
 					});
 					break;
-				case DockWorkerState.CollectingFish:			
+				case DockWorkerState.CollectingFish:
 					StartCoroutine(CollectFish());
 					StartCoroutine(FishBoxController.Instance.TransferFish());
 					break;
@@ -71,7 +75,7 @@ namespace FishingIsland.Controllers
 
 		public IEnumerator CollectFish()
 		{
-			Debug.Log("CollectFish Coroutine Started"); 
+			Debug.Log("CollectFish Coroutine Started");
 
 			for (int i = 0; i < _capacity; i++)
 			{
@@ -94,7 +98,10 @@ namespace FishingIsland.Controllers
 				_capacity--;
 				UpdateFishCountText(_capacity);
 			}
+			_capacity = 10;
+			_isBusy = false;
 		}
+
 		private void UpdateFishCountText(int collectedFishCount)
 		{
 			dockWorkerFishCountText.text = $" {collectedFishCount}";

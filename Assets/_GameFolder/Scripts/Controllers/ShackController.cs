@@ -33,6 +33,16 @@ namespace FishingIsland.Controllers
             }
         }
 
+        public IEnumerator TransferFish(int capasity)
+        {
+            for (int i = 1; i <= capasity; i++)
+            {
+                yield return new WaitForSeconds(0.3f);
+                _shackFishCount--;
+                UpdateFishCountText();
+            }
+       
+        }
         private void UpdateFishCountText()
         {
             shackFishCountText.text = $" {_shackFishCount}";
