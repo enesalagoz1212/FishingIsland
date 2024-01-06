@@ -7,9 +7,6 @@ namespace FishingIsland.Controllers
     public class DockController : MonoBehaviour
     {
 
-
-
-
 		private void OnMouseDown()
 		{
 			Debug.Log("DockController");

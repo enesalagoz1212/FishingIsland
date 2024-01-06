@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.UI;
 
 namespace FishingIsland.Controllers
 {
@@ -22,9 +23,11 @@ namespace FishingIsland.Controllers
 		private Vector3 _targetPos = new Vector3(-23, 0, 1);
 		private Vector3 _initialPosition = new Vector3(-23, 0, 6);
 
+		public GameObject dockWorkerFishPanel;
 		private int _collectedFishCount = 0;
 		private int _capacity = 10;
 
+		public Image dockWorkerDownOkImage;
 		private bool _isBusy = false;
 		public override void Initialize(string name, float initialSpeed, int initialCapacity)
 		{
@@ -32,6 +35,11 @@ namespace FishingIsland.Controllers
 			speed = initialSpeed;
 			capacity = initialCapacity;
 
+		}
+
+		public override void Start()
+		{
+			ChangeState(DockWorkerState.Idle);
 		}
 
 		public override void WorkerMouseDown()
@@ -51,15 +59,22 @@ namespace FishingIsland.Controllers
 			switch (DockWorkerState)
 			{
 				case DockWorkerState.Idle:
+					dockWorkerDownOkImage.gameObject.SetActive(true);					
+					_capacity = 10;
+					_collectedFishCount = 0;
+					_isBusy = false;
+					dockWorkerFishPanel.gameObject.SetActive(false);
 					break;
 				case DockWorkerState.GoToCollectFish:
 					Debug.Log("GotoCollectFish");
+					dockWorkerDownOkImage.gameObject.SetActive(false);
 					transform.DOMove(_targetPos, speed).OnComplete(() =>
 					{
 						ChangeState(DockWorkerState.CollectingFish);
 					});
 					break;
 				case DockWorkerState.CollectingFish:
+					dockWorkerFishPanel.gameObject.SetActive(true);
 					StartCoroutine(CollectFish());
 					StartCoroutine(FishBoxController.Instance.TransferFish());
 					break;
@@ -98,8 +113,8 @@ namespace FishingIsland.Controllers
 				_capacity--;
 				UpdateFishCountText(_capacity);
 			}
-			_capacity = 10;
-			_isBusy = false;
+			ChangeState(DockWorkerState.Idle);
+			
 		}
 
 		private void UpdateFishCountText(int collectedFishCount)

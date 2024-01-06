@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.UI;
 
 namespace FishingIsland.Controllers
 {
@@ -22,11 +23,18 @@ namespace FishingIsland.Controllers
 		private int _fishPrice = 5;
 		private int _totalMoney;
 		public TextMeshProUGUI totalMoneyText;
+		public Image fishWorkerDownOkImage;
+		public GameObject fishWorkerFishPanel;
 
 		private bool _isSellingFish = false;
 		public override void Initialize(string name, float speed, int initialCapacity)
 		{
 			base.Initialize(name, speed, initialCapacity);
+		}
+
+		public override void Start()
+		{
+			ChangeState(FishWorkerState.Idle);
 		}
 
 		public override void WorkerMouseDown()
@@ -45,10 +53,16 @@ namespace FishingIsland.Controllers
 			switch (FishWorkerState)
 			{
 				case FishWorkerState.Idle:
+					_totalFishCount = 0;
+					_capacity = 10;
+					fishWorkerDownOkImage.gameObject.SetActive(true);
+					fishWorkerFishPanel.gameObject.SetActive(false);
 					_isSellingFish = false;
 					Debug.Log($"isSellingFish: {_isSellingFish}");
 					break;
 				case FishWorkerState.CollectingFish:
+					fishWorkerDownOkImage.gameObject.SetActive(false);
+					fishWorkerFishPanel.gameObject.SetActive(true);
 					StartCoroutine(ShackController.Instance.TransferFish(_capacity));
 					StartCoroutine(CollectFish());
 					break;
@@ -65,6 +79,7 @@ namespace FishingIsland.Controllers
 
 		public IEnumerator CollectFish()
 		{
+
 			for (int i = 0; i < _capacity; i++)
 			{
 				yield return new WaitForSeconds(0.3f);
