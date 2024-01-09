@@ -37,7 +37,6 @@ namespace FishingIsland.Controllers
 		{
 			_initialPosition = transform.position;
 			ChangeState(BoatState.InThePort);
-			Debug.Log("23232323");
 		}
 
 		private void Awake()
@@ -64,13 +63,16 @@ namespace FishingIsland.Controllers
 						boatFishPanel.gameObject.SetActive(false);
 						_canClick = true;
 						break;
-					case BoatState.GoingFishing:
-					
+					case BoatState.GoingFishing:			
 						_currentTime = 8f;
 						dockTimerPanel.gameObject.SetActive(true);
-
 						_isTimerRunning = true;
-						MoveToPosition(new Vector3(-40f, 0f, 0f), 2f);
+
+						Transform randomSpawnPoint = LevelManager.Instance.GetRandomBoatSpawnPoint();
+						if (randomSpawnPoint != null)
+						{
+							MoveToPosition(randomSpawnPoint.position, 2f);
+						}
 						DOVirtual.DelayedCall(3f, () =>
 						{
 							ChangeState(BoatState.Fishing);
@@ -113,8 +115,7 @@ namespace FishingIsland.Controllers
 				ChangeState(BoatState.GoingFishing);
 				boatDownOkImage.gameObject.SetActive(false);
 				_canClick = false;
-			}
-		
+			}	
 		}
 
 		private void UpdateFishCapacityText()

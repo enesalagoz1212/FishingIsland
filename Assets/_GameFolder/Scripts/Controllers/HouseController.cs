@@ -6,7 +6,8 @@ namespace FishingIsland.Controllers
 {
     public class HouseController : MonoBehaviour
     {
-     
+
+        public GameObject houseUpgradeCanvas;
         void Start()
         {
 
@@ -21,6 +22,7 @@ namespace FishingIsland.Controllers
 		private void OnMouseDown()
 		{
             Debug.Log("HouseController");
+            houseUpgradeCanvas.SetActive(true);
 		}
 	}
 }

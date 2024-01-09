@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
+using FishingIsland.Managers;
 
 namespace FishingIsland.Controllers
 {
@@ -20,8 +21,8 @@ namespace FishingIsland.Controllers
 		public DockWorkerState DockWorkerState { get; private set; }
 		public float speed = 1f;
 		public TextMeshProUGUI dockWorkerFishCountText;
-		private Vector3 _targetPos = new Vector3(-23, 0, 1);
-		private Vector3 _initialPosition = new Vector3(-23, 0, 6);
+		private Vector3 _initialPosition;
+		private Vector3 _targetPosition;
 
 		public GameObject dockWorkerFishPanel;
 		private int _collectedFishCount = 0;
@@ -39,6 +40,8 @@ namespace FishingIsland.Controllers
 
 		public override void Start()
 		{
+			_initialPosition = transform.position;
+			_targetPosition = LevelManager.Instance.dockWorkerGoesFishing[0].position;
 			ChangeState(DockWorkerState.Idle);
 		}
 
@@ -55,7 +58,6 @@ namespace FishingIsland.Controllers
 		{
 			DockWorkerState = state;
 			//Debug.Log($"DockWorkerState: {state}");
-
 			switch (DockWorkerState)
 			{
 				case DockWorkerState.Idle:
@@ -68,7 +70,7 @@ namespace FishingIsland.Controllers
 				case DockWorkerState.GoToCollectFish:
 					Debug.Log("GotoCollectFish");
 					dockWorkerDownOkImage.gameObject.SetActive(false);
-					transform.DOMove(_targetPos, speed).OnComplete(() =>
+					transform.DOMove(_targetPosition, speed).OnComplete(() =>
 					{
 						ChangeState(DockWorkerState.CollectingFish);
 					});

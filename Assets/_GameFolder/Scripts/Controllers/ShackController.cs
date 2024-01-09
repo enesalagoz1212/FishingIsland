@@ -8,8 +8,11 @@ namespace FishingIsland.Controllers
     public class ShackController : MonoBehaviour
     {
         public static ShackController Instance;
+
+        public GameObject shackUpgradeCanvas;
         public TextMeshProUGUI shackFishCountText;
         private int _shackFishCount = 0;
+
 
         public bool HasFishShack => _shackFishCount > 0;
         private void Awake()
@@ -26,7 +29,8 @@ namespace FishingIsland.Controllers
 
 		private void OnMouseDown()
 		{
-            Debug.Log("ShackController");	
+            Debug.Log("ShackController");
+            shackUpgradeCanvas.SetActive(true);
 		}
 
 		public IEnumerator CollectFish(int fishCount)
