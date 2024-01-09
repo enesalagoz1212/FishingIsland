@@ -25,6 +25,7 @@ namespace FishingIsland.Managers
 		public static Action OnGameReset;
 		public static Action<int> OnDiamondScored;
 		public static Action<int> OnMoneyScored;
+		public static Action OnFishCollectionAndTransfer;
 
 		[SerializeField] private UiManager uiManager;
 		[SerializeField] private InputManager inputManager;

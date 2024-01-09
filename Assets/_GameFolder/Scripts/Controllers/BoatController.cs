@@ -5,6 +5,7 @@ using FishingIsland.Managers;
 using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 namespace FishingIsland.Controllers
 {
@@ -19,8 +20,9 @@ namespace FishingIsland.Controllers
 	{
 		public BoatState BoatState { get; private set; }
 		private Vector3 _initialPosition;
-		private int _fishCapacity = 0;
+
 		private int _maxFishCapacity = 10;
+		public int FishCount { get; private  set; }
 
 		public TextMeshProUGUI timerText;
 		private bool _isTimerRunning = false;
@@ -28,7 +30,6 @@ namespace FishingIsland.Controllers
 		public TextMeshProUGUI fishCapacityText;
 		public GameObject dockTimerPanel;
 		public TextMeshProUGUI boxFishText;
-		private int _totalFishCount = 0;
 
 		private bool _canClick = true;
 		public Image boatDownOkImage;
@@ -71,7 +72,7 @@ namespace FishingIsland.Controllers
 						Transform randomSpawnPoint = LevelManager.Instance.GetRandomBoatSpawnPoint();
 						if (randomSpawnPoint != null)
 						{
-							MoveToPosition(randomSpawnPoint.position, 2f);
+							MoveToPosition(randomSpawnPoint.position, 2f);					
 						}
 						DOVirtual.DelayedCall(3f, () =>
 						{
@@ -88,8 +89,7 @@ namespace FishingIsland.Controllers
 						DOVirtual.DelayedCall(1f, () =>
 						{
 							dockTimerPanel.gameObject.SetActive(false);
-							UpdateTransferTheFishText();
-							StartCoroutine(FishBoxController.Instance.CollectFish(_maxFishCapacity));
+							FishBoxController.OnBoatArrivedBox?.Invoke(this);
 						});
 						break;
 				}
@@ -102,9 +102,11 @@ namespace FishingIsland.Controllers
 			TimerControl();
 		}
 
-		private void MoveToPosition(Vector3 targetPosition, float duration)
+		private void MoveToPosition(Vector3 targetPosition, float duration )
 		{
 			transform.DOMove(targetPosition, duration);
+			
+
 		}
 
 		private void OnMouseDown()
@@ -118,15 +120,22 @@ namespace FishingIsland.Controllers
 			}	
 		}
 
-		private void UpdateFishCapacityText()
+		public void OnFishTransferredToFishBox()
 		{
-			fishCapacityText.text = $" {_fishCapacity}";
+			FishCount--;
+			UpdateFishCapacityText();
+
+			if(FishCount <= 0)
+			{
+				ChangeState(BoatState.InThePort);
+			}
 		}
 
-		private void UpdateTransferTheFishText()
+		private void UpdateFishCapacityText()
 		{
-			StartCoroutine(TransferFish());
+			fishCapacityText.text = $" {FishCount}";
 		}
+
 
 		private void UpdateCollectTheFishText()
 		{
@@ -152,21 +161,9 @@ namespace FishingIsland.Controllers
 			for (int i = 0; i < _maxFishCapacity; i++)
 			{
 				yield return new WaitForSeconds(0.3f);
-				_fishCapacity++;
+				FishCount++;
 				UpdateFishCapacityText();
 			}
-		}
-
-		private IEnumerator TransferFish()
-		{
-			for (int i = 1; i <= _maxFishCapacity; i++)
-			{
-				yield return new WaitForSeconds(0.4f);
-				_fishCapacity--;
-				UpdateFishCapacityText();
-			}
-			ChangeState(BoatState.InThePort);
-		
 		}
 	}
 }
