@@ -4,12 +4,19 @@ using UnityEngine;
 
 namespace FishingIsland.UpgradeScriptableObjects
 {
-    public class DockUpgrade : ScriptableObject
-    {
-        public int level;
-        public float cost;
-        public float speedIncrease;
-        public int capacityIncrease;
-    }
+	[CreateAssetMenu(fileName = "New Dock Upgrade", menuName = "Dock Upgrade")]
+	public class DockUpgrade : ScriptableObject
+	{
+		public int boatLevel;
+		public int timerLevel;
+		public int capacityLevel;
+
+		public float boatSpeedIncrease;
+		public int boatCapacityIncrease;
+
+		public int boatLevelUpgradeCost;
+		public int timerLevelUpgradeCost;
+		public int capacityLevelUpgradeCost;
+	}
 }
 

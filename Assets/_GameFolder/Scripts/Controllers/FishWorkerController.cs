@@ -149,9 +149,8 @@ namespace FishingIsland.Controllers
 		private IEnumerator SellFish()
 		{
 			int earnedMoney = _totalFishCount * _fishPrice;
-			_totalMoney += earnedMoney;
-			UpdateTotalMoneyText(_totalMoney);
-
+			MoneyManager.Instance.AddMoney(earnedMoney);
+			UpdateTotalMoneyText();
 			Debug.Log($"Earned money: {earnedMoney}, Total money: {_totalMoney}");
 			StartCoroutine(TransferFish());
 			yield return new WaitForSeconds(3f);
@@ -159,9 +158,9 @@ namespace FishingIsland.Controllers
 			ChangeState(FishWorkerState.ReturnsFromSellingFish);
 		}
 
-		private void UpdateTotalMoneyText(int totalMoney)
+		private void UpdateTotalMoneyText()
 		{
-			totalMoneyText.text = $" {totalMoney}";
+			totalMoneyText.text = $" {MoneyManager.Instance.GetMoney()}";
 		}
 	}
 }

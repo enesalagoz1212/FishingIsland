@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace FishingIsland.UpgradeScriptableObjects
 {
+    [CreateAssetMenu(fileName = "New Shack Upgrade", menuName = "Shack Upgrade")]
     public class ShackUpgrade : ScriptableObject
     {
         public int level;

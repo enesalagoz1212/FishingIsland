@@ -26,9 +26,9 @@ namespace FishingIsland.Managers
 
 		public void Initialize(GameManager gameManager)
 		{
-			houseUpgradeCanvas.Initialize();
+			//houseUpgradeCanvas.Initialize();
 			dockUpgradeCanvas.Initialize();
-			shackUpgradeCanvas.Initialize();
+			//shackUpgradeCanvas.Initialize();
 
 		}
 	}
