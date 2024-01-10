@@ -105,8 +105,6 @@ namespace FishingIsland.Controllers
 		private void MoveToPosition(Vector3 targetPosition, float duration )
 		{
 			transform.DOMove(targetPosition, duration);
-			
-
 		}
 
 		private void OnMouseDown()

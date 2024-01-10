@@ -42,6 +42,7 @@ namespace FishingIsland.Controllers
 		{
 			_initialPosition = transform.position;
 			_targetPosition = LevelManager.Instance.dockWorkerGoesFishing[0].position;
+			_capacity = 10;
 			ChangeState(DockWorkerState.Idle);
 		}
 
@@ -77,8 +78,9 @@ namespace FishingIsland.Controllers
 					break;
 				case DockWorkerState.CollectingFish:
 					dockWorkerFishPanel.gameObject.SetActive(true);
-					StartCoroutine(CollectFish());
-					StartCoroutine(FishBoxController.Instance.TransferFish());
+
+					FishBoxController.OnDockWorkerArrivedBox?.Invoke(this);
+
 					break;
 				case DockWorkerState.ReturningFromCollectingFish:
 					transform.DOMove(_initialPosition, speed).OnComplete(() =>
@@ -90,21 +92,18 @@ namespace FishingIsland.Controllers
 			}
 		}
 
-		public IEnumerator CollectFish()
+
+		public void OnFishCollectedFishBox()
 		{
-			Debug.Log("CollectFish Coroutine Started");
+			_collectedFishCount++;
+			UpdateFishCountText(_collectedFishCount);
 
-			for (int i = 0; i < _capacity; i++)
+			Debug.Log($"Collected Fish Count: {_collectedFishCount}, Capacity: {_capacity}");
+
+			if (_collectedFishCount >= _capacity)
 			{
-				yield return new WaitForSeconds(0.3f);
-				_collectedFishCount++;
-				UpdateFishCountText(_collectedFishCount);
-				Debug.Log("Fish Collected");
+				ChangeState(DockWorkerState.ReturningFromCollectingFish);
 			}
-
-			Debug.Log("CollectFish Coroutine Completed");
-
-			ChangeState(DockWorkerState.ReturningFromCollectingFish);
 		}
 
 		public IEnumerator TransferFish()

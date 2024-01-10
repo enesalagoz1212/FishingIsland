@@ -21,12 +21,18 @@ namespace FishingIsland.Controllers
 		public FishWorkerState FishWorkerState { get; private set; }
 		public TextMeshProUGUI fishWorkerFishText;
 		private int _totalFishCount;
-		private int _capacity = 10;
+		private int _fishCapacity = 10;
 		private int _fishPrice = 5;
 		private int _totalMoney;
 		public TextMeshProUGUI totalMoneyText;
 		public Image fishWorkerDownOkImage;
 		public GameObject fishWorkerFishPanel;
+
+		public int FishCapacity
+		{
+			get { return _fishCapacity; }
+			set { _fishCapacity = value; }
+		}
 
 		private bool _isSellingFish = false;
 		public override void Initialize(string name, float speed, int initialCapacity)
@@ -56,7 +62,7 @@ namespace FishingIsland.Controllers
 			{
 				case FishWorkerState.Idle:
 					_totalFishCount = 0;
-					_capacity = 10;
+					_fishCapacity = 10;
 					fishWorkerDownOkImage.gameObject.SetActive(true);
 					fishWorkerFishPanel.gameObject.SetActive(false);
 					_isSellingFish = false;
@@ -65,8 +71,9 @@ namespace FishingIsland.Controllers
 				case FishWorkerState.CollectingFish:
 					fishWorkerDownOkImage.gameObject.SetActive(false);
 					fishWorkerFishPanel.gameObject.SetActive(true);
-					StartCoroutine(ShackController.Instance.TransferFish(_capacity));
-					StartCoroutine(CollectFish());
+
+					ShackController.OnFishWorkerArrivedBox?.Invoke(this);
+
 					break;
 				case FishWorkerState.GoingToSellFish:
 					Debug.Log("GointToSellFish");
@@ -74,6 +81,7 @@ namespace FishingIsland.Controllers
 					break;
 				case FishWorkerState.ReturnsFromSellingFish:
 					ReturnToInitialPoint();
+
 					break;
 			}
 
@@ -82,7 +90,7 @@ namespace FishingIsland.Controllers
 		public IEnumerator CollectFish()
 		{
 
-			for (int i = 0; i < _capacity; i++)
+			for (int i = 0; i < _fishCapacity; i++)
 			{
 				yield return new WaitForSeconds(0.3f);
 				_totalFishCount++;
@@ -93,13 +101,23 @@ namespace FishingIsland.Controllers
 
 		public IEnumerator TransferFish()
 		{
-			while (_capacity > 0)
+			while (_fishCapacity > 0)
 			{
 				yield return new WaitForSeconds(0.3f);
-				_capacity--;
-				UpdateFishCountText(_capacity);
+				_fishCapacity--;
+				UpdateFishCountText(_fishCapacity);
 			}
-			_capacity = 10;
+			_fishCapacity = 10;
+		}
+
+		public void OnFishTransferredToFishWorker()
+		{
+			_totalFishCount++;
+			UpdateFishCountText(_totalFishCount);
+			if (_totalFishCount >= FishCapacity)
+			{
+				ChangeState(FishWorkerState.GoingToSellFish);
+			}
 		}
 
 		private void UpdateFishCountText(int collectedFishCount)
