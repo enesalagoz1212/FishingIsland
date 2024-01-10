@@ -59,7 +59,7 @@ namespace FishingIsland.Controllers
 			{
 				boatController.OnFishTransferredToFishBox();
 				IncreaseFishCount(1);
-				yield return new WaitForSeconds(0.2f);
+				yield return new WaitForSeconds(0.3f);
 			}
 		}
 

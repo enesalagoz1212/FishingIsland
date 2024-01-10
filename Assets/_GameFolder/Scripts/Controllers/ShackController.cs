@@ -50,10 +50,9 @@ namespace FishingIsland.Controllers
 
 		private IEnumerator StartFishCollectFromDockWorker(DockWorkerController dockWorkerController)
 		{
-			while (dockWorkerController.CollectedFishCount >= 0)
+			while (dockWorkerController.CollectedFishCount > 0)
 			{
 				dockWorkerController.OnFishTransferedFishShack();
-				_shackFishCount++;
 				IncreaseFishCount(1);
 				yield return new WaitForSeconds(0.2f);
 			}

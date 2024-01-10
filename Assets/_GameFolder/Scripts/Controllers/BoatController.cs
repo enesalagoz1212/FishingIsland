@@ -21,7 +21,7 @@ namespace FishingIsland.Controllers
 		public BoatState BoatState { get; private set; }
 		private Vector3 _initialPosition;
 		private int _maxFishCapacity = 10;
-		public int FishCount { get; private  set; }
+		public int FishCount { get; private set; }
 
 		public TextMeshProUGUI timerText;
 		private bool _isTimerRunning = false;
@@ -46,7 +46,7 @@ namespace FishingIsland.Controllers
 
 		private void Start()
 		{
-			
+
 		}
 
 		public void ChangeState(BoatState boatState)
@@ -63,7 +63,7 @@ namespace FishingIsland.Controllers
 						boatFishPanel.gameObject.SetActive(false);
 						_canClick = true;
 						break;
-					case BoatState.GoingFishing:			
+					case BoatState.GoingFishing:
 						_currentTime = 8f;
 						dockTimerPanel.gameObject.SetActive(true);
 						_isTimerRunning = true;
@@ -71,25 +71,29 @@ namespace FishingIsland.Controllers
 						Transform randomSpawnPoint = LevelManager.Instance.GetRandomBoatSpawnPoint();
 						if (randomSpawnPoint != null)
 						{
-							MoveToPosition(randomSpawnPoint.position, 2f);					
+							MoveToPosition(randomSpawnPoint.position, 2f, () =>
+							 {
+								 DOVirtual.DelayedCall(2f, () =>
+								 {
+									 ChangeState(BoatState.Fishing);
+								 });
+							 });
+
+
+
 						}
-						DOVirtual.DelayedCall(3f, () =>
-						{
-							ChangeState(BoatState.Fishing);
-						});
 						break;
 					case BoatState.Fishing:
 						UpdateCollectTheFishText();
 						break;
 					case BoatState.ReturningToPort:
-						MoveToPosition(_initialPosition, 1f);
-						_isTimerRunning = false;
+						MoveToPosition(_initialPosition, 1f, () =>
+						 {
+							 _isTimerRunning = false;
+							 FishBoxController.OnBoatArrivedBox?.Invoke(this);
+							 dockTimerPanel.gameObject.SetActive(false);
+						 });
 
-						DOVirtual.DelayedCall(1f, () =>
-						{
-							dockTimerPanel.gameObject.SetActive(false);
-							FishBoxController.OnBoatArrivedBox?.Invoke(this);
-						});
 						break;
 				}
 
@@ -101,9 +105,14 @@ namespace FishingIsland.Controllers
 			TimerControl();
 		}
 
-		private void MoveToPosition(Vector3 targetPosition, float duration )
+
+		private void MoveToPosition(Vector3 targetPosition, float duration, Action onComplete)
 		{
-			transform.DOMove(targetPosition, duration);
+			transform.DOMove(targetPosition, duration).OnComplete(() =>
+			{
+				onComplete?.Invoke();
+			});
+
 		}
 
 		private void OnMouseDown()
@@ -114,7 +123,7 @@ namespace FishingIsland.Controllers
 				ChangeState(BoatState.GoingFishing);
 				boatDownOkImage.gameObject.SetActive(false);
 				_canClick = false;
-			}	
+			}
 		}
 
 		public void OnFishTransferredToFishBox()
@@ -122,7 +131,7 @@ namespace FishingIsland.Controllers
 			FishCount--;
 			UpdateFishCapacityText();
 
-			if(FishCount <= 0)
+			if (FishCount <= 0)
 			{
 				ChangeState(BoatState.InThePort);
 			}
