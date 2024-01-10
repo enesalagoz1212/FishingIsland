@@ -87,7 +87,7 @@ namespace FishingIsland.Controllers
 						UpdateCollectTheFishText();
 						break;
 					case BoatState.ReturningToPort:
-						MoveToPosition(_initialPosition, 1f, () =>
+						MoveToPosition(_initialPosition, 1.5f, () =>
 						 {
 							 _isTimerRunning = false;
 							 FishBoxController.OnBoatArrivedBox?.Invoke(this);
@@ -166,7 +166,7 @@ namespace FishingIsland.Controllers
 			boatFishPanel.SetActive(true);
 			for (int i = 0; i < _maxFishCapacity; i++)
 			{
-				yield return new WaitForSeconds(0.3f);
+				yield return new WaitForSeconds(0.2f);
 				FishCount++;
 				UpdateFishCapacityText();
 			}
