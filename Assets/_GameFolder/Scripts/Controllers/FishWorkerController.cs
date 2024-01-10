@@ -28,7 +28,7 @@ namespace FishingIsland.Controllers
 		public Image fishWorkerDownOkImage;
 		public GameObject fishWorkerFishPanel;
 
-		public int FishCapacity
+		public int FishWorkerFishCapacity
 		{
 			get { return _fishCapacity; }
 			set { _fishCapacity = value; }
@@ -87,17 +87,6 @@ namespace FishingIsland.Controllers
 
 		}
 
-		public IEnumerator CollectFish()
-		{
-
-			for (int i = 0; i < _fishCapacity; i++)
-			{
-				yield return new WaitForSeconds(0.3f);
-				_totalFishCount++;
-				UpdateFishCountText(_totalFishCount);
-			}
-			ChangeState(FishWorkerState.GoingToSellFish);
-		}
 
 		public IEnumerator TransferFish()
 		{
@@ -114,7 +103,7 @@ namespace FishingIsland.Controllers
 		{
 			_totalFishCount++;
 			UpdateFishCountText(_totalFishCount);
-			if (_totalFishCount >= FishCapacity)
+			if (_totalFishCount >= FishWorkerFishCapacity)
 			{
 				ChangeState(FishWorkerState.GoingToSellFish);
 			}

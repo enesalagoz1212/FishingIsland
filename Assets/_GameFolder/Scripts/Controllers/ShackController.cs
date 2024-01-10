@@ -16,6 +16,7 @@ namespace FishingIsland.Controllers
 		public bool HasFishShack => _shackFishCount > 0;
 
 		public static Action<FishWorkerController> OnFishWorkerArrivedBox;
+		public static Action<DockWorkerController> OnDockWorkerArrivedShack;
 		private void Awake()
 		{
 			if (Instance == null)
@@ -27,6 +28,7 @@ namespace FishingIsland.Controllers
 				Destroy(gameObject);
 			}
 			OnFishWorkerArrivedBox += OnFishWorkerArrivedBoxAction;
+			OnDockWorkerArrivedShack += OnFishWorkerArrivedShackAction;
 		}
 
 		private void OnMouseDown()
@@ -35,26 +37,6 @@ namespace FishingIsland.Controllers
 			shackUpgradeCanvas.SetActive(true);
 		}
 
-		public IEnumerator CollectFish(int fishCount)
-		{
-			for (int i = 0; i < fishCount; i++)
-			{
-				yield return new WaitForSeconds(0.3f);
-				_shackFishCount++;
-				UpdateFishCountText();
-			}
-		}
-
-		public IEnumerator TransferFish(int capasity)
-		{
-			for (int i = 1; i <= capasity; i++)
-			{
-				yield return new WaitForSeconds(0.3f);
-				_shackFishCount--;
-				UpdateFishCountText();
-			}
-
-		}
 
 		private IEnumerator StartFishTransferFromFishWorker(FishWorkerController fishWorkerController)
 		{
@@ -65,6 +47,18 @@ namespace FishingIsland.Controllers
 				yield return new WaitForSeconds(0.2f);
 			}
 		}
+
+		private IEnumerator StartFishCollectFromDockWorker(DockWorkerController dockWorkerController)
+		{
+			while (dockWorkerController.CollectedFishCount <= 0)
+			{
+				dockWorkerController.OnFishTransferedFishShack();
+				_shackFishCount++;
+				IncreaseFishCount(1);
+				yield return new WaitForSeconds(0.2f);
+			}
+		}
+
 		private void UpdateFishCountText()
 		{
 			shackFishCountText.text = $" {_shackFishCount}";
@@ -75,9 +69,20 @@ namespace FishingIsland.Controllers
 			StartCoroutine(StartFishTransferFromFishWorker(fishWorkerController));
 		}
 
+		private void OnFishWorkerArrivedShackAction(DockWorkerController dockWorkerController)
+		{
+			StartCoroutine(StartFishCollectFromDockWorker(dockWorkerController));
+		}
+
 		private void DecreaseFishCount(int amount)
 		{
 			_shackFishCount -= amount;
+			UpdateFishCountText();
+		}
+
+		private void IncreaseFishCount(int amount)
+		{
+			_shackFishCount += amount;
 			UpdateFishCountText();
 		}
 	}

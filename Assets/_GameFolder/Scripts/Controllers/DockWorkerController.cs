@@ -26,7 +26,17 @@ namespace FishingIsland.Controllers
 
 		public GameObject dockWorkerFishPanel;
 		private int _collectedFishCount = 0;
-		private int _capacity = 10;
+		private int _dockCapacity = 10;
+
+		public int CollectedFishCount
+		{
+			get { return _collectedFishCount; }
+		}
+		public int Capacity
+		{
+			get { return _dockCapacity; }
+			set { _dockCapacity = value; }
+		}
 
 		public Image dockWorkerDownOkImage;
 		private bool _isBusy = false;
@@ -42,7 +52,7 @@ namespace FishingIsland.Controllers
 		{
 			_initialPosition = transform.position;
 			_targetPosition = LevelManager.Instance.dockWorkerGoesFishing[0].position;
-			_capacity = 10;
+			_dockCapacity = 10;
 			ChangeState(DockWorkerState.Idle);
 		}
 
@@ -62,8 +72,8 @@ namespace FishingIsland.Controllers
 			switch (DockWorkerState)
 			{
 				case DockWorkerState.Idle:
-					dockWorkerDownOkImage.gameObject.SetActive(true);					
-					_capacity = 10;
+					dockWorkerDownOkImage.gameObject.SetActive(true);
+					_dockCapacity = 10;
 					_collectedFishCount = 0;
 					_isBusy = false;
 					dockWorkerFishPanel.gameObject.SetActive(false);
@@ -85,8 +95,7 @@ namespace FishingIsland.Controllers
 				case DockWorkerState.ReturningFromCollectingFish:
 					transform.DOMove(_initialPosition, speed).OnComplete(() =>
 					{
-						StartCoroutine(ShackController.Instance.CollectFish(_capacity));
-						StartCoroutine(TransferFish());
+						ShackController.OnDockWorkerArrivedShack?.Invoke(this);
 					});
 					break;
 			}
@@ -98,25 +107,26 @@ namespace FishingIsland.Controllers
 			_collectedFishCount++;
 			UpdateFishCountText(_collectedFishCount);
 
-			Debug.Log($"Collected Fish Count: {_collectedFishCount}, Capacity: {_capacity}");
+			Debug.Log($"Collected Fish Count: {_collectedFishCount}, Capacity: {_dockCapacity}");
 
-			if (_collectedFishCount >= _capacity)
+			if (_collectedFishCount >= _dockCapacity)
 			{
 				ChangeState(DockWorkerState.ReturningFromCollectingFish);
 			}
 		}
 
-		public IEnumerator TransferFish()
+		public void OnFishTransferedFishShack()
 		{
-			while (_capacity > 0)
+			_collectedFishCount--;
+			UpdateFishCountText(_collectedFishCount);
+
+
+			if (_collectedFishCount <= 0)
 			{
-				yield return new WaitForSeconds(0.3f);
-				_capacity--;
-				UpdateFishCountText(_capacity);
+				ChangeState(DockWorkerState.Idle);
 			}
-			ChangeState(DockWorkerState.Idle);
-			
 		}
+
 
 		private void UpdateFishCountText(int collectedFishCount)
 		{

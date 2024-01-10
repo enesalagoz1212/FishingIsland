@@ -35,15 +35,6 @@ namespace FishingIsland.Controllers
 
 		}
 
-		public IEnumerator TransferFish()
-		{
-			while (_totalFishCount > 0)
-			{
-				yield return new WaitForSeconds(0.3f);
-				_totalFishCount--;
-				UpdateFishCountText();
-			}
-		}
 
 		private void UpdateFishCountText()
 		{

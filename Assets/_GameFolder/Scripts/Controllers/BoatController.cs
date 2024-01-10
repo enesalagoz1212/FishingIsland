@@ -20,7 +20,6 @@ namespace FishingIsland.Controllers
 	{
 		public BoatState BoatState { get; private set; }
 		private Vector3 _initialPosition;
-
 		private int _maxFishCapacity = 10;
 		public int FishCount { get; private  set; }
 
