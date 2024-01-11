@@ -17,21 +17,29 @@ namespace FishingIsland.Canvases
         public Button capacityButton;
 
         public TextMeshProUGUI boatLevelText;
+        public TextMeshProUGUI timerLevelText;
+        public TextMeshProUGUI capacityLevelText;
+
+
         public void Initialize()
 		{
-        
-
             dockCloseButton.onClick.AddListener(OnCloseButtonClick);
             boatButton.onClick.AddListener(OnBoatButtonClick);
             timerButton.onClick.AddListener(OnTimerButtonClick);
             capacityButton.onClick.AddListener(OnCapacityButtonClick);
 
-            DockUpgradeManager.OnBoatLevelUpdated += UpdateBoatLevelText;
+			DockUpgradeManager.OnBoatLevelUpdated += UpdateBoatLevelText;
+			DockUpgradeManager.OnTimerLevelUpdated += UpdateTimerLevelText;
+			DockUpgradeManager.OnCapacityLevelUpdated += UpdateCapacityLevelText;
+
+		
+			UpdateBoatLevelText(DockUpgradeManager.Instance.GetBoatLevel());
+            UpdateTimerLevelText(DockUpgradeManager.Instance.GetTimerLevel());
+            UpdateCapacityLevelText(DockUpgradeManager.Instance.GetCapacityLevel());
         }
-       
+	
 
-
-        public void OnCloseButtonClick()
+		public void OnCloseButtonClick()
 		{
             gameObject.SetActive(false);
 		}
@@ -55,8 +63,18 @@ namespace FishingIsland.Canvases
 		}
 
         private void UpdateBoatLevelText(int newBoatLevel)
-		{
+        {
             boatLevelText.text = $"Boat Level: {newBoatLevel}";
+        }
+
+        private void UpdateTimerLevelText(int newTimerLevel)
+        {
+            timerLevelText.text = $"Timer Level: {newTimerLevel}";
+        }
+
+        private void UpdateCapacityLevelText(int newCapacityLevel)
+        {
+            capacityLevelText.text = $"Capacity Level: {newCapacityLevel}";
         }
     }
 }

@@ -78,18 +78,15 @@ namespace FishingIsland.Controllers
 									 ChangeState(BoatState.Fishing);
 								 });
 							 });
-
-
-
 						}
 						break;
 					case BoatState.Fishing:
 						UpdateCollectTheFishText();
 						break;
 					case BoatState.ReturningToPort:
+						_isTimerRunning = false;
 						MoveToPosition(_initialPosition, 1f, () =>
 						 {
-							 _isTimerRunning = false;
 							 FishBoxController.OnBoatArrivedBox?.Invoke(this);
 							 dockTimerPanel.gameObject.SetActive(false);
 						 });

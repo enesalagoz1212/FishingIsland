@@ -825,6 +825,9 @@ MonoBehaviour:
   boatButton: {fileID: 1110753439}
   timerButton: {fileID: 1676103960}
   capacityButton: {fileID: 967138915}
+  boatLevelText: {fileID: 1801251689}
+  timerLevelText: {fileID: 194731290}
+  capacityLevelText: {fileID: 1857776437}
 --- !u!1 &60217830
 GameObject:
   m_ObjectHideFlags: 0
@@ -3079,6 +3082,7 @@ MonoBehaviour:
   fishBoxController: {fileID: 721450447}
   upgradeManager: {fileID: 1996051496}
   levelManager: {fileID: 1971296153}
+  dockUpgradeManager: {fileID: 1055202386}
 --- !u!1 &300444325
 GameObject:
   m_ObjectHideFlags: 0
@@ -15681,7 +15685,7 @@ MonoBehaviour:
   boatSpawnPoints:
   - {fileID: 1617126263}
   - {fileID: 578313120}
-  - {fileID: 1855533198}
+  - {fileID: 578313120}
   fishWorkerSellPath:
   - {fileID: 929655422}
   - {fileID: 233729863}

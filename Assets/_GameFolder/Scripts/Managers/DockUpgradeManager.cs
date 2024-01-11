@@ -13,6 +13,8 @@ namespace FishingIsland.Managers
 		[SerializeField] private DockUpgrade dockUpgrade;
 
 		public static Action<int> OnBoatLevelUpdated;
+		public static Action<int> OnTimerLevelUpdated;
+		public static Action<int> OnCapacityLevelUpdated;
 
 		private void Awake()
 		{
@@ -28,27 +30,35 @@ namespace FishingIsland.Managers
 
 		public void UpgradeBoatLevel()
 		{
-			if (MoneyManager.Instance.money >= dockUpgrade.boatLevelUpgradeCost)
+			if (MoneyManager.Instance != null)
 			{
-				MoneyManager.Instance.money -= dockUpgrade.boatLevelUpgradeCost;
-				dockUpgrade.boatLevel++;
-				UpdateUpgradeCost();
+				if (MoneyManager.Instance.money >= dockUpgrade.boatLevelUpgradeCost)
+				{
+					MoneyManager.Instance.money -= dockUpgrade.boatLevelUpgradeCost;
+					dockUpgrade.boatLevel++;
+					UpdateUpgradeCost();
 
-				OnBoatLevelUpdated?.Invoke(dockUpgrade.boatLevel);
+					OnBoatLevelUpdated?.Invoke(dockUpgrade.boatLevel);
+				}
+				else
+				{
+					Debug.Log("insufficient money");
+				}
 			}
 			else
 			{
-				Debug.Log("insufficient money");
+				Debug.LogError("MoneyManager instance is missing!");
 			}
 		}
-
 		public void UpgradeTimerLevel()
 		{
 			if (MoneyManager.Instance.money >= dockUpgrade.timerLevelUpgradeCost)
 			{
 				MoneyManager.Instance.money -= dockUpgrade.timerLevelUpgradeCost;
 				dockUpgrade.timerLevel++;
-				UpdateUpgradeCost();
+				UpdateUpgradeTimerCost();
+
+				OnTimerLevelUpdated?.Invoke(dockUpgrade.timerLevel);
 			}
 			else
 			{
@@ -62,8 +72,11 @@ namespace FishingIsland.Managers
 			{
 				MoneyManager.Instance.money -= dockUpgrade.capacityLevelUpgradeCost;
 				dockUpgrade.capacityLevel++;
-				UpdateUpgradeCost();
+				UpdateUpgradeCapacityCost();
+
+				OnCapacityLevelUpdated?.Invoke(dockUpgrade.capacityLevel);
 			}
+
 			else
 			{
 				Debug.Log("insufficient money");
@@ -72,11 +85,36 @@ namespace FishingIsland.Managers
 
 		private void UpdateUpgradeCost()
 		{
-			dockUpgrade.boatLevelUpgradeCost = dockUpgrade.boatLevel * 50;
-			dockUpgrade.timerLevelUpgradeCost = dockUpgrade.timerLevel * 30;
-			dockUpgrade.capacityLevelUpgradeCost = dockUpgrade.capacityLevel * 40;
+			dockUpgrade.boatLevelUpgradeCost = dockUpgrade.boatLevel * 2;
 		}
 
+		private void UpdateUpgradeTimerCost()
+		{
+			dockUpgrade.timerLevelUpgradeCost = dockUpgrade.timerLevel * 3;
+		}
+
+		private void UpdateUpgradeCapacityCost()
+		{
+			dockUpgrade.capacityLevelUpgradeCost = dockUpgrade.capacityLevel * 4;
+		}
+
+		
+		public int GetBoatLevel()
+		{
+			return dockUpgrade.boatLevel;
+		}
+
+	
+		public int GetTimerLevel()
+		{
+			return dockUpgrade.timerLevel;
+		}
+
+
+		public int GetCapacityLevel()
+		{
+			return dockUpgrade.capacityLevel;
+		}
 	}
 
 }

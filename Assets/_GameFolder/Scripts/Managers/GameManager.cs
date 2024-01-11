@@ -62,7 +62,7 @@ namespace FishingIsland.Managers
 			characterManager.Initialize();
 			boatController.Initialize();
 			fishBoxController.Initialize();
-			upgradeManager.Initialize(this,dockUpgradeManager);
+			upgradeManager.Initialize(this);
 			levelManager.Initialize();
 
 
