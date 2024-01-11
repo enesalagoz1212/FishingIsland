@@ -23,7 +23,6 @@ namespace FishingIsland.Controllers
 		private int _totalFishCount;
 		private int _fishCapacity = 10;
 		private int _fishPrice = 5;
-		private int _totalMoney;
 		public TextMeshProUGUI totalMoneyText;
 		public Image fishWorkerDownOkImage;
 		public GameObject fishWorkerFishPanel;
@@ -148,13 +147,16 @@ namespace FishingIsland.Controllers
 
 		private IEnumerator SellFish()
 		{
+			Debug.Log("0");
 			int earnedMoney = _totalFishCount * _fishPrice;
 			Debug.Log("1");
 			MoneyManager.Instance.AddMoney(earnedMoney);
 			Debug.Log("2");
+	
 			UpdateTotalMoneyText();
 			Debug.Log("3");
-			Debug.Log($"Earned money: {earnedMoney}, Total money: {_totalMoney}");
+			
+
 			StartCoroutine(TransferFish());
 			yield return new WaitForSeconds(3f);
 

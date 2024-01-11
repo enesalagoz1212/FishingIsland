@@ -1195,7 +1195,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 35
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3083,6 +3083,7 @@ MonoBehaviour:
   upgradeManager: {fileID: 1996051496}
   levelManager: {fileID: 1971296153}
   dockUpgradeManager: {fileID: 1055202386}
+  moneyManager: {fileID: 1630697979}
 --- !u!1 &300444325
 GameObject:
   m_ObjectHideFlags: 0
@@ -8700,6 +8701,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dockUpgrade: {fileID: 11400000, guid: 45e925f2f81ad82439a87585a58b5673, type: 2}
+  boatLevelIncreaseMoneyAmountText: {fileID: 1056245314}
+  timerLevelIncreaseMoneyAmountText: {fileID: 113507191}
+  capacityLevelIncreaseMoneyAmountText: {fileID: 2039087427}
 --- !u!1 &1056245312
 GameObject:
   m_ObjectHideFlags: 0
@@ -8758,7 +8762,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 15
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13089,7 +13093,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b69be589bff94f40ac12d1f34dc32eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 5
+  money: 50
+  moneyText: {fileID: 506694388}
 --- !u!1 &1632557694
 GameObject:
   m_ObjectHideFlags: 0
@@ -16303,7 +16308,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 56
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -9,7 +9,6 @@ namespace FishingIsland.Canvases
 {
     public class DockUpgradeCanvas : MonoBehaviour
     {
-        private DockUpgradeManager _dockUpgradeManager;
 
         public Button dockCloseButton;
         public Button boatButton;
@@ -64,18 +63,20 @@ namespace FishingIsland.Canvases
 
         private void UpdateBoatLevelText(int newBoatLevel)
         {
-            boatLevelText.text = $"Boat Level: {newBoatLevel}";
+            boatLevelText.text = $" {newBoatLevel}";
         }
 
         private void UpdateTimerLevelText(int newTimerLevel)
         {
-            timerLevelText.text = $"Timer Level: {newTimerLevel}";
+            timerLevelText.text = $" {newTimerLevel}";
         }
 
         private void UpdateCapacityLevelText(int newCapacityLevel)
         {
-            capacityLevelText.text = $"Capacity Level: {newCapacityLevel}";
+            capacityLevelText.text = $" {newCapacityLevel}";
         }
+
+      
     }
 }
 

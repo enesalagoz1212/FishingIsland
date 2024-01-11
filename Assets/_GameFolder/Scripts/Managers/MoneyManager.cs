@@ -1,15 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 namespace FishingIsland.Managers
 {
-    public class MoneyManager : MonoBehaviour
-    {
-        public static MoneyManager Instance { get;  set; }
+	public class MoneyManager : MonoBehaviour
+	{
+		public static MoneyManager Instance { get; private set; }
 
 		public float money;
+		public TextMeshProUGUI moneyText;
 
+		public void Initialize()
+		{
+			UpdateMoneyText();
+		}
 		public float GetMoney()
 		{
 			return money;
@@ -29,6 +34,12 @@ namespace FishingIsland.Managers
 		public void AddMoney(float amount)
 		{
 			money += amount;
+			UpdateMoneyText();
+		}
+
+		public void UpdateMoneyText()
+		{
+			moneyText.text = $" {money}";
 		}
 	}
 }

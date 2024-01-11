@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FishingIsland.UpgradeScriptableObjects;
 using System;
+using TMPro;
 
 namespace FishingIsland.Managers
 {
@@ -16,6 +17,9 @@ namespace FishingIsland.Managers
 		public static Action<int> OnTimerLevelUpdated;
 		public static Action<int> OnCapacityLevelUpdated;
 
+		public TextMeshProUGUI boatLevelIncreaseMoneyAmountText;
+		public TextMeshProUGUI timerLevelIncreaseMoneyAmountText;
+		public TextMeshProUGUI capacityLevelIncreaseMoneyAmountText;
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)
@@ -39,6 +43,7 @@ namespace FishingIsland.Managers
 					UpdateUpgradeCost();
 
 					OnBoatLevelUpdated?.Invoke(dockUpgrade.boatLevel);
+					BoatLevelIncreaseMoneyText(dockUpgrade.boatLevelUpgradeCost);
 				}
 				else
 				{
@@ -59,6 +64,8 @@ namespace FishingIsland.Managers
 				UpdateUpgradeTimerCost();
 
 				OnTimerLevelUpdated?.Invoke(dockUpgrade.timerLevel);
+
+				TimerLevelIncreaseMoneyText(dockUpgrade.timerLevelUpgradeCost);
 			}
 			else
 			{
@@ -75,6 +82,8 @@ namespace FishingIsland.Managers
 				UpdateUpgradeCapacityCost();
 
 				OnCapacityLevelUpdated?.Invoke(dockUpgrade.capacityLevel);
+
+				CapacityLevelIncreaseMoneyText(dockUpgrade.capacityLevelUpgradeCost);
 			}
 
 			else
@@ -85,17 +94,17 @@ namespace FishingIsland.Managers
 
 		private void UpdateUpgradeCost()
 		{
-			dockUpgrade.boatLevelUpgradeCost = dockUpgrade.boatLevel * 2;
+			dockUpgrade.boatLevelUpgradeCost = dockUpgrade.boatLevel * 10;
 		}
 
 		private void UpdateUpgradeTimerCost()
 		{
-			dockUpgrade.timerLevelUpgradeCost = dockUpgrade.timerLevel * 3;
+			dockUpgrade.timerLevelUpgradeCost = dockUpgrade.timerLevel * 50;
 		}
 
 		private void UpdateUpgradeCapacityCost()
 		{
-			dockUpgrade.capacityLevelUpgradeCost = dockUpgrade.capacityLevel * 4;
+			dockUpgrade.capacityLevelUpgradeCost = dockUpgrade.capacityLevel * 5;
 		}
 
 		
@@ -114,6 +123,20 @@ namespace FishingIsland.Managers
 		public int GetCapacityLevel()
 		{
 			return dockUpgrade.capacityLevel;
+		}
+
+		public void BoatLevelIncreaseMoneyText(int moneyText)
+		{
+			boatLevelIncreaseMoneyAmountText.text = $" {moneyText}";
+		}
+
+		public void TimerLevelIncreaseMoneyText(int moneyText)
+		{
+			timerLevelIncreaseMoneyAmountText.text = $"{moneyText}";
+		}
+		public void CapacityLevelIncreaseMoneyText(int moneyText)
+		{
+			capacityLevelIncreaseMoneyAmountText.text = $"{moneyText}";
 		}
 	}
 
