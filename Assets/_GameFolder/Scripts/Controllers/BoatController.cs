@@ -87,7 +87,7 @@ namespace FishingIsland.Controllers
 						UpdateCollectTheFishText();
 						break;
 					case BoatState.ReturningToPort:
-						MoveToPosition(_initialPosition, 1.5f, () =>
+						MoveToPosition(_initialPosition, 1f, () =>
 						 {
 							 _isTimerRunning = false;
 							 FishBoxController.OnBoatArrivedBox?.Invoke(this);

@@ -137,8 +137,17 @@ namespace FishingIsland.Controllers
 		}
 
 		private void GoToSellFish()
-		{
-			MoveOnPath(LevelManager.Instance.fishWorkerSellPath, () => StartCoroutine(SellFish()));
+		{ // Eðer fishWorkerSellPath null deðilse ve en az bir eleman içeriyorsa devam et
+			if (LevelManager.Instance.fishWorkerSellPath != null && LevelManager.Instance.fishWorkerSellPath.Count > 0)
+			{
+				// Balýk iþçisinin satýþ yolu üzerinde hareket et
+				MoveOnPath(LevelManager.Instance.fishWorkerSellPath, () => StartCoroutine(SellFish()));
+			}
+			else
+			{
+				// Hata durumunda uygun þekilde iþlem yap, örneðin durumu deðiþtir veya bir hata mesajý yazdýr
+				Debug.LogError("fishWorkerSellPath null veya boþ.");
+			}
 		}
 
 		private void ReturnToInitialPoint()
@@ -149,8 +158,11 @@ namespace FishingIsland.Controllers
 		private IEnumerator SellFish()
 		{
 			int earnedMoney = _totalFishCount * _fishPrice;
+			Debug.Log("1");
 			MoneyManager.Instance.AddMoney(earnedMoney);
+			Debug.Log("2");
 			UpdateTotalMoneyText();
+			Debug.Log("3");
 			Debug.Log($"Earned money: {earnedMoney}, Total money: {_totalMoney}");
 			StartCoroutine(TransferFish());
 			yield return new WaitForSeconds(3f);

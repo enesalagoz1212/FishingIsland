@@ -30,6 +30,7 @@ namespace FishingIsland.Canvases
         public void OnBoatButtonClick()
 		{
             DockUpgradeManager.Instance.UpgradeBoatLevel();
+            Debug.Log("OnBoatButtonClick");
 		}
 
         public void OnTimerButtonClick()
