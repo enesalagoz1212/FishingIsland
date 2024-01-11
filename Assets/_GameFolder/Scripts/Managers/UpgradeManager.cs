@@ -12,6 +12,8 @@ namespace FishingIsland.Managers
 		[SerializeField] private HouseUpgradeCanvas houseUpgradeCanvas;
 		[SerializeField] private DockUpgradeCanvas dockUpgradeCanvas;
 		[SerializeField] private ShackUpgradeCanvas shackUpgradeCanvas;
+
+	
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)
@@ -24,8 +26,9 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		public void Initialize(GameManager gameManager)
+		public void Initialize(GameManager gameManager )
 		{
+
 			houseUpgradeCanvas.Initialize();
 			dockUpgradeCanvas.Initialize();
 			shackUpgradeCanvas.Initialize();

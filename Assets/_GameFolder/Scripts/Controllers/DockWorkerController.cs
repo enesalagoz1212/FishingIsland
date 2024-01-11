@@ -107,8 +107,6 @@ namespace FishingIsland.Controllers
 			_collectedFishCount++;
 			UpdateFishCountText(_collectedFishCount);
 
-			Debug.Log($"Collected Fish Count: {_collectedFishCount}, Capacity: {_dockCapacity}");
-
 			if (_collectedFishCount >= _dockCapacity)
 			{
 				ChangeState(DockWorkerState.ReturningFromCollectingFish);
@@ -119,7 +117,6 @@ namespace FishingIsland.Controllers
 		{
 			_collectedFishCount--;
 			UpdateFishCountText(_collectedFishCount);
-
 
 			if (_collectedFishCount <= 0)
 			{

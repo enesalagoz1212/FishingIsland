@@ -137,17 +137,8 @@ namespace FishingIsland.Controllers
 		}
 
 		private void GoToSellFish()
-		{ // Eðer fishWorkerSellPath null deðilse ve en az bir eleman içeriyorsa devam et
-			if (LevelManager.Instance.fishWorkerSellPath != null && LevelManager.Instance.fishWorkerSellPath.Count > 0)
-			{
-				// Balýk iþçisinin satýþ yolu üzerinde hareket et
-				MoveOnPath(LevelManager.Instance.fishWorkerSellPath, () => StartCoroutine(SellFish()));
-			}
-			else
-			{
-				// Hata durumunda uygun þekilde iþlem yap, örneðin durumu deðiþtir veya bir hata mesajý yazdýr
-				Debug.LogError("fishWorkerSellPath null veya boþ.");
-			}
+		{
+			MoveOnPath(LevelManager.Instance.fishWorkerSellPath, () => StartCoroutine(SellFish()));
 		}
 
 		private void ReturnToInitialPoint()

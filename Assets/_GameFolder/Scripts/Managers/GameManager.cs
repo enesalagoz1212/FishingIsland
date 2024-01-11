@@ -35,7 +35,7 @@ namespace FishingIsland.Managers
 		[SerializeField] private FishBoxController fishBoxController;
 		[SerializeField] private UpgradeManager upgradeManager;
 		[SerializeField] private LevelManager levelManager;
-
+		[SerializeField] private DockUpgradeManager dockUpgradeManager;
 
 		private void Awake()
 		{
@@ -62,7 +62,7 @@ namespace FishingIsland.Managers
 			characterManager.Initialize();
 			boatController.Initialize();
 			fishBoxController.Initialize();
-			upgradeManager.Initialize(this);
+			upgradeManager.Initialize(this,dockUpgradeManager);
 			levelManager.Initialize();
 
 

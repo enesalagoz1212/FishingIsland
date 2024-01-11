@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FishingIsland.UpgradeScriptableObjects;
+using System;
 
 namespace FishingIsland.Managers
 {
@@ -11,6 +12,7 @@ namespace FishingIsland.Managers
 
 		[SerializeField] private DockUpgrade dockUpgrade;
 
+		public static Action<int> OnBoatLevelUpdated;
 
 		private void Awake()
 		{
@@ -31,6 +33,8 @@ namespace FishingIsland.Managers
 				MoneyManager.Instance.money -= dockUpgrade.boatLevelUpgradeCost;
 				dockUpgrade.boatLevel++;
 				UpdateUpgradeCost();
+
+				OnBoatLevelUpdated?.Invoke(dockUpgrade.boatLevel);
 			}
 			else
 			{
