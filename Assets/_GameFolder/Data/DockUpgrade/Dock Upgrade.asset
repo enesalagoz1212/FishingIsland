@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boatLevel: 1
   timerLevel: 1
-  capacityLevel: 3
-  boatSpeedIncrease: 1
-  boatCapacityIncrease: 12
-  boatLevelUpgradeCost: 25
-  timerLevelUpgradeCost: 50
-  capacityLevelUpgradeCost: 3
-  boatFishCapacity: 34
+  capacityLevel: 1
+  boatSpeedIncrease: 3
+  boatCapacityIncrease: 7
+  boatLevelUpgradeCost: 105
+  timerLevelUpgradeCost: 159
+  capacityLevelUpgradeCost: 168
+  boatFishCapacity: 45
