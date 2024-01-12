@@ -59,17 +59,18 @@ namespace FishingIsland.Controllers
 			{
 				boatController.OnFishTransferredToFishBox();
 				IncreaseFishCount(1);
-				yield return new WaitForSeconds(0.2f);
+				yield return new WaitForSeconds(0.1f);
 			}
 		}
 
 		private IEnumerator StartFishTransferFromDockWorker(DockWorkerController dockWorkerController)
 		{
-			while (_totalFishCount > 0)
+
+			for (int i = 0; i < dockWorkerController.Capacity; i++)
 			{
 				dockWorkerController.OnFishCollectedFishBox();
 				DecreaseFishCount(1);
-				yield return new WaitForSeconds(0.2f);
+				yield return new WaitForSeconds(0.1f);
 			}
 		}
 

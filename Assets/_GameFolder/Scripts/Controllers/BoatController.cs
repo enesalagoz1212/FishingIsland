@@ -38,14 +38,14 @@ namespace FishingIsland.Controllers
 		public GameObject boatFishPanel;
 		public void Initialize()
 		{
-			
+
 			_initialPosition = transform.position;
 			ChangeState(BoatState.InThePort);
 		}
 
 		private void Awake()
 		{
-		
+
 			boatDownOkImage.gameObject.SetActive(true);
 		}
 
@@ -78,10 +78,9 @@ namespace FishingIsland.Controllers
 						{
 							MoveToPosition(randomSpawnPoint.position, 2f, () =>
 							 {
-								 DOVirtual.DelayedCall(2f, () =>
-								 {
-									 ChangeState(BoatState.Fishing);
-								 });
+
+								 ChangeState(BoatState.Fishing);
+
 							 });
 						}
 						break;
@@ -156,15 +155,15 @@ namespace FishingIsland.Controllers
 
 		private void TimerControl()
 		{
-			if (_isTimerRunning && _currentTime > 0)
-			{
-				_currentTime -= Time.deltaTime;
-				timerText.text = ((int)_currentTime).ToString();
-			}
-			if (_isTimerRunning && _currentTime <= 1)
-			{
-				ChangeState(BoatState.ReturningToPort);
-			}
+			//if (_isTimerRunning && _currentTime > 0)
+			//{
+			//	_currentTime -= Time.deltaTime;
+			//	timerText.text = ((int)_currentTime).ToString();
+			//}
+			//if (_isTimerRunning && _currentTime <= 1)
+			//{
+			//	ChangeState(BoatState.ReturningToPort);
+			//}
 		}
 
 		private IEnumerator CollectFish()
@@ -174,9 +173,15 @@ namespace FishingIsland.Controllers
 			boatFishPanel.SetActive(true);
 			for (int i = 0; i < boatFishCapacity; i++)
 			{
-				yield return new WaitForSeconds(0.2f);
+				yield return new WaitForSeconds(0.1f);
 				FishCount++;
 				UpdateFishCapacityText(FishCount);
+
+				if (FishCount >= boatFishCapacity)
+				{
+					ChangeState(BoatState.ReturningToPort);
+					break;
+				}
 			}
 		}
 	}

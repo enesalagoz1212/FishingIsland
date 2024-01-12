@@ -40,11 +40,11 @@ namespace FishingIsland.Controllers
 
 		private IEnumerator StartFishTransferFromFishWorker(FishWorkerController fishWorkerController)
 		{
-			while (_shackFishCount > 0)
+			for (int i = 0; i < fishWorkerController.FishWorkerFishCapacity; i++)
 			{
 				fishWorkerController.OnFishTransferredToFishWorker();
 				DecreaseFishCount(1);
-				yield return new WaitForSeconds(0.2f);
+				yield return new WaitForSeconds(0.1f);
 			}
 		}
 
