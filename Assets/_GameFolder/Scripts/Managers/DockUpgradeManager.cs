@@ -29,8 +29,7 @@ namespace FishingIsland.Managers
 			else
 			{
 				Instance = this;
-			}
-	
+			}	
 		}
 
 		public void UpgradeBoatLevel()

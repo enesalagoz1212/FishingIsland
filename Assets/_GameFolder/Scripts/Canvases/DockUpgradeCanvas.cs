@@ -9,7 +9,6 @@ namespace FishingIsland.Canvases
 {
     public class DockUpgradeCanvas : MonoBehaviour
     {
-
         public Button dockCloseButton;
         public Button boatButton;
         public Button timerButton;
