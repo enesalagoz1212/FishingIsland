@@ -106,7 +106,7 @@ namespace FishingIsland.Managers
 
 		private void UpdateUpgradeCapacityCost()
 		{
-			dockUpgrade.capacityLevelUpgradeCost = dockUpgrade.capacityLevel * 5;
+			dockUpgrade.capacityLevelUpgradeCost = dockUpgrade.capacityLevel * 1;
 		}
 
 		

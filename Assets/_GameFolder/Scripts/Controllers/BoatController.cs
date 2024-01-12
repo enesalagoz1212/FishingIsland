@@ -132,10 +132,13 @@ namespace FishingIsland.Controllers
 		{
 			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
 			boatFishCapacity = dockUpgrade.boatFishCapacity;
-			FishCount--;
-			UpdateFishCapacityText(FishCount);
+			if (FishCount > 0)
+			{
+				FishCount--;
+				UpdateFishCapacityText(FishCount);
+			}
 
-			if (boatFishCapacity <= 0)
+			if (FishCount <= 0)
 			{
 				ChangeState(BoatState.InThePort);
 			}
