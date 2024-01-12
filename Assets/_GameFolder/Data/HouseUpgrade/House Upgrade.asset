@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba58d28121f5eef4790677662639486b, type: 3}
-  m_Name: Dock Upgrade
+  m_Script: {fileID: 11500000, guid: 592934c4f5447bf47a28a3ec732c0afc, type: 3}
+  m_Name: House Upgrade
   m_EditorClassIdentifier: 
-  boatLevel: 1
+  fishWorkerLevel: 1
   timerLevel: 1
   capacityLevel: 1
-  boatSpeedIncrease: 3
-  boatCapacityIncrease: 18
-  boatLevelUpgradeCost: 25
-  timerLevelUpgradeCost: 40
-  capacityLevelUpgradeCost: 140
-  boatFishCapacity: 64
+  fishWorkerSpeedDecrease: 1
+  fishWorkerCapacityIncrease: 12
+  fishWorkerLevelUpgradeCost: 15
+  timerLevelUpgradeCost: 75
+  capacityLevelUpgradeCost: 30
+  fishWorkerFishCapacity: 10

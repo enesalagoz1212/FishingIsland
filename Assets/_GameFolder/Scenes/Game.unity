@@ -2990,7 +2990,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 292130062}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: -216.523, y: -103.34201, z: -155.331}
 --- !u!114 &289146304
 MonoBehaviour:
@@ -3055,6 +3055,7 @@ Transform:
   - {fileID: 1996051495}
   - {fileID: 1055202385}
   - {fileID: 1482243758}
+  - {fileID: 1257575249}
   - {fileID: 1278266546}
   - {fileID: 1126706558}
   - {fileID: 289146303}
@@ -9230,7 +9231,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 292130062}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1135576991
 GameObject:
@@ -10481,6 +10482,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1246355118}
   m_CullTransparentMesh: 1
+--- !u!1 &1257575248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1257575249}
+  - component: {fileID: 1257575250}
+  m_Layer: 0
+  m_Name: HouseUpgradeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1257575249
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257575248}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 292130062}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1257575250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257575248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b7a3e446708a849ad6fe5c79066a93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  houseUpgrade: {fileID: 11400000, guid: cd91d12afeee5b140a717dd2616e7e89, type: 2}
+  fishWorkerLevelIncreaseMoneyAmountText: {fileID: 207821830}
+  timerLevelIncreaseMoneyAmountText: {fileID: 1897348473}
+  capacityLevelIncreaseMoneyAmountText: {fileID: 145059195}
 --- !u!1 &1273829148
 GameObject:
   m_ObjectHideFlags: 0
@@ -10649,7 +10698,7 @@ Transform:
   - {fileID: 674952918}
   - {fileID: 1432515330}
   m_Father: {fileID: 292130062}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1278266547
 MonoBehaviour:
@@ -11439,7 +11488,7 @@ Transform:
   m_Children:
   - {fileID: 1688107523}
   m_Father: {fileID: 292130062}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1464561589
 GameObject:
@@ -13134,7 +13183,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 292130062}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1630697979
 MonoBehaviour:
@@ -16555,6 +16604,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   houseCloseButton: {fileID: 150270687}
+  fishWorkerButton: {fileID: 1283945617}
+  timerButton: {fileID: 562919726}
+  capacityButton: {fileID: 503558157}
+  fishWorkerLevelText: {fileID: 226340299}
+  timerLevelText: {fileID: 1556956109}
+  capacityLevelText: {fileID: 826122699}
 --- !u!1 &2053195051
 GameObject:
   m_ObjectHideFlags: 0

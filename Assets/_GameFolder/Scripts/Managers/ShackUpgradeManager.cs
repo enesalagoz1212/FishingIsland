@@ -40,7 +40,7 @@ namespace FishingIsland.Managers
 			{
 				MoneyManager.Instance.money -= shackUpgrade.timerLevelUpgradeCost;
 				shackUpgrade.timerLevel++;
-				UpdateUpgradeTimerCost();
+				UpdateUpgradeDockWorkerCost();
 
 				OnShackUpgradeDockWorkerLevelUpdated?.Invoke(shackUpgrade.timerLevel);
 
@@ -80,7 +80,7 @@ namespace FishingIsland.Managers
 			{
 				MoneyManager.Instance.money -= shackUpgrade.timerLevelUpgradeCost;
 				shackUpgrade.timerLevel++;
-				UpdateUpgradeTimerCost();
+				UpdateUpgradeCapacityCost();
 
 				OnShackUpgradeCapacityLevelUpdated?.Invoke(shackUpgrade.timerLevel);
 

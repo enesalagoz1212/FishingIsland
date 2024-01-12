@@ -101,17 +101,17 @@ namespace FishingIsland.Managers
 
 		private void UpdateUpgradeCost()
 		{
-			dockUpgrade.boatLevelUpgradeCost = dockUpgrade.boatLevel * 35;
+			dockUpgrade.boatLevelUpgradeCost = dockUpgrade.boatLevel * 25;
 		}
 
 		private void UpdateUpgradeTimerCost()
 		{
-			dockUpgrade.timerLevelUpgradeCost = dockUpgrade.timerLevel * 53;
+			dockUpgrade.timerLevelUpgradeCost = dockUpgrade.timerLevel * 40;
 		}
 
 		private void UpdateUpgradeCapacityCost()
 		{
-			dockUpgrade.capacityLevelUpgradeCost = dockUpgrade.capacityLevel * 42;
+			dockUpgrade.capacityLevelUpgradeCost = dockUpgrade.capacityLevel * 35;
 		}
 
 		
