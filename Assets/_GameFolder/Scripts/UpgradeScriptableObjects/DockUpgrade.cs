@@ -17,6 +17,8 @@ namespace FishingIsland.UpgradeScriptableObjects
 		public int boatLevelUpgradeCost;
 		public int timerLevelUpgradeCost;
 		public int capacityLevelUpgradeCost;
+
+		public int boatFishCapacity;
 	}
 }
 

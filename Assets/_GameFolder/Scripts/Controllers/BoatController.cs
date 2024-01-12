@@ -6,6 +6,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using FishingIsland.UpgradeScriptableObjects;
 
 namespace FishingIsland.Controllers
 {
@@ -18,11 +19,13 @@ namespace FishingIsland.Controllers
 	}
 	public class BoatController : MonoBehaviour
 	{
+		private DockUpgrade dockUpgrade;
+		private int boatFishCapacity;
 		public BoatState BoatState { get; private set; }
 		private Vector3 _initialPosition;
-		private int _maxFishCapacity = 10;
 		public int FishCount { get; private set; }
 
+		private int _maxFishCapacity = 8;
 		public TextMeshProUGUI timerText;
 		private bool _isTimerRunning = false;
 		private float _currentTime = 8;
@@ -35,12 +38,14 @@ namespace FishingIsland.Controllers
 		public GameObject boatFishPanel;
 		public void Initialize()
 		{
+			
 			_initialPosition = transform.position;
 			ChangeState(BoatState.InThePort);
 		}
 
 		private void Awake()
 		{
+		
 			boatDownOkImage.gameObject.SetActive(true);
 		}
 
@@ -125,20 +130,21 @@ namespace FishingIsland.Controllers
 
 		public void OnFishTransferredToFishBox()
 		{
-			FishCount--;
-			UpdateFishCapacityText();
+			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
+			boatFishCapacity = dockUpgrade.boatFishCapacity;
+			boatFishCapacity--;
+			UpdateFishCapacityText(boatFishCapacity);
 
-			if (FishCount <= 0)
+			if (boatFishCapacity <= 0)
 			{
 				ChangeState(BoatState.InThePort);
 			}
 		}
 
-		private void UpdateFishCapacityText()
+		private void UpdateFishCapacityText(int fishAmount)
 		{
-			fishCapacityText.text = $" {FishCount}";
+			fishCapacityText.text = $" {fishAmount}";
 		}
-
 
 		private void UpdateCollectTheFishText()
 		{
@@ -160,12 +166,14 @@ namespace FishingIsland.Controllers
 
 		private IEnumerator CollectFish()
 		{
+			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
+			boatFishCapacity = dockUpgrade.boatFishCapacity;
 			boatFishPanel.SetActive(true);
-			for (int i = 0; i < _maxFishCapacity; i++)
+			for (int i = 0; i < boatFishCapacity; i++)
 			{
 				yield return new WaitForSeconds(0.2f);
 				FishCount++;
-				UpdateFishCapacityText();
+				UpdateFishCapacityText(FishCount);
 			}
 		}
 	}

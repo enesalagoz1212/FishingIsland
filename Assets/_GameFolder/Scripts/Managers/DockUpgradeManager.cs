@@ -9,9 +9,9 @@ namespace FishingIsland.Managers
 {
 	public class DockUpgradeManager : MonoBehaviour
 	{
-		public static DockUpgradeManager Instance { get; private set; }
+		public static DockUpgradeManager Instance { get;  set; }
 
-		[SerializeField] private DockUpgrade dockUpgrade;
+		public DockUpgrade dockUpgrade;
 
 		public static Action<int> OnBoatLevelUpdated;
 		public static Action<int> OnTimerLevelUpdated;
@@ -30,6 +30,7 @@ namespace FishingIsland.Managers
 			{
 				Instance = this;
 			}
+	
 		}
 
 		public void UpgradeBoatLevel()
@@ -79,10 +80,11 @@ namespace FishingIsland.Managers
 			{
 				MoneyManager.Instance.money -= dockUpgrade.capacityLevelUpgradeCost;
 				dockUpgrade.capacityLevel++;
+
+				dockUpgrade.boatFishCapacity += dockUpgrade.boatCapacityIncrease;
+
 				UpdateUpgradeCapacityCost();
-
 				OnCapacityLevelUpdated?.Invoke(dockUpgrade.capacityLevel);
-
 				CapacityLevelIncreaseMoneyText(dockUpgrade.capacityLevelUpgradeCost);
 			}
 
@@ -137,6 +139,11 @@ namespace FishingIsland.Managers
 		public void CapacityLevelIncreaseMoneyText(int moneyText)
 		{
 			capacityLevelIncreaseMoneyAmountText.text = $"{moneyText}";
+		}
+
+		public DockUpgrade GetDockUpgrade()
+		{
+			return dockUpgrade;
 		}
 	}
 
