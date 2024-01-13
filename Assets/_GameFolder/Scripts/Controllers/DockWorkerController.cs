@@ -5,6 +5,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine.UI;
 using FishingIsland.Managers;
+using FishingIsland.UpgradeScriptableObjects;
 
 namespace FishingIsland.Controllers
 {
@@ -19,6 +20,7 @@ namespace FishingIsland.Controllers
 	public class DockWorkerController : BaseCharacterController
 	{
 		public DockWorkerState DockWorkerState { get; private set; }
+		private ShackUpgrade shackUpgrade;
 		public float speed = 1f;
 		public TextMeshProUGUI dockWorkerFishCountText;
 		private Vector3 _initialPosition;
@@ -26,7 +28,8 @@ namespace FishingIsland.Controllers
 
 		public GameObject dockWorkerFishPanel;
 		private int _collectedFishCount = 0;
-		private int _dockCapacity = 10;
+
+		public int _dockCapacity;
 
 		public int CollectedFishCount
 		{
@@ -46,13 +49,14 @@ namespace FishingIsland.Controllers
 			speed = initialSpeed;
 			capacity = initialCapacity;
 
+			
 		}
 
 		public override void Start()
 		{
 			_initialPosition = transform.position;
 			_targetPosition = LevelManager.Instance.dockWorkerGoesFishing[0].position;
-			_dockCapacity = 10;
+			//_dockCapacity = 10;
 			ChangeState(DockWorkerState.Idle);
 		}
 
@@ -73,7 +77,6 @@ namespace FishingIsland.Controllers
 			{
 				case DockWorkerState.Idle:
 					dockWorkerDownOkImage.gameObject.SetActive(true);
-					_dockCapacity = 10;
 					_collectedFishCount = 0;
 					_isBusy = false;
 					dockWorkerFishPanel.gameObject.SetActive(false);
@@ -88,9 +91,7 @@ namespace FishingIsland.Controllers
 					break;
 				case DockWorkerState.CollectingFish:
 					dockWorkerFishPanel.gameObject.SetActive(true);
-
 					FishBoxController.OnDockWorkerArrivedBox?.Invoke(this);
-
 					break;
 				case DockWorkerState.ReturningFromCollectingFish:
 					transform.DOMove(_initialPosition, speed).OnComplete(() =>
@@ -104,6 +105,9 @@ namespace FishingIsland.Controllers
 
 		public void OnFishCollectedFishBox()
 		{
+			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+			_dockCapacity = shackUpgrade.dockWorkerFishCapacity;
+
 			_collectedFishCount++;
 			UpdateFishCountText(_collectedFishCount);
 

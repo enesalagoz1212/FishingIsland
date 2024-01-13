@@ -25,7 +25,7 @@ namespace FishingIsland.Controllers
 		private Vector3 _initialPosition;
 		public int FishCount { get; private set; }
 
-		private int _maxFishCapacity = 8;
+
 		public TextMeshProUGUI timerText;
 		private bool _isTimerRunning = false;
 		private float _currentTime = 8;

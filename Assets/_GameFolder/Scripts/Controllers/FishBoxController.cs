@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using FishingIsland.UpgradeScriptableObjects;
+using FishingIsland.Managers;
 
 namespace FishingIsland.Controllers
 {
 	public class FishBoxController : MonoBehaviour
 	{
 		public static FishBoxController Instance;
+
+		private ShackUpgrade shackUpgrade;
+		private int _dockCapacity;
 
 		public TextMeshProUGUI boxFishText;
 		private int _totalFishCount = 0;
@@ -65,8 +70,10 @@ namespace FishingIsland.Controllers
 
 		private IEnumerator StartFishTransferFromDockWorker(DockWorkerController dockWorkerController)
 		{
+			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+			_dockCapacity = shackUpgrade.dockWorkerFishCapacity;
 
-			for (int i = 0; i < dockWorkerController.Capacity; i++)
+			for (int i = 0; i < _dockCapacity; i++)
 			{
 				dockWorkerController.OnFishCollectedFishBox();
 				DecreaseFishCount(1);

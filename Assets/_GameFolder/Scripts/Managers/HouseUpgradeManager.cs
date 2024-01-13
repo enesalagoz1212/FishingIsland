@@ -21,6 +21,12 @@ namespace FishingIsland.Managers
 		public TextMeshProUGUI capacityLevelIncreaseMoneyAmountText;
 
 
+		public void Initialize()
+		{
+			FishWorkerLevelIncreaseMoneyText(houseUpgrade.fishWorkerLevelUpgradeCost);
+			TimerLevelIncreaseMoneyText(houseUpgrade.timerLevelUpgradeCost);
+			CapacityLevelIncreaseMoneyText(houseUpgrade.capacityLevelUpgradeCost);
+		}
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)
@@ -35,15 +41,15 @@ namespace FishingIsland.Managers
 
 		public void UpgradeFishWorkerLevel()
 		{
-			if (MoneyManager.Instance.money >= houseUpgrade.timerLevelUpgradeCost)
+			if (MoneyManager.Instance.money >= houseUpgrade.fishWorkerLevelUpgradeCost)
 			{
-				MoneyManager.Instance.money -= houseUpgrade.timerLevelUpgradeCost;
-				houseUpgrade.timerLevel++;
+				MoneyManager.Instance.money -= houseUpgrade.fishWorkerLevelUpgradeCost;
+				houseUpgrade.fishWorkerLevel++;
 				UpdateHouseUpgradeFishWorkerCost();
 
-				OnHouseUpgradeFishWorkerLevelUpdated?.Invoke(houseUpgrade.timerLevel);
+				OnHouseUpgradeFishWorkerLevelUpdated?.Invoke(houseUpgrade.fishWorkerLevel);
 
-				FishWorkerLevelIncreaseMoneyText(houseUpgrade.timerLevelUpgradeCost);
+				FishWorkerLevelIncreaseMoneyText(houseUpgrade.fishWorkerLevelUpgradeCost);
 
 				MoneyManager.Instance.UpdateMoneyText();
 			}
@@ -75,16 +81,15 @@ namespace FishingIsland.Managers
 
 		public void UpgradeCapacityLevel()
 		{
-			if (MoneyManager.Instance.money >= houseUpgrade.timerLevelUpgradeCost)
+			if (MoneyManager.Instance.money >= houseUpgrade.capacityLevelUpgradeCost)
 			{
-				MoneyManager.Instance.money -= houseUpgrade.timerLevelUpgradeCost;
-				houseUpgrade.timerLevel++;
-				UpdateHouseUpgradeTimerCost();
+				MoneyManager.Instance.money -= houseUpgrade.capacityLevelUpgradeCost;
+				houseUpgrade.capacityLevel++;
+				houseUpgrade.fishWorkerFishCapacity += houseUpgrade.fishWorkerCapacityIncrease;
 
-				OnHouseUpgradeCapacityLevelUpdated?.Invoke(houseUpgrade.timerLevel);
-
-				CapacityLevelIncreaseMoneyText(houseUpgrade.timerLevelUpgradeCost);
-
+				UpdateHouseUpgradeCapacityCost();			
+				OnHouseUpgradeCapacityLevelUpdated?.Invoke(houseUpgrade.capacityLevel);
+				CapacityLevelIncreaseMoneyText(houseUpgrade.capacityLevelUpgradeCost);
 				MoneyManager.Instance.UpdateMoneyText();
 			}
 			else
@@ -141,6 +146,11 @@ namespace FishingIsland.Managers
 		public void CapacityLevelIncreaseMoneyText(int moneyText)
 		{
 			capacityLevelIncreaseMoneyAmountText.text = $" {moneyText}";
+		}
+
+		public HouseUpgrade GetHouseUpgrade()
+		{
+			return houseUpgrade;
 		}
 	}
 

@@ -20,6 +20,13 @@ namespace FishingIsland.Managers
 		public TextMeshProUGUI boatLevelIncreaseMoneyAmountText;
 		public TextMeshProUGUI timerLevelIncreaseMoneyAmountText;
 		public TextMeshProUGUI capacityLevelIncreaseMoneyAmountText;
+
+		public void Initialize()
+		{
+			BoatLevelIncreaseMoneyText(dockUpgrade.boatLevelUpgradeCost);
+			TimerLevelIncreaseMoneyText(dockUpgrade.timerLevelUpgradeCost);
+			CapacityLevelIncreaseMoneyText(dockUpgrade.capacityLevelUpgradeCost);
+		}
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)
@@ -40,7 +47,7 @@ namespace FishingIsland.Managers
 				{
 					MoneyManager.Instance.money -= dockUpgrade.boatLevelUpgradeCost;
 					dockUpgrade.boatLevel++;
-					UpdateUpgradeCost();
+					UpdateDockUpgradeLevelCost();
 
 					OnBoatLevelUpdated?.Invoke(dockUpgrade.boatLevel);
 					BoatLevelIncreaseMoneyText(dockUpgrade.boatLevelUpgradeCost);
@@ -63,7 +70,7 @@ namespace FishingIsland.Managers
 			{
 				MoneyManager.Instance.money -= dockUpgrade.timerLevelUpgradeCost;
 				dockUpgrade.timerLevel++;
-				UpdateUpgradeTimerCost();
+				UpdateDockUpgradeTimerCost();
 
 				OnTimerLevelUpdated?.Invoke(dockUpgrade.timerLevel);
 
@@ -86,7 +93,7 @@ namespace FishingIsland.Managers
 
 				dockUpgrade.boatFishCapacity += dockUpgrade.boatCapacityIncrease;
 
-				UpdateUpgradeCapacityCost();
+				UpdateDockUpgradeCapacityCost();
 				OnCapacityLevelUpdated?.Invoke(dockUpgrade.capacityLevel);
 				CapacityLevelIncreaseMoneyText(dockUpgrade.capacityLevelUpgradeCost);
 
@@ -99,17 +106,17 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		private void UpdateUpgradeCost()
+		private void UpdateDockUpgradeLevelCost()
 		{
 			dockUpgrade.boatLevelUpgradeCost = dockUpgrade.boatLevel * 25;
 		}
 
-		private void UpdateUpgradeTimerCost()
+		private void UpdateDockUpgradeTimerCost()
 		{
 			dockUpgrade.timerLevelUpgradeCost = dockUpgrade.timerLevel * 40;
 		}
 
-		private void UpdateUpgradeCapacityCost()
+		private void UpdateDockUpgradeCapacityCost()
 		{
 			dockUpgrade.capacityLevelUpgradeCost = dockUpgrade.capacityLevel * 35;
 		}

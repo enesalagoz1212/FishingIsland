@@ -21,6 +21,12 @@ namespace FishingIsland.Managers
 		public TextMeshProUGUI timerLevelIncreaseMoneyAmountText;
 		public TextMeshProUGUI capacityLevelIncreaseMoneyAmountText;
 
+		public void Initialize()
+		{
+			DockWorkerLevelIncreaseMoneyText(shackUpgrade.dockWorkerLevelUpgradeCost);
+			TimerLevelIncreaseMoneyText(shackUpgrade.timerLevelUpgradeCost);
+			CapacityLevelIncreaseMoneyText(shackUpgrade.capacityLevelUpgradeCost);
+		}
 
 		private void Awake()
 		{
@@ -36,15 +42,15 @@ namespace FishingIsland.Managers
 
 		public void UpgradeDockWorkerLevel()
 		{
-			if (MoneyManager.Instance.money >= shackUpgrade.timerLevelUpgradeCost)
+			if (MoneyManager.Instance.money >= shackUpgrade.dockWorkerLevelUpgradeCost)
 			{
-				MoneyManager.Instance.money -= shackUpgrade.timerLevelUpgradeCost;
-				shackUpgrade.timerLevel++;
+				MoneyManager.Instance.money -= shackUpgrade.dockWorkerLevelUpgradeCost;
+				shackUpgrade.dockWorkerLevel++;
 				UpdateUpgradeDockWorkerCost();
 
-				OnShackUpgradeDockWorkerLevelUpdated?.Invoke(shackUpgrade.timerLevel);
+				OnShackUpgradeDockWorkerLevelUpdated?.Invoke(shackUpgrade.dockWorkerLevel);
 
-				DockWorkerLevelIncreaseMoneyText(shackUpgrade.timerLevelUpgradeCost);
+				DockWorkerLevelIncreaseMoneyText(shackUpgrade.dockWorkerLevelUpgradeCost);
 
 				MoneyManager.Instance.UpdateMoneyText();
 			}
@@ -76,16 +82,15 @@ namespace FishingIsland.Managers
 
 		public void UpgradeCapacityLevel()
 		{
-			if (MoneyManager.Instance.money >= shackUpgrade.timerLevelUpgradeCost)
+			if (MoneyManager.Instance.money >= shackUpgrade.capacityLevelUpgradeCost)
 			{
-				MoneyManager.Instance.money -= shackUpgrade.timerLevelUpgradeCost;
-				shackUpgrade.timerLevel++;
+				MoneyManager.Instance.money -= shackUpgrade.capacityLevelUpgradeCost;
+				shackUpgrade.capacityLevel++;
+				shackUpgrade.dockWorkerFishCapacity += shackUpgrade.dockWorkerCapacityIncrease;
+
 				UpdateUpgradeCapacityCost();
-
-				OnShackUpgradeCapacityLevelUpdated?.Invoke(shackUpgrade.timerLevel);
-
-				CapacityLevelIncreaseMoneyText(shackUpgrade.timerLevelUpgradeCost);
-
+				OnShackUpgradeCapacityLevelUpdated?.Invoke(shackUpgrade.capacityLevel);
+				CapacityLevelIncreaseMoneyText(shackUpgrade.capacityLevelUpgradeCost);
 				MoneyManager.Instance.UpdateMoneyText();
 			}
 			else
@@ -126,6 +131,11 @@ namespace FishingIsland.Managers
 		public int GetCapacityLevel()
 		{
 			return shackUpgrade.capacityLevel;
+		}
+
+		public ShackUpgrade GetShackUpgrade()
+		{
+			return shackUpgrade;
 		}
 
 		public void DockWorkerLevelIncreaseMoneyText(int moneyText)

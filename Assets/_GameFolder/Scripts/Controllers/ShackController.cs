@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using FishingIsland.UpgradeScriptableObjects;
+using FishingIsland.Managers;
 
 namespace FishingIsland.Controllers
 {
 	public class ShackController : MonoBehaviour
 	{
 		public static ShackController Instance;
+		private HouseUpgrade houseUpgrade;
+		private int _fishCapacity;
 
 		public GameObject shackUpgradeCanvas;
 		public TextMeshProUGUI shackFishCountText;
@@ -40,7 +44,10 @@ namespace FishingIsland.Controllers
 
 		private IEnumerator StartFishTransferFromFishWorker(FishWorkerController fishWorkerController)
 		{
-			for (int i = 0; i < fishWorkerController.FishWorkerFishCapacity; i++)
+			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
+			_fishCapacity = houseUpgrade.fishWorkerFishCapacity;
+
+			for (int i = 0; i < _fishCapacity; i++)
 			{
 				fishWorkerController.OnFishTransferredToFishWorker();
 				DecreaseFishCount(1);

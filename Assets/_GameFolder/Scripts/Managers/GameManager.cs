@@ -36,6 +36,8 @@ namespace FishingIsland.Managers
 		[SerializeField] private UpgradeManager upgradeManager;
 		[SerializeField] private LevelManager levelManager;
 		[SerializeField] private DockUpgradeManager dockUpgradeManager;
+		[SerializeField] private ShackUpgradeManager shackUpgradeManager;
+		[SerializeField] private HouseUpgradeManager houseUpgradeManager;
 		[SerializeField] private MoneyManager moneyManager;
 		private void Awake()
 		{
@@ -65,6 +67,9 @@ namespace FishingIsland.Managers
 			upgradeManager.Initialize(this);
 			levelManager.Initialize();
 			moneyManager.Initialize();
+			dockUpgradeManager.Initialize();
+			shackUpgradeManager.Initialize();
+			houseUpgradeManager.Initialize();
 
 
 			DockWorkerController dockWorker = new DockWorkerController();

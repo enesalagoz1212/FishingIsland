@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using FishingIsland.Managers;
 using System;
+using FishingIsland.UpgradeScriptableObjects;
 
 namespace FishingIsland.Controllers
 {
@@ -19,19 +20,21 @@ namespace FishingIsland.Controllers
 	public class FishWorkerController : BaseCharacterController
 	{
 		public FishWorkerState FishWorkerState { get; private set; }
+		private HouseUpgrade houseUpgrade;
+		private int _fishCapacity;
 		public TextMeshProUGUI fishWorkerFishText;
 		private int _totalFishCount;
-		private int _fishCapacity = 10;
+
 		private int _fishPrice = 5;
 		public TextMeshProUGUI totalMoneyText;
 		public Image fishWorkerDownOkImage;
 		public GameObject fishWorkerFishPanel;
 
-		public int FishWorkerFishCapacity
-		{
-			get { return _fishCapacity; }
-			set { _fishCapacity = value; }
-		}
+		//public int FishWorkerFishCapacity
+		//{
+		//	get { return _fishCapacity; }
+		//	set { _fishCapacity = value; }
+		//}
 
 		private bool _isSellingFish = false;
 		public override void Initialize(string name, float speed, int initialCapacity)
@@ -61,7 +64,6 @@ namespace FishingIsland.Controllers
 			{
 				case FishWorkerState.Idle:
 					_totalFishCount = 0;
-					_fishCapacity = 10;
 					fishWorkerDownOkImage.gameObject.SetActive(true);
 					fishWorkerFishPanel.gameObject.SetActive(false);
 					_isSellingFish = false;
@@ -89,20 +91,25 @@ namespace FishingIsland.Controllers
 
 		public IEnumerator TransferFish()
 		{
+			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
+			_fishCapacity = houseUpgrade.fishWorkerFishCapacity;
+
 			while (_fishCapacity > 0)
 			{
 				yield return new WaitForSeconds(0.1f);
 				_fishCapacity--;
 				UpdateFishCountText(_fishCapacity);
 			}
-			_fishCapacity = 10;
 		}
 
 		public void OnFishTransferredToFishWorker()
 		{
+			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
+			_fishCapacity = houseUpgrade.fishWorkerFishCapacity;
+
 			_totalFishCount++;
 			UpdateFishCountText(_totalFishCount);
-			if (_totalFishCount >= FishWorkerFishCapacity)
+			if (_totalFishCount >= _fishCapacity)
 			{
 				ChangeState(FishWorkerState.GoingToSellFish);
 			}
@@ -147,19 +154,12 @@ namespace FishingIsland.Controllers
 
 		private IEnumerator SellFish()
 		{
-			Debug.Log("0");
 			int earnedMoney = _totalFishCount * _fishPrice;
-			Debug.Log("1");
 			MoneyManager.Instance.AddMoney(earnedMoney);
-			Debug.Log("2");
-	
 			UpdateTotalMoneyText();
-			Debug.Log("3");
 			
-
 			StartCoroutine(TransferFish());
 			yield return new WaitForSeconds(3f);
-
 			ChangeState(FishWorkerState.ReturnsFromSellingFish);
 		}
 
