@@ -13199,7 +13199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b69be589bff94f40ac12d1f34dc32eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 1000
+  money: 0
   moneyText: {fileID: 506694388}
 --- !u!1 &1632557694
 GameObject:
@@ -18004,6 +18004,7 @@ MonoBehaviour:
   speed: 1
   dockWorkerFishCountText: {fileID: 202064225}
   dockWorkerFishPanel: {fileID: 2013988974}
+  _dockCapacity: 0
   dockWorkerDownOkImage: {fileID: 35011668}
 --- !u!1 &3867956153500974301
 GameObject:

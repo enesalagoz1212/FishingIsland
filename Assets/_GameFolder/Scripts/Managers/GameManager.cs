@@ -72,9 +72,6 @@ namespace FishingIsland.Managers
 			houseUpgradeManager.Initialize();
 
 
-			DockWorkerController dockWorker = new DockWorkerController();
-			dockWorker.Initialize("DockWorker", 1f, 10);
-
 			ChangeState(GameState.Menu);
 		}
 

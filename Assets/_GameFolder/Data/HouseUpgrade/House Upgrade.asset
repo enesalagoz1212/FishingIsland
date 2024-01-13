@@ -16,7 +16,7 @@ MonoBehaviour:
   timerLevel: 1
   capacityLevel: 1
   fishWorkerSpeedDecrease: 1
-  fishWorkerCapacityIncrease: 12
+  fishWorkerCapacityIncrease: 5
   fishWorkerLevelUpgradeCost: 35
   timerLevelUpgradeCost: 45
   capacityLevelUpgradeCost: 40
