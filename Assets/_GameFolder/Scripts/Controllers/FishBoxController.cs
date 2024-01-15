@@ -20,8 +20,8 @@ namespace FishingIsland.Controllers
 
 		public bool HasFishBox => _totalFishCount > 0;
 
-		private bool _isFishCollectionCompleted = false;
-		public bool IsFishCollectionCompleted => _isFishCollectionCompleted;
+		private bool _isFishCollectionCompletedBox = false;
+		public bool IsFishCollectionCompleted => _isFishCollectionCompletedBox;
 
 		public static Action<BoatController> OnBoatArrivedBox;
 		public static Action<DockWorkerController> OnDockWorkerArrivedBox;
@@ -92,9 +92,13 @@ namespace FishingIsland.Controllers
 					DecreaseFishCount(1);
 					yield return new WaitForSeconds(0.1f);
 				}
+				else
+				{
+					break;
+				}
 			}
-			_isFishCollectionCompleted = true;
-			if (_isFishCollectionCompleted)
+			_isFishCollectionCompletedBox = true;
+			if (_isFishCollectionCompletedBox)
 			{
 				dockWorkerController.OnFishCollectionCompleted();
 			}

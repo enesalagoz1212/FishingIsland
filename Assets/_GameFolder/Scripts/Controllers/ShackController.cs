@@ -19,6 +19,9 @@ namespace FishingIsland.Controllers
 		private int _shackFishCount = 0;
 		public bool HasFishShack => _shackFishCount > 0;
 
+		private bool _isFishCollectionCompletedShack = false;
+		public bool IsFishCollectionCompleted => _isFishCollectionCompletedShack;
+
 		public static Action<FishWorkerController> OnFishWorkerArrivedBox;
 		public static Action<DockWorkerController> OnDockWorkerArrivedShack;
 		private void Awake()
@@ -55,12 +58,26 @@ namespace FishingIsland.Controllers
 		{
 			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
 			_fishCapacity = houseUpgrade.fishWorkerFishCapacity;
+			_isFishCollectionCompletedShack = false;
 
 			for (int i = 0; i < _fishCapacity; i++)
 			{
-				fishWorkerController.OnFishTransferredToFishWorker();
-				DecreaseFishCount(1);
-				yield return new WaitForSeconds(0.1f);
+				if (HasFishShack)
+				{
+					fishWorkerController.OnFishTransferredToFishWorker();
+					DecreaseFishCount(1);
+					yield return new WaitForSeconds(0.1f);
+				}
+				else
+				{
+					break;
+				}
+			}
+			_isFishCollectionCompletedShack = true;
+
+			if (_isFishCollectionCompletedShack)
+			{
+				fishWorkerController.OnFishCollectionCompleted();
 			}
 		}
 

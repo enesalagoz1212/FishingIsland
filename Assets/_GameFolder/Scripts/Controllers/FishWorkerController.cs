@@ -107,10 +107,11 @@ namespace FishingIsland.Controllers
 
 			_totalFishCount++;
 			UpdateFishCountText(_totalFishCount);
-			if (_totalFishCount >= _fishCapacity)
-			{
-				ChangeState(FishWorkerState.GoingToSellFish);
-			}
+		}
+
+		public void OnFishCollectionCompleted()
+		{
+			ChangeState(FishWorkerState.GoingToSellFish);
 		}
 
 		private void UpdateFishCountText(int collectedFishCount)
