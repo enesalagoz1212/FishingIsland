@@ -20,6 +20,9 @@ namespace FishingIsland.Controllers
 
 		public bool HasFishBox => _totalFishCount > 0;
 
+		private bool _isFishCollectionCompleted = false;
+		public bool IsFishCollectionCompleted => _isFishCollectionCompleted;
+
 		public static Action<BoatController> OnBoatArrivedBox;
 		public static Action<DockWorkerController> OnDockWorkerArrivedBox;
 		private void Awake()
@@ -32,15 +35,23 @@ namespace FishingIsland.Controllers
 			{
 				Destroy(gameObject);
 			}
-			OnBoatArrivedBox += OnBoatArrivedBoxAction;
-			OnDockWorkerArrivedBox += OnDockWorkerArrivedBoxAction;
 		}
 		public void Initialize()
 		{
 
 		}
 
+		private void OnEnable()
+		{
+			OnBoatArrivedBox += OnBoatArrivedBoxAction;
+			OnDockWorkerArrivedBox += OnDockWorkerArrivedBoxAction;
+		}
 
+		private void OnDisable()
+		{
+			OnBoatArrivedBox -= OnBoatArrivedBoxAction;
+			OnDockWorkerArrivedBox -= OnDockWorkerArrivedBoxAction;
+		}
 		private void UpdateFishCountText()
 		{
 			boxFishText.text = $" {_totalFishCount}";
@@ -75,9 +86,17 @@ namespace FishingIsland.Controllers
 
 			for (int i = 0; i < _dockCapacity; i++)
 			{
-				dockWorkerController.OnFishCollectedFishBox();
-				DecreaseFishCount(1);
-				yield return new WaitForSeconds(0.1f);
+				if (HasFishBox)
+				{
+					dockWorkerController.OnFishCollectedFishBox();
+					DecreaseFishCount(1);
+					yield return new WaitForSeconds(0.1f);
+				}
+			}
+			_isFishCollectionCompleted = true;
+			if (_isFishCollectionCompleted)
+			{
+				dockWorkerController.OnFishCollectionCompleted();
 			}
 		}
 

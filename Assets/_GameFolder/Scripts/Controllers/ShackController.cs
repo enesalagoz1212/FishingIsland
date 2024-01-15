@@ -31,10 +31,19 @@ namespace FishingIsland.Controllers
 			{
 				Destroy(gameObject);
 			}
+		}
+
+		private void OnEnable()
+		{
 			OnFishWorkerArrivedBox += OnFishWorkerArrivedBoxAction;
 			OnDockWorkerArrivedShack += OnFishWorkerArrivedShackAction;
 		}
 
+		private void OnDisable()
+		{
+			OnFishWorkerArrivedBox -= OnFishWorkerArrivedBoxAction;
+			OnDockWorkerArrivedShack -= OnFishWorkerArrivedShackAction;
+		}
 		private void OnMouseDown()
 		{
 			Debug.Log("ShackController");

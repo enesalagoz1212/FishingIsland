@@ -82,10 +82,8 @@ namespace FishingIsland.Controllers
 					break;
 				case FishWorkerState.ReturnsFromSellingFish:
 					ReturnToInitialPoint();
-
 					break;
 			}
-
 		}
 
 

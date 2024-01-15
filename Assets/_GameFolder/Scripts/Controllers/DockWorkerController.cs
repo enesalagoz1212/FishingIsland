@@ -49,20 +49,19 @@ namespace FishingIsland.Controllers
 			speed = initialSpeed;
 			capacity = initialCapacity;
 
-			
+
 		}
 
 		public override void Start()
 		{
 			_initialPosition = transform.position;
 			_targetPosition = LevelManager.Instance.dockWorkerGoesFishing[0].position;
-			//_dockCapacity = 10;
 			ChangeState(DockWorkerState.Idle);
 		}
 
 		public override void WorkerMouseDown()
 		{
-			if (!_isBusy&& FishBoxController.Instance.HasFishBox)
+			if (!_isBusy && FishBoxController.Instance.HasFishBox)
 			{
 				ChangeState(DockWorkerState.GoToCollectFish);
 				_isBusy = true;
@@ -110,11 +109,11 @@ namespace FishingIsland.Controllers
 
 			_collectedFishCount++;
 			UpdateFishCountText(_collectedFishCount);
+		}
 
-			if (_collectedFishCount >= _dockCapacity)
-			{
-				ChangeState(DockWorkerState.ReturningFromCollectingFish);
-			}
+		public void OnFishCollectionCompleted()
+		{
+			ChangeState(DockWorkerState.ReturningFromCollectingFish);
 		}
 
 		public void OnFishTransferedFishShack()
