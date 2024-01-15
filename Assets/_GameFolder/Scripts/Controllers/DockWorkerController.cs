@@ -29,16 +29,10 @@ namespace FishingIsland.Controllers
 		public GameObject dockWorkerFishPanel;
 		private int _collectedFishCount = 0;
 
-		public int _dockCapacity;
-
+		private int _dockCapacity;
 		public int CollectedFishCount
 		{
 			get { return _collectedFishCount; }
-		}
-		public int Capacity
-		{
-			get { return _dockCapacity; }
-			set { _dockCapacity = value; }
 		}
 
 		public Image dockWorkerDownOkImage;
@@ -48,8 +42,6 @@ namespace FishingIsland.Controllers
 			characterName = name;
 			speed = initialSpeed;
 			capacity = initialCapacity;
-
-
 		}
 
 		public override void Start()
@@ -58,6 +50,15 @@ namespace FishingIsland.Controllers
 			_targetPosition = LevelManager.Instance.dockWorkerGoesFishing[0].position;
 			ChangeState(DockWorkerState.Idle);
 		}
+
+		private void Update()
+		{
+	
+		}
+
+
+
+
 
 		public override void WorkerMouseDown()
 		{
@@ -126,7 +127,6 @@ namespace FishingIsland.Controllers
 				ChangeState(DockWorkerState.Idle);
 			}
 		}
-
 
 		private void UpdateFishCountText(int collectedFishCount)
 		{

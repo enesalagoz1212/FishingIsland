@@ -66,7 +66,7 @@ namespace FishingIsland.Controllers
 				{
 					fishWorkerController.OnFishTransferredToFishWorker();
 					DecreaseFishCount(1);
-					yield return new WaitForSeconds(0.1f);
+					yield return new WaitForSeconds(0.02f);
 				}
 				else
 				{
@@ -87,7 +87,7 @@ namespace FishingIsland.Controllers
 			{
 				dockWorkerController.OnFishTransferedFishShack();
 				IncreaseFishCount(1);
-				yield return new WaitForSeconds(0.2f);
+				yield return new WaitForSeconds(0.02f);
 			}
 		}
 

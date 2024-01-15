@@ -75,7 +75,7 @@ namespace FishingIsland.Controllers
 			{
 				boatController.OnFishTransferredToFishBox();
 				IncreaseFishCount(1);
-				yield return new WaitForSeconds(0.1f);
+				yield return new WaitForSeconds(0.02f);
 			}
 		}
 
@@ -88,9 +88,12 @@ namespace FishingIsland.Controllers
 			{
 				if (HasFishBox)
 				{
+
+
 					dockWorkerController.OnFishCollectedFishBox();
 					DecreaseFishCount(1);
-					yield return new WaitForSeconds(0.1f);
+					yield return new WaitForSeconds(0.02f);
+				
 				}
 				else
 				{
@@ -104,7 +107,7 @@ namespace FishingIsland.Controllers
 			}
 		}
 
-
+	
 		private void IncreaseFishCount(int amount)
 		{
 			_totalFishCount += amount;
@@ -116,6 +119,7 @@ namespace FishingIsland.Controllers
 			_totalFishCount -= amount;
 			UpdateFishCountText();
 		}
+
 	}
 }
 

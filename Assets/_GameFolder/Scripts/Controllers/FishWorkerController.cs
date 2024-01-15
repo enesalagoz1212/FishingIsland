@@ -47,6 +47,11 @@ namespace FishingIsland.Controllers
 			ChangeState(FishWorkerState.Idle);
 		}
 
+		private void Update()
+		{
+
+		}
+
 		public override void WorkerMouseDown()
 		{
 			if (!_isSellingFish && ShackController.Instance.HasFishShack)
@@ -94,7 +99,7 @@ namespace FishingIsland.Controllers
 
 			while (_fishCapacity > 0)
 			{
-				yield return new WaitForSeconds(0.1f);
+				yield return new WaitForSeconds(0.02f);
 				_fishCapacity--;
 				UpdateFishCountText(_fishCapacity);
 			}
@@ -156,9 +161,9 @@ namespace FishingIsland.Controllers
 			int earnedMoney = _totalFishCount * _fishPrice;
 			MoneyManager.Instance.AddMoney(earnedMoney);
 			UpdateTotalMoneyText();
-			
+
 			StartCoroutine(TransferFish());
-			yield return new WaitForSeconds(3f);
+			yield return new WaitForSeconds(2f);
 			ChangeState(FishWorkerState.ReturnsFromSellingFish);
 		}
 
@@ -166,5 +171,7 @@ namespace FishingIsland.Controllers
 		{
 			totalMoneyText.text = $" {MoneyManager.Instance.GetMoney()}";
 		}
+
+
 	}
 }

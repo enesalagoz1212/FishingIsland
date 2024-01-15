@@ -68,7 +68,6 @@ namespace FishingIsland.Controllers
 						_canClick = true;
 						break;
 					case BoatState.GoingFishing:
-						_currentTimerDuration = 8;
 						dockTimerPanel.gameObject.SetActive(true);
 
 						Transform randomSpawnPoint = LevelManager.Instance.GetRandomBoatSpawnPoint();
@@ -101,7 +100,7 @@ namespace FishingIsland.Controllers
 
 		private void Update()
 		{
-			TimerControl();
+			TimerControlBoat();
 		}
 
 
@@ -151,12 +150,11 @@ namespace FishingIsland.Controllers
 			StartCoroutine(CollectFish());
 		}
 
-		private void TimerControl()
+		private void TimerControlBoat()
 		{
 			if (BoatState == BoatState.Fishing)
 			{
 				dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
-
 
 				if (_currentTimerDuration <= 0f && FishCount >= boatFishCapacity)
 				{
@@ -164,7 +162,6 @@ namespace FishingIsland.Controllers
 				}
 				else
 				{
-
 					_currentTimerDuration -= Time.deltaTime;
 					UpdateTimerText();
 				}
@@ -181,7 +178,7 @@ namespace FishingIsland.Controllers
 			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
 			boatFishCapacity = dockUpgrade.boatFishCapacity;
 
-			_currentTimerDuration = dockUpgrade.initialTimerDuration;
+			_currentTimerDuration = dockUpgrade.initialTimerDurationBoat;
 			boatFishPanel.SetActive(true);
 			float timePerFish = _currentTimerDuration / boatFishCapacity;
 

@@ -20,6 +20,9 @@ namespace FishingIsland.UpgradeScriptableObjects
         public int capacityLevelUpgradeCost;
 
         public int dockWorkerFishCapacity;
+
+        public float initialTimerDurationFishWorker;
+        public float minTimerDurationFishWorker;
     }
 }
 

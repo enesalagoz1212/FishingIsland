@@ -73,7 +73,7 @@ namespace FishingIsland.Managers
 
 				if (dockUpgrade.timerLevel % 5 == 0)
 				{
-					dockUpgrade.initialTimerDuration = Mathf.Max(dockUpgrade.minTimerDuration, dockUpgrade.initialTimerDuration - 1.0f);
+					dockUpgrade.initialTimerDurationBoat = Mathf.Max(dockUpgrade.minTimerDurationBoat, dockUpgrade.initialTimerDurationBoat - 1.0f);
 				}
 
 				UpdateDockUpgradeTimerCost();
