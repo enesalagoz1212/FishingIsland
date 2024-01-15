@@ -25,10 +25,9 @@ namespace FishingIsland.Controllers
 		private Vector3 _initialPosition;
 		public int FishCount { get; private set; }
 
-
+		private float _currentTimerDuration = 8;
 		public TextMeshProUGUI timerText;
-		private bool _isTimerRunning = false;
-		private float _currentTime = 8;
+
 		public TextMeshProUGUI fishCapacityText;
 		public GameObject dockTimerPanel;
 		public TextMeshProUGUI boxFishText;
@@ -69,9 +68,8 @@ namespace FishingIsland.Controllers
 						_canClick = true;
 						break;
 					case BoatState.GoingFishing:
-						_currentTime = 8f;
+						_currentTimerDuration = 8;
 						dockTimerPanel.gameObject.SetActive(true);
-						_isTimerRunning = true;
 
 						Transform randomSpawnPoint = LevelManager.Instance.GetRandomBoatSpawnPoint();
 						if (randomSpawnPoint != null)
@@ -88,11 +86,11 @@ namespace FishingIsland.Controllers
 						UpdateCollectTheFishText();
 						break;
 					case BoatState.ReturningToPort:
-						_isTimerRunning = false;
 						MoveToPosition(_initialPosition, 1f, () =>
 						 {
 							 FishBoxController.OnBoatArrivedBox?.Invoke(this);
 							 dockTimerPanel.gameObject.SetActive(false);
+
 						 });
 
 						break;
@@ -155,34 +153,46 @@ namespace FishingIsland.Controllers
 
 		private void TimerControl()
 		{
-			//if (_isTimerRunning && _currentTime > 0)
-			//{
-			//	_currentTime -= Time.deltaTime;
-			//	timerText.text = ((int)_currentTime).ToString();
-			//}
-			//if (_isTimerRunning && _currentTime <= 1)
-			//{
-			//	ChangeState(BoatState.ReturningToPort);
-			//}
+			if (BoatState == BoatState.Fishing)
+			{
+				dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
+
+
+				if (_currentTimerDuration <= 0f && FishCount >= boatFishCapacity)
+				{
+					ChangeState(BoatState.ReturningToPort);
+				}
+				else
+				{
+
+					_currentTimerDuration -= Time.deltaTime;
+					UpdateTimerText();
+				}
+			}
+		}
+
+		private void UpdateTimerText()
+		{
+			timerText.text = $" {(int)_currentTimerDuration}s";
 		}
 
 		private IEnumerator CollectFish()
 		{
 			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
 			boatFishCapacity = dockUpgrade.boatFishCapacity;
+
+			_currentTimerDuration = dockUpgrade.initialTimerDuration;
 			boatFishPanel.SetActive(true);
+			float timePerFish = _currentTimerDuration / boatFishCapacity;
+
 			for (int i = 0; i < boatFishCapacity; i++)
 			{
-				yield return new WaitForSeconds(0.1f);
+				yield return new WaitForSeconds(timePerFish);
 				FishCount++;
 				UpdateFishCapacityText(FishCount);
-
-				if (FishCount >= boatFishCapacity)
-				{
-					ChangeState(BoatState.ReturningToPort);
-					break;
-				}
 			}
+
 		}
+
 	}
 }

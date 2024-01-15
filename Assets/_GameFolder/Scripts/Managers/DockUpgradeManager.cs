@@ -70,12 +70,16 @@ namespace FishingIsland.Managers
 			{
 				MoneyManager.Instance.money -= dockUpgrade.timerLevelUpgradeCost;
 				dockUpgrade.timerLevel++;
+
+				if (dockUpgrade.timerLevel % 5 == 0)
+				{
+					dockUpgrade.initialTimerDuration = Mathf.Max(dockUpgrade.minTimerDuration, dockUpgrade.initialTimerDuration - 1.0f);
+				}
+
 				UpdateDockUpgradeTimerCost();
 
 				OnTimerLevelUpdated?.Invoke(dockUpgrade.timerLevel);
-
 				TimerLevelIncreaseMoneyText(dockUpgrade.timerLevelUpgradeCost);
-
 				MoneyManager.Instance.UpdateMoneyText();
 			}
 			else
