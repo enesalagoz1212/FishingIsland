@@ -118,19 +118,6 @@ namespace FishingIsland.Controllers
 		}
 
 
-		public IEnumerator TransferFish()
-		{
-			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
-			_fishCapacity = houseUpgrade.fishWorkerFishCapacity;
-
-			while (_fishCapacity > 0)
-			{
-				yield return new WaitForSeconds(0.02f);
-				_fishCapacity--;
-				UpdateFishCountText(_fishCapacity);
-			}
-		}
-
 		public void OnFishTransferredToFishWorker()
 		{
 			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
@@ -188,8 +175,12 @@ namespace FishingIsland.Controllers
 			MoneyManager.Instance.AddMoney(earnedMoney);
 			UpdateTotalMoneyText();
 
-			StartCoroutine(TransferFish());
-			yield return new WaitForSeconds(2f);
+			while (_totalFishCount > 0)
+			{
+				yield return new WaitForSeconds(0.02f);
+				_totalFishCount--;
+				UpdateFishCountText(_totalFishCount);
+			}
 			ChangeState(FishWorkerState.ReturnsFromSellingFish);
 		}
 
