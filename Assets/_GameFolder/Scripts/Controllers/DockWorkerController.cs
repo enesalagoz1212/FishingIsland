@@ -62,8 +62,7 @@ namespace FishingIsland.Controllers
 			{
 				if (_currentTimeDuration <= 0 && FishBoxController.Instance.IsFishCollectionCompleted)
 				{
-					OnFishCollectionCompleted();			
-					_currentTimeDuration = 6f;
+					OnFishCollectionCompleted();
 				}
 				else
 				{
@@ -101,8 +100,7 @@ namespace FishingIsland.Controllers
 			switch (DockWorkerState)
 			{
 				case DockWorkerState.Idle:
-					shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-					_currentTimeDuration = shackUpgrade.initialTimerDurationFishWorker;
+					_currentTimeDuration=GetCurrentTimerDuration();
 					Debug.Log(_currentTimeDuration);
 					dockWorkerDownOkImage.gameObject.SetActive(true);
 					_collectedFishCount = 0;

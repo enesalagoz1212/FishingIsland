@@ -66,6 +66,12 @@ namespace FishingIsland.Managers
 			{
 				MoneyManager.Instance.money -= shackUpgrade.timerLevelUpgradeCost;
 				shackUpgrade.timerLevel++;
+
+				if (shackUpgrade.timerLevel % 5 == 0)
+				{
+					shackUpgrade.initialTimerDurationFishWorker = Mathf.Max(shackUpgrade.minTimerDurationFishWorker, shackUpgrade.initialTimerDurationFishWorker - 1.0f);
+				}
+
 				UpdateUpgradeTimerCost();
 
 				OnShackUpgradeTimerLevelUpdated?.Invoke(shackUpgrade.timerLevel);
