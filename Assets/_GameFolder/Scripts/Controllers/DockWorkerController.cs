@@ -39,7 +39,7 @@ namespace FishingIsland.Controllers
 		private bool _isBusy = false;
 
 		private float _currentTimeDuration ;
-		public TextMeshProUGUI dockWorkerTÝmerText;
+		public TextMeshProUGUI dockWorkerTimerText;
 		public GameObject timerPanel;
 
 		public override void Initialize(string name, float initialSpeed, int initialCapacity)
@@ -81,7 +81,7 @@ namespace FishingIsland.Controllers
 
 		public void UpdateTimerDurationText()
 		{
-			dockWorkerTÝmerText.text = $" {(int)_currentTimeDuration}s";
+			dockWorkerTimerText.text = $" {(int)_currentTimeDuration}s";
 		}
 
 		public override void WorkerMouseDown()

@@ -109,10 +109,6 @@ namespace FishingIsland.Controllers
 				}
 			}
 			_isFishCollectionCompletedBox = true;
-			if (_isFishCollectionCompletedBox)
-			{
-				//dockWorkerController.OnFishCollectionCompleted();
-			}
 		}
 
 

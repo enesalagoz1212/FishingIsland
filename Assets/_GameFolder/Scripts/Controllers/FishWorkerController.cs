@@ -30,11 +30,9 @@ namespace FishingIsland.Controllers
 		public Image fishWorkerDownOkImage;
 		public GameObject fishWorkerFishPanel;
 
-		//public int FishWorkerFishCapacity
-		//{
-		//	get { return _fishCapacity; }
-		//	set { _fishCapacity = value; }
-		//}
+		private float _currentTimeDuration;
+		public TextMeshProUGUI fishWorkerTimerText;
+		public GameObject timerPanel;
 
 		private bool _isSellingFish = false;
 		public override void Initialize(string name, float speed, int initialCapacity)
@@ -47,9 +45,34 @@ namespace FishingIsland.Controllers
 			ChangeState(FishWorkerState.Idle);
 		}
 
+
 		private void Update()
 		{
+			if (FishWorkerState == FishWorkerState.CollectingFish)
+			{
+				if (_currentTimeDuration <= 0 && ShackController.Instance.IsFishCollectionCompleted)
+				{
+					OnFishCollectionCompleted();
+				}
+				else
+				{
+					_currentTimeDuration -= Time.deltaTime;
+					UpdateTimerDurationText();
+				}
+			}
+		}
 
+
+		public float GetCurrentTimerDuration()
+		{
+			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
+			_currentTimeDuration = houseUpgrade.initialTimerDurationHouse;
+			return _currentTimeDuration;
+		}
+
+		public void UpdateTimerDurationText()
+		{
+			fishWorkerTimerText.text = $" {(int)_currentTimeDuration}s";
 		}
 
 		public override void WorkerMouseDown()
@@ -68,6 +91,7 @@ namespace FishingIsland.Controllers
 			switch (FishWorkerState)
 			{
 				case FishWorkerState.Idle:
+					_currentTimeDuration = GetCurrentTimerDuration();
 					_totalFishCount = 0;
 					fishWorkerDownOkImage.gameObject.SetActive(true);
 					fishWorkerFishPanel.gameObject.SetActive(false);
@@ -75,6 +99,7 @@ namespace FishingIsland.Controllers
 					Debug.Log($"isSellingFish: {_isSellingFish}");
 					break;
 				case FishWorkerState.CollectingFish:
+					timerPanel.SetActive(true);
 					fishWorkerDownOkImage.gameObject.SetActive(false);
 					fishWorkerFishPanel.gameObject.SetActive(true);
 
@@ -82,6 +107,7 @@ namespace FishingIsland.Controllers
 
 					break;
 				case FishWorkerState.GoingToSellFish:
+					timerPanel.SetActive(false);
 					Debug.Log("GointToSellFish");
 					GoToSellFish();
 					break;

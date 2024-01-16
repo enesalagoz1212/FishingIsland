@@ -65,6 +65,12 @@ namespace FishingIsland.Managers
 			{
 				MoneyManager.Instance.money -= houseUpgrade.timerLevelUpgradeCost;
 				houseUpgrade.timerLevel++;
+
+				if (houseUpgrade.timerLevel % 5 == 0)
+				{
+					houseUpgrade.initialTimerDurationHouse = Mathf.Max(houseUpgrade.minTimerDurationHouse, houseUpgrade.initialTimerDurationHouse - 1.0f);
+				}
+
 				UpdateHouseUpgradeTimerCost();
 
 				OnHouseUpgradeTimerLevelUpdated?.Invoke(houseUpgrade.timerLevel);

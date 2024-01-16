@@ -17,6 +17,7 @@ namespace FishingIsland.Controllers
 		public GameObject shackUpgradeCanvas;
 		public TextMeshProUGUI shackFishCountText;
 		private int _shackFishCount = 0;
+		private float _timePerFish;
 		public bool HasFishShack => _shackFishCount > 0;
 
 		private bool _isFishCollectionCompletedShack = false;
@@ -60,13 +61,23 @@ namespace FishingIsland.Controllers
 			_fishCapacity = houseUpgrade.fishWorkerFishCapacity;
 			_isFishCollectionCompletedShack = false;
 
+			if (_shackFishCount > _fishCapacity)
+			{
+				_timePerFish = fishWorkerController.GetCurrentTimerDuration() / _fishCapacity;
+			}
+			else
+			{
+				_timePerFish = fishWorkerController.GetCurrentTimerDuration() / _shackFishCount;
+			}
+
+
 			for (int i = 0; i < _fishCapacity; i++)
 			{
 				if (HasFishShack)
 				{
 					fishWorkerController.OnFishTransferredToFishWorker();
 					DecreaseFishCount(1);
-					yield return new WaitForSeconds(0.02f);
+					yield return new WaitForSeconds(_timePerFish);
 				}
 				else
 				{
@@ -74,11 +85,6 @@ namespace FishingIsland.Controllers
 				}
 			}
 			_isFishCollectionCompletedShack = true;
-
-			if (_isFishCollectionCompletedShack)
-			{
-				fishWorkerController.OnFishCollectionCompleted();
-			}
 		}
 
 		private IEnumerator StartFishCollectFromDockWorker(DockWorkerController dockWorkerController)
