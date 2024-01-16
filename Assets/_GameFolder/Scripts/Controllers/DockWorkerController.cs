@@ -38,7 +38,7 @@ namespace FishingIsland.Controllers
 		public Image dockWorkerDownOkImage;
 		private bool _isBusy = false;
 
-		private float _currentTimeDuration = 6f;
+		private float _currentTimeDuration ;
 		public TextMeshProUGUI dockWorkerTÝmerText;
 		public GameObject timerPanel;
 
@@ -75,6 +75,8 @@ namespace FishingIsland.Controllers
 
 		public float GetCurrentTimerDuration()
 		{
+			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+			_currentTimeDuration = shackUpgrade.initialTimerDurationFishWorker;
 			return _currentTimeDuration;
 		}
 
@@ -99,6 +101,9 @@ namespace FishingIsland.Controllers
 			switch (DockWorkerState)
 			{
 				case DockWorkerState.Idle:
+					shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+					_currentTimeDuration = shackUpgrade.initialTimerDurationFishWorker;
+					Debug.Log(_currentTimeDuration);
 					dockWorkerDownOkImage.gameObject.SetActive(true);
 					_collectedFishCount = 0;
 					_isBusy = false;
@@ -139,6 +144,9 @@ namespace FishingIsland.Controllers
 
 		public void OnFishCollectionCompleted()
 		{
+			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+			_currentTimeDuration = shackUpgrade.initialTimerDurationFishWorker;
+
 			ChangeState(DockWorkerState.ReturningFromCollectingFish);
 		}
 
