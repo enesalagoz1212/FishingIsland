@@ -18218,6 +18218,8 @@ MonoBehaviour:
   dockWorkerFishCountText: {fileID: 202064225}
   dockWorkerFishPanel: {fileID: 2013988974}
   dockWorkerDownOkImage: {fileID: 35011668}
+  "dockWorkerT\u0130merText": {fileID: 474034688}
+  timerPanel: {fileID: 799707271}
 --- !u!1 &3867956153500974301
 GameObject:
   m_ObjectHideFlags: 0

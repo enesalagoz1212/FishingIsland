@@ -37,6 +37,11 @@ namespace FishingIsland.Controllers
 
 		public Image dockWorkerDownOkImage;
 		private bool _isBusy = false;
+
+		private float _currentTimeDuration = 6f;
+		public TextMeshProUGUI dockWorkerTÝmerText;
+		public GameObject timerPanel;
+
 		public override void Initialize(string name, float initialSpeed, int initialCapacity)
 		{
 			characterName = name;
@@ -53,12 +58,30 @@ namespace FishingIsland.Controllers
 
 		private void Update()
 		{
-	
+			if (DockWorkerState == DockWorkerState.CollectingFish)
+			{
+				if (_currentTimeDuration <= 0 && FishBoxController.Instance.IsFishCollectionCompleted)
+				{
+					OnFishCollectionCompleted();			
+					_currentTimeDuration = 6f;
+				}
+				else
+				{
+					_currentTimeDuration -= Time.deltaTime;
+					UpdateTimerDurationText();
+				}
+			}
 		}
 
+		public float GetCurrentTimerDuration()
+		{
+			return _currentTimeDuration;
+		}
 
-
-
+		public void UpdateTimerDurationText()
+		{
+			dockWorkerTÝmerText.text = $" {(int)_currentTimeDuration}s";
+		}
 
 		public override void WorkerMouseDown()
 		{
@@ -90,12 +113,14 @@ namespace FishingIsland.Controllers
 					});
 					break;
 				case DockWorkerState.CollectingFish:
+					timerPanel.SetActive(true);
 					dockWorkerFishPanel.gameObject.SetActive(true);
 					FishBoxController.OnDockWorkerArrivedBox?.Invoke(this);
 					break;
 				case DockWorkerState.ReturningFromCollectingFish:
 					transform.DOMove(_initialPosition, speed).OnComplete(() =>
 					{
+						timerPanel.SetActive(false);
 						ShackController.OnDockWorkerArrivedShack?.Invoke(this);
 					});
 					break;

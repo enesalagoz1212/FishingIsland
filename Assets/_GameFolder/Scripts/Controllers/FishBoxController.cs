@@ -84,16 +84,17 @@ namespace FishingIsland.Controllers
 			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
 			_dockCapacity = shackUpgrade.dockWorkerFishCapacity;
 
+			float timePerFish = dockWorkerController.GetCurrentTimerDuration() / _dockCapacity;
+			Debug.Log(timePerFish);
+			Debug.Log(_dockCapacity);
+
 			for (int i = 0; i < _dockCapacity; i++)
-			{
+			{				
 				if (HasFishBox)
 				{
-
-
 					dockWorkerController.OnFishCollectedFishBox();
 					DecreaseFishCount(1);
-					yield return new WaitForSeconds(0.02f);
-				
+					yield return new WaitForSeconds(timePerFish);
 				}
 				else
 				{
@@ -103,11 +104,11 @@ namespace FishingIsland.Controllers
 			_isFishCollectionCompletedBox = true;
 			if (_isFishCollectionCompletedBox)
 			{
-				dockWorkerController.OnFishCollectionCompleted();
+				//dockWorkerController.OnFishCollectionCompleted();
 			}
 		}
 
-	
+
 		private void IncreaseFishCount(int amount)
 		{
 			_totalFishCount += amount;
