@@ -177,7 +177,7 @@ namespace FishingIsland.Controllers
 
 			while (_totalFishCount > 0)
 			{
-				yield return new WaitForSeconds(0.02f);
+				yield return new WaitForSeconds(0.01f);
 				_totalFishCount--;
 				UpdateFishCountText(_totalFishCount);
 			}
