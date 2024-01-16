@@ -25,7 +25,7 @@ namespace FishingIsland.Controllers
 		public TextMeshProUGUI dockWorkerFishCountText;
 		private Vector3 _initialPosition;
 		private Vector3 _targetPosition;
-
+		private Vector3 _initialDockWorkerDownPosition;
 		public GameObject dockWorkerFishPanel;
 		private int _collectedFishCount = 0;
 
@@ -38,10 +38,10 @@ namespace FishingIsland.Controllers
 		public Image dockWorkerDownOkImage;
 		private bool _isBusy = false;
 
-		private float _currentTimeDuration ;
+		private float _currentTimeDuration;
 		public TextMeshProUGUI dockWorkerTimerText;
 		public GameObject timerPanel;
-
+		private Sequence _dockWorkerDownAnimation;
 		public override void Initialize(string name, float initialSpeed, int initialCapacity)
 		{
 			characterName = name;
@@ -70,6 +70,20 @@ namespace FishingIsland.Controllers
 					UpdateTimerDurationText();
 				}
 			}
+
+			if (DockWorkerState == DockWorkerState.Idle)
+			{
+				if (FishBoxController.Instance.HasFishBox)
+				{
+					dockWorkerDownOkImage.gameObject.SetActive(true);
+					AnimateDockWorkerDown();
+				}
+				else
+				{
+					KillBoatDownAnimation();
+					dockWorkerDownOkImage.gameObject.SetActive(false);
+				}
+			}
 		}
 
 		public float GetCurrentTimerDuration()
@@ -88,9 +102,34 @@ namespace FishingIsland.Controllers
 		{
 			if (!_isBusy && FishBoxController.Instance.HasFishBox)
 			{
+				KillBoatDownAnimation();
 				ChangeState(DockWorkerState.GoToCollectFish);
 				_isBusy = true;
 			}
+		}
+
+		private void AnimateDockWorkerDown()
+		{
+			float animationDistance = 0.7f;
+			Vector3 initialPosition = dockWorkerDownOkImage.rectTransform.localPosition;
+			_initialDockWorkerDownPosition = initialPosition;
+
+			Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y - animationDistance, initialPosition.z);
+
+			_dockWorkerDownAnimation = DOTween.Sequence();
+			_dockWorkerDownAnimation.Append(dockWorkerDownOkImage.rectTransform.DOLocalMove(targetPosition, 1.0f).SetEase(Ease.OutQuad));
+			_dockWorkerDownAnimation.Append(dockWorkerDownOkImage.rectTransform.DOLocalMove(initialPosition, 1.0f).SetEase(Ease.InQuad));
+
+			_dockWorkerDownAnimation.SetLoops(-1, LoopType.Yoyo);
+		}
+
+		private void KillBoatDownAnimation()
+		{
+			if (_dockWorkerDownAnimation != null && _dockWorkerDownAnimation.IsActive())
+			{
+				_dockWorkerDownAnimation.Kill();
+			}
+			dockWorkerDownOkImage.rectTransform.anchoredPosition = new Vector3(-560.8f, -1165.5f, 4.468f);
 		}
 
 		public void ChangeState(DockWorkerState state)
@@ -100,9 +139,15 @@ namespace FishingIsland.Controllers
 			switch (DockWorkerState)
 			{
 				case DockWorkerState.Idle:
-					_currentTimeDuration=GetCurrentTimerDuration();
-					Debug.Log(_currentTimeDuration);
-					dockWorkerDownOkImage.gameObject.SetActive(true);
+					//if (FishBoxController.Instance.HasFishBox)
+					//{
+					//	Debug.Log(FishBoxController.Instance.HasFishBox);
+					//	dockWorkerDownOkImage.gameObject.SetActive(true);
+					//	AnimateDockWorkerDown();
+					//}
+					Debug.Log(FishBoxController.Instance.HasFishBox);
+					_currentTimeDuration = GetCurrentTimerDuration();
+					//dockWorkerDownOkImage.gameObject.SetActive(true);
 					_collectedFishCount = 0;
 					_isBusy = false;
 					dockWorkerFishPanel.gameObject.SetActive(false);

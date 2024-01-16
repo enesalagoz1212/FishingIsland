@@ -16,7 +16,7 @@ namespace FishingIsland.Controllers
 		private int _dockCapacity;
 
 		public TextMeshProUGUI boxFishText;
-		private int _totalFishCount = 0;
+		private int _totalFishCount;
 
 		public bool HasFishBox => _totalFishCount > 0;
 		private float _timePerFish;

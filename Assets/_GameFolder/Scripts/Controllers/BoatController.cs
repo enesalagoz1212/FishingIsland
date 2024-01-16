@@ -23,6 +23,7 @@ namespace FishingIsland.Controllers
 		private int boatFishCapacity;
 		public BoatState BoatState { get; private set; }
 		private Vector3 _initialPosition;
+		private Vector3 _initialBoatDownPosition;
 		public int FishCount { get; private set; }
 
 		private float _currentTimerDuration = 8;
@@ -35,11 +36,14 @@ namespace FishingIsland.Controllers
 		private bool _canClick = true;
 		public Image boatDownOkImage;
 		public GameObject boatFishPanel;
+
+		private Sequence _boatDownAnimation;
 		public void Initialize()
 		{
 
 			_initialPosition = transform.position;
 			ChangeState(BoatState.InThePort);
+			AnimateBoatDown();
 		}
 
 		private void Awake()
@@ -62,8 +66,9 @@ namespace FishingIsland.Controllers
 				switch (BoatState)
 				{
 					case BoatState.InThePort:
-						transform.position = _initialPosition;
 						boatDownOkImage.gameObject.SetActive(true);
+						AnimateBoatDown();
+						transform.position = _initialPosition;
 						boatFishPanel.gameObject.SetActive(false);
 						_canClick = true;
 						break;
@@ -103,6 +108,29 @@ namespace FishingIsland.Controllers
 			TimerControlBoat();
 		}
 
+		private void AnimateBoatDown()
+		{
+			float animationDistance = 0.7f;
+			Vector3 initialPosition = boatDownOkImage.rectTransform.localPosition;
+			_initialBoatDownPosition = initialPosition; 
+
+			Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y - animationDistance, initialPosition.z);
+
+			_boatDownAnimation = DOTween.Sequence();
+			_boatDownAnimation.Append(boatDownOkImage.rectTransform.DOLocalMove(targetPosition, 1.0f).SetEase(Ease.OutQuad));
+			_boatDownAnimation.Append(boatDownOkImage.rectTransform.DOLocalMove(initialPosition, 1.0f).SetEase(Ease.InQuad));
+
+			_boatDownAnimation.SetLoops(-1, LoopType.Yoyo);															
+		}
+
+		private void KillBoatDownAnimation()
+		{
+			if (_boatDownAnimation != null && _boatDownAnimation.IsActive())
+			{
+				_boatDownAnimation.Kill();
+			}
+			boatDownOkImage.rectTransform.anchoredPosition = _initialBoatDownPosition;
+		}
 
 		private void MoveToPosition(Vector3 targetPosition, float duration, Action onComplete)
 		{
@@ -119,6 +147,7 @@ namespace FishingIsland.Controllers
 			{
 				Debug.Log("OnMouseDown");
 				ChangeState(BoatState.GoingFishing);
+				KillBoatDownAnimation();
 				boatDownOkImage.gameObject.SetActive(false);
 				_canClick = false;
 			}
