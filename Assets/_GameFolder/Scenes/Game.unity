@@ -10000,12 +10000,12 @@ GameObject:
   - component: {fileID: 1146949886}
   - component: {fileID: 1146949885}
   m_Layer: 0
-  m_Name: Image
+  m_Name: HouseUpImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1146949884
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12105,6 +12105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   houseUpgradeCanvas: {fileID: 2042498373}
+  houseUpImage: {fileID: 1146949885}
 --- !u!65 &1464561591
 BoxCollider:
   m_ObjectHideFlags: 0

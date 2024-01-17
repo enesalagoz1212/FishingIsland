@@ -37,6 +37,7 @@ namespace FishingIsland.Canvases
 		public void OnCloseButtonClick()
 		{
 			gameObject.SetActive(false);
+			GameManager.OnCloseButton?.Invoke();
 		}
 
 		public void OnDockWorkerButtonClick()

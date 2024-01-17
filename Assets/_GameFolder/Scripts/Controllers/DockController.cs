@@ -36,6 +36,7 @@ namespace FishingIsland.Controllers
 
 		private void OnCloseButtonAction()
 		{
+			Debug.Log("DockController tetiklendi");
 			ResetAnimation();
 			if (!CanUpgradeDock())
 			{
@@ -47,6 +48,7 @@ namespace FishingIsland.Controllers
 		{
 			if (CanUpgradeDock() && !hasAnimationPlayed)
 			{
+				Debug.Log("777");
 				AnimateDockUp();
 				hasAnimationPlayed = true;
 			}

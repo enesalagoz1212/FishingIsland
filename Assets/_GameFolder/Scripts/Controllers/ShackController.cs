@@ -62,6 +62,7 @@ namespace FishingIsland.Controllers
 		{
 			if (CanUpgradeShack() && !hasAnimationPlayed)
 			{
+				Debug.Log("666");
 				AnimateShackUp();
 				hasAnimationPlayed = true;
 			}
@@ -85,6 +86,7 @@ namespace FishingIsland.Controllers
 
 		private void OnCloseButtonAction()
 		{
+			Debug.Log("ShackController tetiklendi");
 			ResetAnimation();
 			if (!CanUpgradeShack())
 			{

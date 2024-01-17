@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba58d28121f5eef4790677662639486b, type: 3}
   m_Name: Dock Upgrade
   m_EditorClassIdentifier: 
-  boatLevel: 5
-  timerLevel: 4
-  capacityLevel: 3
+  boatLevel: 1
+  timerLevel: 1
+  capacityLevel: 1
   boatSpeedIncrease: 3
   boatCapacityIncrease: 12
-  boatLevelUpgradeCost: 125
-  timerLevelUpgradeCost: 160
-  capacityLevelUpgradeCost: 105
-  boatFishCapacity: 34
+  boatLevelUpgradeCost: 35
+  timerLevelUpgradeCost: 45
+  capacityLevelUpgradeCost: 40
+  boatFishCapacity: 10
   initialTimerDurationBoat: 7
   minTimerDurationBoat: 3
