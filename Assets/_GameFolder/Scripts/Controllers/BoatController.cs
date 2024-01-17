@@ -73,7 +73,7 @@ namespace FishingIsland.Controllers
 						_canClick = true;
 						break;
 					case BoatState.GoingFishing:
-						dockTimerPanel.gameObject.SetActive(true);
+						
 
 						Transform randomSpawnPoint = LevelManager.Instance.GetRandomBoatSpawnPoint();
 						if (randomSpawnPoint != null)
@@ -204,6 +204,7 @@ namespace FishingIsland.Controllers
 
 		private IEnumerator CollectFish()
 		{
+			dockTimerPanel.gameObject.SetActive(true);
 			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
 			boatFishCapacity = dockUpgrade.boatFishCapacity;
 

@@ -39,7 +39,7 @@ namespace FishingIsland.Controllers
 		}
 		public void Initialize()
 		{
-
+			
 		}
 
 		private void OnEnable()
@@ -53,6 +53,9 @@ namespace FishingIsland.Controllers
 			OnBoatArrivedBox -= OnBoatArrivedBoxAction;
 			OnDockWorkerArrivedBox -= OnDockWorkerArrivedBoxAction;
 		}
+
+		
+
 		private void UpdateFishCountText()
 		{
 			boxFishText.text = $" {_totalFishCount}";
@@ -109,6 +112,7 @@ namespace FishingIsland.Controllers
 				}
 			}
 			_isFishCollectionCompletedBox = true;
+
 		}
 
 

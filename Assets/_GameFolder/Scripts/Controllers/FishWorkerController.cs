@@ -29,12 +29,16 @@ namespace FishingIsland.Controllers
 		public TextMeshProUGUI totalMoneyText;
 		public Image fishWorkerDownOkImage;
 		public GameObject fishWorkerFishPanel;
+		private Vector3 _initialFishWorkerDownPosition;
 
 		private float _currentTimeDuration;
 		public TextMeshProUGUI fishWorkerTimerText;
 		public GameObject timerPanel;
 
 		private bool _isSellingFish = false;
+
+		private Sequence _fishWorkerDownAnimation;
+		private bool hasAnimationPlayed = false;
 		public override void Initialize(string name, float speed, int initialCapacity)
 		{
 			base.Initialize(name, speed, initialCapacity);
@@ -60,6 +64,12 @@ namespace FishingIsland.Controllers
 					UpdateTimerDurationText();
 				}
 			}
+			if (ShackController.Instance.HasFishShack && !hasAnimationPlayed && FishWorkerState == FishWorkerState.Idle)
+			{
+				AnimateFishWorkerDown();
+				hasAnimationPlayed = true;
+			}
+
 		}
 
 
@@ -79,6 +89,7 @@ namespace FishingIsland.Controllers
 		{
 			if (!_isSellingFish && ShackController.Instance.HasFishShack)
 			{
+				KillBoatDownAnimation();
 				ChangeState(FishWorkerState.CollectingFish);
 				_isSellingFish = true;
 			}
@@ -91,9 +102,9 @@ namespace FishingIsland.Controllers
 			switch (FishWorkerState)
 			{
 				case FishWorkerState.Idle:
+					hasAnimationPlayed = false;
 					_currentTimeDuration = GetCurrentTimerDuration();
 					_totalFishCount = 0;
-					fishWorkerDownOkImage.gameObject.SetActive(true);
 					fishWorkerFishPanel.gameObject.SetActive(false);
 					_isSellingFish = false;
 					Debug.Log($"isSellingFish: {_isSellingFish}");
@@ -115,6 +126,33 @@ namespace FishingIsland.Controllers
 					ReturnToInitialPoint();
 					break;
 			}
+		}
+
+		public void AnimateFishWorkerDown()
+		{
+			fishWorkerDownOkImage.gameObject.SetActive(true);
+
+			float animationDistance = 0.7f;
+			Vector3 initialPosition = fishWorkerDownOkImage.rectTransform.localPosition;
+			_initialFishWorkerDownPosition = initialPosition;
+
+			Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y - animationDistance, initialPosition.z);
+
+			_fishWorkerDownAnimation = DOTween.Sequence();
+			_fishWorkerDownAnimation.Append(fishWorkerDownOkImage.rectTransform.DOLocalMove(targetPosition, 1.0f).SetEase(Ease.OutQuad));
+			_fishWorkerDownAnimation.Append(fishWorkerDownOkImage.rectTransform.DOLocalMove(initialPosition, 1.0f).SetEase(Ease.InQuad));
+	
+			_fishWorkerDownAnimation.SetLoops(-1, LoopType.Yoyo);
+
+		}
+
+		private void KillBoatDownAnimation()
+		{
+			if (_fishWorkerDownAnimation != null && _fishWorkerDownAnimation.IsActive())
+			{
+				_fishWorkerDownAnimation.Kill();
+			}
+			fishWorkerDownOkImage.rectTransform.anchoredPosition = _initialFishWorkerDownPosition;
 		}
 
 
