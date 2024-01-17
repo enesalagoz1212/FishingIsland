@@ -4,11 +4,14 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using FishingIsland.Managers;
+using FishingIsland.Controllers;
 
 namespace FishingIsland.Canvases
 {
     public class ShackUpgradeCanvas : MonoBehaviour
     {
+		private ShackController _shackController;
+
         public Button shackCloseButton;
 		public Button dockWorkerButton;
 		public Button timerButton;
@@ -18,8 +21,10 @@ namespace FishingIsland.Canvases
 		public TextMeshProUGUI timerLevelText;
 		public TextMeshProUGUI capacityLevelText;
 
-		public void Initialize()
+		public void Initialize(ShackController shackController)
 		{
+			_shackController = shackController;
+
 			shackCloseButton.onClick.AddListener(OnCloseButtonClick);
 			dockWorkerButton.onClick.AddListener(OnDockWorkerButtonClick);
 			timerButton.onClick.AddListener(OnTimerButtonClick);
@@ -37,6 +42,8 @@ namespace FishingIsland.Canvases
 		public void OnCloseButtonClick()
 		{
 			gameObject.SetActive(false);
+			//_shackController.ResetAnimation();
+			GameManager.OnCloseButton?.Invoke();
 		}
 
 		public void OnDockWorkerButtonClick()

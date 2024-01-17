@@ -40,12 +40,13 @@ namespace FishingIsland.Canvases
             UpdateTimerLevelText(DockUpgradeManager.Instance.GetTimerLevel());
             UpdateCapacityLevelText(DockUpgradeManager.Instance.GetCapacityLevel());
         }
-	
 
-		public void OnCloseButtonClick()
+        public void OnCloseButtonClick()
 		{
             gameObject.SetActive(false);
-            _dockController.ResetAnimation();
+            //_dockController.ResetAnimation();
+            GameManager.OnCloseButton?.Invoke();
+           
 		}
 
         public void OnBoatButtonClick()

@@ -2159,6 +2159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shackUpgradeCanvas: {fileID: 392932630}
   shackFishCountText: {fileID: 471196058}
+  shackUpImage: {fileID: 207676212}
 --- !u!65 &200812010
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2319,12 +2320,12 @@ GameObject:
   - component: {fileID: 207676213}
   - component: {fileID: 207676212}
   m_Layer: 0
-  m_Name: Image
+  m_Name: ShackUpImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &207676211
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3164,6 +3165,7 @@ MonoBehaviour:
   houseUpgradeManager: {fileID: 1257575250}
   moneyManager: {fileID: 1630697979}
   dockController: {fileID: 1586275669}
+  shackController: {fileID: 200812009}
 --- !u!1 &300444325
 GameObject:
   m_ObjectHideFlags: 0

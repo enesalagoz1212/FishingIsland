@@ -5,13 +5,16 @@ using TMPro;
 using System;
 using FishingIsland.UpgradeScriptableObjects;
 using FishingIsland.Managers;
+using UnityEngine.UI;
+using DG.Tweening;
 
 namespace FishingIsland.Controllers
 {
 	public class ShackController : MonoBehaviour
 	{
 		public static ShackController Instance;
-		private HouseUpgrade houseUpgrade;
+		private HouseUpgrade _houseUpgrade;
+		private ShackUpgrade _shackUpgrade;
 		private int _fishCapacity;
 
 		public GameObject shackUpgradeCanvas;
@@ -22,6 +25,10 @@ namespace FishingIsland.Controllers
 
 		private bool _isFishCollectionCompletedShack = false;
 		public bool IsFishCollectionCompleted => _isFishCollectionCompletedShack;
+		public Image shackUpImage;
+		private Sequence _shackUpAnimation;
+		private Vector3 _initialShackUpPosition;
+		private bool hasAnimationPlayed = false;
 
 		public static Action<FishWorkerController> OnFishWorkerArrivedBox;
 		public static Action<DockWorkerController> OnDockWorkerArrivedShack;
@@ -41,24 +48,54 @@ namespace FishingIsland.Controllers
 		{
 			OnFishWorkerArrivedBox += OnFishWorkerArrivedBoxAction;
 			OnDockWorkerArrivedShack += OnFishWorkerArrivedShackAction;
+			GameManager.OnCloseButton += OnCloseButtonAction;
 		}
 
 		private void OnDisable()
 		{
 			OnFishWorkerArrivedBox -= OnFishWorkerArrivedBoxAction;
 			OnDockWorkerArrivedShack -= OnFishWorkerArrivedShackAction;
-		}
-		private void OnMouseDown()
-		{
-			Debug.Log("ShackController");
-			shackUpgradeCanvas.SetActive(true);
+			GameManager.OnCloseButton -= OnCloseButtonAction;
 		}
 
+		private void Update()
+		{
+			if (CanUpgradeShack() && !hasAnimationPlayed)
+			{
+				AnimateShackUp();
+				hasAnimationPlayed = true;
+			}
+			else
+			{
+				
+			}
+		}
+
+
+		private void OnMouseDown()
+		{
+			if (CanUpgradeShack())
+			{
+				shackUpImage.gameObject.SetActive(false);
+				KillShackUpAnimation();
+				shackUpgradeCanvas.SetActive(true);
+			}
+
+		}
+
+		private void OnCloseButtonAction()
+		{
+			ResetAnimation();
+			if (!CanUpgradeShack())
+			{
+				shackUpImage.gameObject.SetActive(false);
+			}
+		}
 
 		private IEnumerator StartFishTransferFromFishWorker(FishWorkerController fishWorkerController)
 		{
-			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
-			_fishCapacity = houseUpgrade.fishWorkerFishCapacity;
+			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
+			_fishCapacity = _houseUpgrade.fishWorkerFishCapacity;
 			_isFishCollectionCompletedShack = false;
 
 			if (_shackFishCount > _fishCapacity)
@@ -122,6 +159,46 @@ namespace FishingIsland.Controllers
 		{
 			_shackFishCount += amount;
 			UpdateFishCountText();
+		}
+
+		public void AnimateShackUp()
+		{
+			shackUpImage.gameObject.SetActive(true);
+
+			float animationDistance = 0.7f;
+			Vector3 initialPosition = shackUpImage.rectTransform.localPosition;
+			_initialShackUpPosition = initialPosition;
+
+			Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y + animationDistance, initialPosition.z);
+
+			_shackUpAnimation = DOTween.Sequence();
+			_shackUpAnimation.Append(shackUpImage.rectTransform.DOLocalMove(targetPosition, 1.0f).SetEase(Ease.OutQuad));
+			_shackUpAnimation.Append(shackUpImage.rectTransform.DOLocalMove(initialPosition, 1.0f).SetEase(Ease.InQuad));
+
+			_shackUpAnimation.SetLoops(-1, LoopType.Yoyo);
+
+		}
+
+		private void KillShackUpAnimation()
+		{
+			if (_shackUpAnimation != null && _shackUpAnimation.IsActive())
+			{
+				_shackUpAnimation.Kill();
+			}
+			shackUpImage.rectTransform.anchoredPosition = _initialShackUpPosition;
+		}
+
+		private bool CanUpgradeShack()
+		{
+			_shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+			return MoneyManager.Instance.GetMoney() >= _shackUpgrade.dockWorkerLevelUpgradeCost
+				|| MoneyManager.Instance.GetMoney() >= _shackUpgrade.timerLevelUpgradeCost
+				|| MoneyManager.Instance.GetMoney() >= _shackUpgrade.capacityLevelUpgradeCost;
+		}
+
+		public void ResetAnimation()
+		{
+			hasAnimationPlayed = false;
 		}
 	}
 

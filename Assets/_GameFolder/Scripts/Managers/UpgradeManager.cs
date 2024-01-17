@@ -11,6 +11,7 @@ namespace FishingIsland.Managers
 		public static UpgradeManager Instance { get; private set; }
 
 		private DockController _dockController;
+		private ShackController _shackController;
 
 		[SerializeField] private HouseUpgradeCanvas houseUpgradeCanvas;
 		[SerializeField] private DockUpgradeCanvas dockUpgradeCanvas;
@@ -29,13 +30,14 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		public void Initialize(GameManager gameManager,DockController dockController )
+		public void Initialize(GameManager gameManager,DockController dockController,ShackController shackController )
 		{
 			_dockController = dockController;
+			_shackController = shackController;
 
 			houseUpgradeCanvas.Initialize();
 			dockUpgradeCanvas.Initialize(dockController);
-			shackUpgradeCanvas.Initialize();
+			shackUpgradeCanvas.Initialize(shackController);
 
 		}
 	}

@@ -22,6 +22,27 @@ namespace FishingIsland.Controllers
 		{
 
 		}
+
+		private void OnEnable()
+		{
+			GameManager.OnCloseButton += OnCloseButtonAction;
+		}
+
+		private void OnDisable()
+		{
+			GameManager.OnCloseButton -= OnCloseButtonAction;
+			
+		}
+
+		private void OnCloseButtonAction()
+		{
+			ResetAnimation();
+			if (!CanUpgradeDock())
+			{
+				dockUpImage.gameObject.SetActive(false);
+			}
+		}
+
 		private void Update()
 		{
 			if (CanUpgradeDock() && !hasAnimationPlayed)
@@ -31,13 +52,9 @@ namespace FishingIsland.Controllers
 			}
 			else
 			{
-			//	Debug.Log($"Money: {MoneyManager.Instance.GetMoney()} - Can Upgrade Dock: {CanUpgradeDock()}");
+
 			}
 
-		}
-		public bool Animation()
-		{
-			return hasAnimationPlayed;
 		}
 
 		private void OnMouseDown()

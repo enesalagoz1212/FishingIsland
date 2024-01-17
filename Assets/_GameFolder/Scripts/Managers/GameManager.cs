@@ -26,6 +26,8 @@ namespace FishingIsland.Managers
 		public static Action<int> OnDiamondScored;
 		public static Action<int> OnMoneyScored;
 		public static Action OnFishCollectionAndTransfer;
+		public static Action OnCloseButton;
+
 
 		[SerializeField] private UiManager uiManager;
 		[SerializeField] private InputManager inputManager;
@@ -40,6 +42,8 @@ namespace FishingIsland.Managers
 		[SerializeField] private HouseUpgradeManager houseUpgradeManager;
 		[SerializeField] private MoneyManager moneyManager;
 		[SerializeField] private DockController dockController;
+		[SerializeField] private ShackController shackController;
+
 		private void Awake()
 		{
 			if ( Instance !=null && Instance!=this)
@@ -65,7 +69,7 @@ namespace FishingIsland.Managers
 			characterManager.Initialize();
 			boatController.Initialize();
 			fishBoxController.Initialize();
-			upgradeManager.Initialize(this,dockController);
+			upgradeManager.Initialize(this,dockController,shackController);
 			levelManager.Initialize();
 			moneyManager.Initialize();
 			dockUpgradeManager.Initialize();
