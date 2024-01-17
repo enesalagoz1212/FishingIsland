@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FishingIsland.Canvases;
+using FishingIsland.Controllers;
 
 namespace FishingIsland.Managers
 {
 	public class UpgradeManager : MonoBehaviour
 	{
 		public static UpgradeManager Instance { get; private set; }
+
+		private DockController _dockController;
 
 		[SerializeField] private HouseUpgradeCanvas houseUpgradeCanvas;
 		[SerializeField] private DockUpgradeCanvas dockUpgradeCanvas;
@@ -26,11 +29,12 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		public void Initialize(GameManager gameManager )
+		public void Initialize(GameManager gameManager,DockController dockController )
 		{
+			_dockController = dockController;
 
 			houseUpgradeCanvas.Initialize();
-			dockUpgradeCanvas.Initialize();
+			dockUpgradeCanvas.Initialize(dockController);
 			shackUpgradeCanvas.Initialize();
 
 		}

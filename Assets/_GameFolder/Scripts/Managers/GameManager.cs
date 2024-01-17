@@ -39,6 +39,7 @@ namespace FishingIsland.Managers
 		[SerializeField] private ShackUpgradeManager shackUpgradeManager;
 		[SerializeField] private HouseUpgradeManager houseUpgradeManager;
 		[SerializeField] private MoneyManager moneyManager;
+		[SerializeField] private DockController dockController;
 		private void Awake()
 		{
 			if ( Instance !=null && Instance!=this)
@@ -64,13 +65,13 @@ namespace FishingIsland.Managers
 			characterManager.Initialize();
 			boatController.Initialize();
 			fishBoxController.Initialize();
-			upgradeManager.Initialize(this);
+			upgradeManager.Initialize(this,dockController);
 			levelManager.Initialize();
 			moneyManager.Initialize();
 			dockUpgradeManager.Initialize();
 			shackUpgradeManager.Initialize();
 			houseUpgradeManager.Initialize();
-
+			dockController.Initialize();
 
 			ChangeState(GameState.Menu);
 		}

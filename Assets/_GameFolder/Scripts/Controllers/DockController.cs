@@ -18,6 +18,10 @@ namespace FishingIsland.Controllers
 
 		private bool hasAnimationPlayed = false;
 
+		public void Initialize()
+		{
+
+		}
 		private void Update()
 		{
 			if (CanUpgradeDock() && !hasAnimationPlayed)
@@ -27,29 +31,32 @@ namespace FishingIsland.Controllers
 			}
 			else
 			{
-				
-				Debug.Log($"Money: {MoneyManager.Instance.GetMoney()} - Can Upgrade Dock: {CanUpgradeDock()}");
+			//	Debug.Log($"Money: {MoneyManager.Instance.GetMoney()} - Can Upgrade Dock: {CanUpgradeDock()}");
 			}
-			
+
+		}
+		public bool Animation()
+		{
+			return hasAnimationPlayed;
 		}
 
 		private void OnMouseDown()
 		{
-			hasAnimationPlayed = true;
-			dockUpImage.gameObject.SetActive(false);
-			dockUpgradeCanvas.SetActive(true);
-			KillDockUpAnimation();
+			if (CanUpgradeDock())
+			{
+				dockUpImage.gameObject.SetActive(false);
+				dockUpgradeCanvas.SetActive(true);
+				KillDockUpAnimation();
+			}
+		
 		}
 
 		private bool CanUpgradeDock()
 		{
 			_dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
-
 			return MoneyManager.Instance.GetMoney() >= _dockUpgrade.boatLevelUpgradeCost
 				|| MoneyManager.Instance.GetMoney() >= _dockUpgrade.timerLevelUpgradeCost
 				|| MoneyManager.Instance.GetMoney() >= _dockUpgrade.capacityLevelUpgradeCost;
-
-			hasAnimationPlayed = false;
 		}
 
 		public void AnimateDockUp()
@@ -77,6 +84,12 @@ namespace FishingIsland.Controllers
 				_dockUpAnimation.Kill();
 			}
 			dockUpImage.rectTransform.anchoredPosition = _initialDockUpPosition;
+		}
+
+		public void ResetAnimation()
+		{
+			Debug.Log("ResetAnimation calisti");
+			hasAnimationPlayed = false;
 		}
 	}
 }

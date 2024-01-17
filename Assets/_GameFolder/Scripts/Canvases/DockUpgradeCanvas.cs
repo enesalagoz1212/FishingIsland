@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using FishingIsland.Managers;
 using TMPro;
+using FishingIsland.Controllers;
 
 namespace FishingIsland.Canvases
 {
     public class DockUpgradeCanvas : MonoBehaviour
     {
+        private DockController _dockController;
+
         public Button dockCloseButton;
         public Button boatButton;
         public Button timerButton;
@@ -19,8 +22,10 @@ namespace FishingIsland.Canvases
         public TextMeshProUGUI capacityLevelText;
 
 
-        public void Initialize()
+        public void Initialize(DockController dockController)
 		{
+            _dockController = dockController;
+
             dockCloseButton.onClick.AddListener(OnCloseButtonClick);
             boatButton.onClick.AddListener(OnBoatButtonClick);
             timerButton.onClick.AddListener(OnTimerButtonClick);
@@ -40,6 +45,7 @@ namespace FishingIsland.Canvases
 		public void OnCloseButtonClick()
 		{
             gameObject.SetActive(false);
+            _dockController.ResetAnimation();
 		}
 
         public void OnBoatButtonClick()
