@@ -89,7 +89,7 @@ namespace FishingIsland.Controllers
 		{
 			if (!_isSellingFish && ShackController.Instance.HasFishShack)
 			{
-				KillBoatDownAnimation();
+				KillFishWorkerDownAnimation();
 				ChangeState(FishWorkerState.CollectingFish);
 				_isSellingFish = true;
 			}
@@ -146,7 +146,7 @@ namespace FishingIsland.Controllers
 
 		}
 
-		private void KillBoatDownAnimation()
+		private void KillFishWorkerDownAnimation()
 		{
 			if (_fishWorkerDownAnimation != null && _fishWorkerDownAnimation.IsActive())
 			{

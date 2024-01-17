@@ -98,7 +98,7 @@ namespace FishingIsland.Controllers
 		{
 			if (!_isBusy && FishBoxController.Instance.HasFishBox)
 			{
-				KillBoatDownAnimation();
+				KillDockWorkerDownAnimation();
 				ChangeState(DockWorkerState.GoToCollectFish);
 				_isBusy = true;
 			}
@@ -122,7 +122,7 @@ namespace FishingIsland.Controllers
 
 		}
 
-		private void KillBoatDownAnimation()
+		private void KillDockWorkerDownAnimation()
 		{
 			if (_dockWorkerDownAnimation != null && _dockWorkerDownAnimation.IsActive())
 			{
