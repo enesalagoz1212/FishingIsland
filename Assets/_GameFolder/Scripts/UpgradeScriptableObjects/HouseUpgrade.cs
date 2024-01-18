@@ -11,8 +11,6 @@ namespace FishingIsland.UpgradeScriptableObjects
         public int timerLevel;
         public int capacityLevel;
 
-
-        public float fishWorkerSpeedDecrease;
         public int fishWorkerCapacityIncrease;
 
         public int fishWorkerLevelUpgradeCost;

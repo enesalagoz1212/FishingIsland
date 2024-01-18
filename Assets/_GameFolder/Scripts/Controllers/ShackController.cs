@@ -13,25 +13,28 @@ namespace FishingIsland.Controllers
 	public class ShackController : MonoBehaviour
 	{
 		public static ShackController Instance;
+
 		private HouseUpgrade _houseUpgrade;
 		private ShackUpgrade _shackUpgrade;
+
+		private Vector3 _initialShackUpPosition;
 		private int _fishCapacity;
+		private int _shackFishCount = 0;
+		private float _timePerFish;
+		private bool _isFishCollectionCompletedShack = false;
+		private bool _hasAnimationPlayed = false;
+
+		private Sequence _shackUpAnimation;
 
 		public GameObject shackUpgradeCanvas;
 		public TextMeshProUGUI shackFishCountText;
-		private int _shackFishCount = 0;
-		private float _timePerFish;
-		public bool HasFishShack => _shackFishCount > 0;
-
-		private bool _isFishCollectionCompletedShack = false;
-		public bool IsFishCollectionCompleted => _isFishCollectionCompletedShack;
 		public Image shackUpImage;
-		private Sequence _shackUpAnimation;
-		private Vector3 _initialShackUpPosition;
-		private bool hasAnimationPlayed = false;
+		public bool HasFishShack => _shackFishCount > 0;
+		public bool IsFishCollectionCompleted => _isFishCollectionCompletedShack;
 
 		public static Action<FishWorkerController> OnFishWorkerArrivedBox;
 		public static Action<DockWorkerController> OnDockWorkerArrivedShack;
+
 		private void Awake()
 		{
 			if (Instance == null)
@@ -42,6 +45,11 @@ namespace FishingIsland.Controllers
 			{
 				Destroy(gameObject);
 			}
+		}
+
+		private void Start()
+		{
+			_initialShackUpPosition= shackUpImage.rectTransform.localPosition;
 		}
 
 		private void OnEnable()
@@ -60,11 +68,10 @@ namespace FishingIsland.Controllers
 
 		private void Update()
 		{
-			if (CanUpgradeShack() && !hasAnimationPlayed)
+			if (CanUpgradeShack() && !_hasAnimationPlayed)
 			{
-				Debug.Log("666");
 				AnimateShackUp();
-				hasAnimationPlayed = true;
+				_hasAnimationPlayed = true;
 			}
 			else
 			{
@@ -86,7 +93,6 @@ namespace FishingIsland.Controllers
 
 		private void OnCloseButtonAction()
 		{
-			Debug.Log("ShackController tetiklendi");
 			ResetAnimation();
 			if (!CanUpgradeShack())
 			{
@@ -168,14 +174,13 @@ namespace FishingIsland.Controllers
 			shackUpImage.gameObject.SetActive(true);
 
 			float animationDistance = 0.7f;
-			Vector3 initialPosition = shackUpImage.rectTransform.localPosition;
-			_initialShackUpPosition = initialPosition;
+			Vector3 initialPosition = _initialShackUpPosition;
 
 			Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y + animationDistance, initialPosition.z);
 
 			_shackUpAnimation = DOTween.Sequence();
-			_shackUpAnimation.Append(shackUpImage.rectTransform.DOLocalMove(targetPosition, 1.0f).SetEase(Ease.OutQuad));
-			_shackUpAnimation.Append(shackUpImage.rectTransform.DOLocalMove(initialPosition, 1.0f).SetEase(Ease.InQuad));
+			_shackUpAnimation.Append(shackUpImage.rectTransform.DOLocalMove(targetPosition, 0.7f).SetEase(Ease.OutQuad));
+			_shackUpAnimation.Append(shackUpImage.rectTransform.DOLocalMove(initialPosition, 0.7f).SetEase(Ease.InQuad));
 
 			_shackUpAnimation.SetLoops(-1, LoopType.Yoyo);
 
@@ -200,7 +205,7 @@ namespace FishingIsland.Controllers
 
 		public void ResetAnimation()
 		{
-			hasAnimationPlayed = false;
+			_hasAnimationPlayed = false;
 		}
 	}
 

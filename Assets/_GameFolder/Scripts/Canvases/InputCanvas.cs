@@ -16,7 +16,6 @@ namespace FishingIsland.Canvases
             _inputManager = inputManager;
         }
 
-
         public void OnPointerDown(PointerEventData eventData)
         {
             if (_inputEnabled)

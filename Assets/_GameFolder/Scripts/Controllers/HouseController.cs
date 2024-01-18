@@ -10,35 +10,31 @@ namespace FishingIsland.Controllers
 {
     public class HouseController : MonoBehaviour
     {
-
-        public GameObject houseUpgradeCanvas;
 		private HouseUpgrade _houseUpgrade;
 
-
 		private Vector3 _initialHouseUpPosition;
-		public Image houseUpImage;
+		private bool _hasAnimationPlayed = false;
 		private Sequence _houseUpAnimation;
 
-		private bool hasAnimationPlayed = false;
-		void Start()
+        public GameObject houseUpgradeCanvas;
+		public Image houseUpImage;
+
+		private void Start()
+		{
+			_initialHouseUpPosition= houseUpImage.rectTransform.localPosition;
+		}
+
+		void Update()
         {
-
-        }
-
-
-        void Update()
-        {
-			if (CanUpgradeHouse() && !hasAnimationPlayed)
+			if (CanUpgradeHouse() && !_hasAnimationPlayed)
 			{
-				Debug.Log("888");
 				AnimateHouseUp();
-				hasAnimationPlayed = true;
+				_hasAnimationPlayed = true;
 			}
 			else
 			{
 
 			}
-
 		}
 
 		private void OnEnable()
@@ -49,12 +45,10 @@ namespace FishingIsland.Controllers
 		private void OnDisable()
 		{
 			GameManager.OnCloseButton -= OnCloseButtonAction;
-
 		}
 
 		private void OnCloseButtonAction()
 		{
-			Debug.Log("HouseController tetiklendi");
 			ResetAnimation();
 			if (!CanUpgradeHouse())
 			{
@@ -84,18 +78,16 @@ namespace FishingIsland.Controllers
 		{
 			houseUpImage.gameObject.SetActive(true);
 
-			float animationDistance = 0.7f;
-			Vector3 initialPosition = houseUpImage.rectTransform.localPosition;
-			_initialHouseUpPosition = initialPosition;
+			float animationDistance = 0.6f;
+			Vector3 initialPosition = _initialHouseUpPosition;
 
 			Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y + animationDistance, initialPosition.z);
 
 			_houseUpAnimation = DOTween.Sequence();
-			_houseUpAnimation.Append(houseUpImage.rectTransform.DOLocalMove(targetPosition, 1.0f).SetEase(Ease.OutQuad));
-			_houseUpAnimation.Append(houseUpImage.rectTransform.DOLocalMove(initialPosition, 1.0f).SetEase(Ease.InQuad));
+			_houseUpAnimation.Append(houseUpImage.rectTransform.DOLocalMove(targetPosition, 0.7f).SetEase(Ease.OutQuad));
+			_houseUpAnimation.Append(houseUpImage.rectTransform.DOLocalMove(initialPosition, 0.7f).SetEase(Ease.InQuad));
 
 			_houseUpAnimation.SetLoops(-1, LoopType.Yoyo);
-
 		}
 
 		private void KillHouseUpAnimation()
@@ -109,7 +101,7 @@ namespace FishingIsland.Controllers
 
 		public void ResetAnimation()
 		{
-			hasAnimationPlayed = false;
+			_hasAnimationPlayed = false;
 		}
 	}
 }

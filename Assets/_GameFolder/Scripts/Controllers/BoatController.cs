@@ -19,87 +19,60 @@ namespace FishingIsland.Controllers
 	}
 	public class BoatController : MonoBehaviour
 	{
-		private DockUpgrade dockUpgrade;
-		private int boatFishCapacity;
 		public BoatState BoatState { get; private set; }
+		private DockUpgrade dockUpgrade;
+
 		private Vector3 _initialPosition;
 		private Vector3 _initialBoatDownPosition;
-		public int FishCount { get; private set; }
-
-		private float _currentTimerDuration = 8;
-		public TextMeshProUGUI timerText;
-
-		public TextMeshProUGUI fishCapacityText;
-		public GameObject dockTimerPanel;
-		public TextMeshProUGUI boxFishText;
-
+		private float _currentTimerDuration;
+		private int _boatFishCapacity;
 		private bool _canClick = true;
-		public Image boatDownOkImage;
+		public int FishCount { get; private set; }
+		public GameObject dockTimerPanel;
 		public GameObject boatFishPanel;
+		public Image boatDownOkImage;
+		public TextMeshProUGUI timerText;
+		public TextMeshProUGUI fishCapacityText;
+		public TextMeshProUGUI boxFishText;
 
 		private Sequence _boatDownAnimation;
 		public void Initialize()
 		{
-
 			_initialPosition = transform.position;
 			ChangeState(BoatState.InThePort);
-			AnimateBoatDown();
-		}
-
-		private void Awake()
-		{
-
-			boatDownOkImage.gameObject.SetActive(true);
-		}
-
-		private void Start()
-		{
-
 		}
 
 		public void ChangeState(BoatState boatState)
 		{
 			BoatState = boatState;
-			Debug.Log($"BoatState: {boatState}");
-			if (GameManager.Instance.GameState == GameState.Playing)
+			switch (BoatState)
 			{
-				switch (BoatState)
-				{
-					case BoatState.InThePort:
-						boatDownOkImage.gameObject.SetActive(true);
-						AnimateBoatDown();
-						transform.position = _initialPosition;
-						boatFishPanel.gameObject.SetActive(false);
-						_canClick = true;
-						break;
-					case BoatState.GoingFishing:
-						
-
-						Transform randomSpawnPoint = LevelManager.Instance.GetRandomBoatSpawnPoint();
-						if (randomSpawnPoint != null)
-						{
-							MoveToPosition(randomSpawnPoint.position, 2f, () =>
-							 {
-
-								 ChangeState(BoatState.Fishing);
-
-							 });
-						}
-						break;
-					case BoatState.Fishing:
-						UpdateCollectTheFishText();
-						break;
-					case BoatState.ReturningToPort:
-						MoveToPosition(_initialPosition, 1f, () =>
+				case BoatState.InThePort:
+					AnimateBoatDown();
+					transform.position = _initialPosition;
+					boatFishPanel.gameObject.SetActive(false);
+					_canClick = true;
+					break;
+				case BoatState.GoingFishing:
+					Transform randomSpawnPoint = LevelManager.Instance.GetRandomBoatSpawnPoint();
+					if (randomSpawnPoint != null)
+					{
+						MoveToPosition(randomSpawnPoint.position, 2f, () =>
 						 {
-							 FishBoxController.OnBoatArrivedBox?.Invoke(this);
-							 dockTimerPanel.gameObject.SetActive(false);
-
+							 ChangeState(BoatState.Fishing);
 						 });
-
-						break;
-				}
-
+					}
+					break;
+				case BoatState.Fishing:
+					UpdateCollectTheFishText();
+					break;
+				case BoatState.ReturningToPort:
+					MoveToPosition(_initialPosition, 1f, () =>
+					 {
+						 FishBoxController.OnBoatArrivedBox?.Invoke(this);
+						 dockTimerPanel.gameObject.SetActive(false);
+					 });
+					break;
 			}
 		}
 
@@ -110,17 +83,19 @@ namespace FishingIsland.Controllers
 
 		private void AnimateBoatDown()
 		{
-			float animationDistance = 0.7f;
+			boatDownOkImage.gameObject.SetActive(true);
+
+			float animationDistance = 0.6f;
 			Vector3 initialPosition = boatDownOkImage.rectTransform.localPosition;
-			_initialBoatDownPosition = initialPosition; 
+			_initialBoatDownPosition = initialPosition;
 
 			Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y - animationDistance, initialPosition.z);
 
 			_boatDownAnimation = DOTween.Sequence();
-			_boatDownAnimation.Append(boatDownOkImage.rectTransform.DOLocalMove(targetPosition, 1.0f).SetEase(Ease.OutQuad));
-			_boatDownAnimation.Append(boatDownOkImage.rectTransform.DOLocalMove(initialPosition, 1.0f).SetEase(Ease.InQuad));
+			_boatDownAnimation.Append(boatDownOkImage.rectTransform.DOLocalMove(targetPosition, 0.7f).SetEase(Ease.OutQuad));
+			_boatDownAnimation.Append(boatDownOkImage.rectTransform.DOLocalMove(initialPosition, 0.7f).SetEase(Ease.InQuad));
 
-			_boatDownAnimation.SetLoops(-1, LoopType.Yoyo);															
+			_boatDownAnimation.SetLoops(-1, LoopType.Yoyo);
 		}
 
 		private void KillBoatDownAnimation()
@@ -138,14 +113,12 @@ namespace FishingIsland.Controllers
 			{
 				onComplete?.Invoke();
 			});
-
 		}
 
 		private void OnMouseDown()
 		{
 			if (_canClick)
 			{
-				Debug.Log("OnMouseDown");
 				ChangeState(BoatState.GoingFishing);
 				KillBoatDownAnimation();
 				boatDownOkImage.gameObject.SetActive(false);
@@ -156,7 +129,7 @@ namespace FishingIsland.Controllers
 		public void OnFishTransferredToFishBox()
 		{
 			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
-			boatFishCapacity = dockUpgrade.boatFishCapacity;
+			_boatFishCapacity = dockUpgrade.boatFishCapacity;
 			if (FishCount > 0)
 			{
 				FishCount--;
@@ -185,7 +158,7 @@ namespace FishingIsland.Controllers
 			{
 				dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
 
-				if (_currentTimerDuration <= 0f && FishCount >= boatFishCapacity)
+				if (_currentTimerDuration <= 0f && FishCount >= _boatFishCapacity)
 				{
 					ChangeState(BoatState.ReturningToPort);
 				}
@@ -206,20 +179,18 @@ namespace FishingIsland.Controllers
 		{
 			dockTimerPanel.gameObject.SetActive(true);
 			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
-			boatFishCapacity = dockUpgrade.boatFishCapacity;
+			_boatFishCapacity = dockUpgrade.boatFishCapacity;
 
 			_currentTimerDuration = dockUpgrade.initialTimerDurationBoat;
 			boatFishPanel.SetActive(true);
-			float timePerFish = _currentTimerDuration / boatFishCapacity;
+			float timePerFish = _currentTimerDuration / _boatFishCapacity;
 
-			for (int i = 0; i < boatFishCapacity; i++)
+			for (int i = 0; i < _boatFishCapacity; i++)
 			{
 				yield return new WaitForSeconds(timePerFish);
 				FishCount++;
 				UpdateFishCapacityText(FishCount);
 			}
-
 		}
-
 	}
 }

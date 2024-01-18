@@ -5,17 +5,17 @@ using FishingIsland.Canvases;
 
 namespace FishingIsland.Managers
 {
-    public class UiManager : MonoBehaviour
-    {
-        public static UiManager Instance { get; private set; }
+	public class UiManager : MonoBehaviour
+	{
+		public static UiManager Instance { get; private set; }
 
-        [SerializeField] private MenuCanvas menuCanvas;
-        [SerializeField] private GameCanvas gameCanvas;
-        [SerializeField] private InputCanvas inputCanvas;
+		[SerializeField] private MenuCanvas menuCanvas;
+		[SerializeField] private GameCanvas gameCanvas;
+		[SerializeField] private InputCanvas inputCanvas;
 
 		private void Awake()
 		{
-			if (Instance !=null && Instance!=this)
+			if (Instance != null && Instance != this)
 			{
 				Destroy(this);
 			}
@@ -25,11 +25,10 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		public void Initialize(GameManager gameManager,InputManager inputManager,CharacterManager characterManager)
+		public void Initialize(GameManager gameManager, InputManager inputManager)
 		{
-			menuCanvas.Initialize(gameManager,characterManager);
+			menuCanvas.Initialize(gameManager);
 			inputCanvas.Initialize(inputManager);
-			
 		}
 	}
 }

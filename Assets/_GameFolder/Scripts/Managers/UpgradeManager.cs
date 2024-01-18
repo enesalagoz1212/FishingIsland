@@ -10,14 +10,10 @@ namespace FishingIsland.Managers
 	{
 		public static UpgradeManager Instance { get; private set; }
 
-		private DockController _dockController;
-		private ShackController _shackController;
-
 		[SerializeField] private HouseUpgradeCanvas houseUpgradeCanvas;
 		[SerializeField] private DockUpgradeCanvas dockUpgradeCanvas;
 		[SerializeField] private ShackUpgradeCanvas shackUpgradeCanvas;
 
-	
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)
@@ -30,16 +26,11 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		public void Initialize(GameManager gameManager,DockController dockController,ShackController shackController )
+		public void Initialize(GameManager gameManager)
 		{
-			_dockController = dockController;
-			_shackController = shackController;
-
 			houseUpgradeCanvas.Initialize();
-			dockUpgradeCanvas.Initialize(dockController);
-			shackUpgradeCanvas.Initialize(shackController);
-
+			dockUpgradeCanvas.Initialize();
+			shackUpgradeCanvas.Initialize();
 		}
 	}
-
 }

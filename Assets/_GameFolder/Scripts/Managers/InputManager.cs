@@ -11,10 +11,11 @@ namespace FishingIsland.Managers
         public static InputManager Instance { get; private set; }
 
         private CameraController _cameraController;
-        public bool isInputEnabled { get; private set; } = true;
-        private bool _isDragging;
-        private Vector3 _firstTouchPosition;
+
         private Vector3 _lastTouchPosition;
+        private Vector3 _firstTouchPosition;
+        private bool _isDragging;
+        public bool isInputEnabled { get; private set; } = true;
 
 		public void Initialize(CameraController cameraController)
 		{
@@ -61,7 +62,6 @@ namespace FishingIsland.Managers
 			_lastTouchPosition = Input.mousePosition;
 
 			float deltaY = _lastTouchPosition.y - _firstTouchPosition.y;
-
 			_cameraController.MoveCamera(deltaY);
 		}
 

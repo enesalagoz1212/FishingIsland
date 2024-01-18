@@ -27,6 +27,7 @@ namespace FishingIsland.Managers
 			TimerLevelIncreaseMoneyText(dockUpgrade.timerLevelUpgradeCost);
 			CapacityLevelIncreaseMoneyText(dockUpgrade.capacityLevelUpgradeCost);
 		}
+
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)
@@ -64,6 +65,7 @@ namespace FishingIsland.Managers
 				Debug.LogError("MoneyManager instance is missing!");
 			}
 		}
+
 		public void UpgradeTimerLevel()
 		{
 			if (MoneyManager.Instance.money >= dockUpgrade.timerLevelUpgradeCost)
@@ -125,18 +127,15 @@ namespace FishingIsland.Managers
 			dockUpgrade.capacityLevelUpgradeCost = dockUpgrade.capacityLevel * 30;
 		}
 
-		
 		public int GetBoatLevel()
 		{
 			return dockUpgrade.boatLevel;
 		}
-
 	
 		public int GetTimerLevel()
 		{
 			return dockUpgrade.timerLevel;
 		}
-
 
 		public int GetCapacityLevel()
 		{
@@ -152,6 +151,7 @@ namespace FishingIsland.Managers
 		{
 			timerLevelIncreaseMoneyAmountText.text = $"{moneyText}";
 		}
+
 		public void CapacityLevelIncreaseMoneyText(int moneyText)
 		{
 			capacityLevelIncreaseMoneyAmountText.text = $"{moneyText}";
@@ -162,5 +162,4 @@ namespace FishingIsland.Managers
 			return dockUpgrade;
 		}
 	}
-
 }

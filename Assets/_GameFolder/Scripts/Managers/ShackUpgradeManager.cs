@@ -105,7 +105,6 @@ namespace FishingIsland.Managers
 			}
 		}
 
-
 		private void UpdateUpgradeDockWorkerCost()
 		{
 			shackUpgrade.dockWorkerLevelUpgradeCost = shackUpgrade.dockWorkerLevel * 15;
@@ -127,12 +126,10 @@ namespace FishingIsland.Managers
 			return shackUpgrade.dockWorkerLevel;
 		}
 
-
 		public int GetTimerLevel()
 		{
 			return shackUpgrade.timerLevel;
 		}
-
 
 		public int GetCapacityLevel()
 		{
@@ -154,12 +151,10 @@ namespace FishingIsland.Managers
 			timerLevelIncreaseMoneyAmountText.text = $" {moneyText}";
 		}
 
-
 		public void CapacityLevelIncreaseMoneyText(int moneyText)
 		{
 			capacityLevelIncreaseMoneyAmountText.text = $" {moneyText}";
 		}
-
 	}
 }
 

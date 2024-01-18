@@ -21,29 +21,29 @@ namespace FishingIsland.Controllers
 	{
 		public DockWorkerState DockWorkerState { get; private set; }
 		private ShackUpgrade shackUpgrade;
-		public float speed = 1f;
-		public TextMeshProUGUI dockWorkerFishCountText;
+
 		private Vector3 _initialPosition;
 		private Vector3 _targetPosition;
 		private Vector3 _initialDockWorkerDownPosition;
-		public GameObject dockWorkerFishPanel;
 		private int _collectedFishCount = 0;
-
 		private int _dockCapacity;
+		private float _currentTimeDuration;
+		private bool _isBusy = false;
+		private bool hasAnimationPlayed = false;
+
+		private Sequence _dockWorkerDownAnimation;
+		
+		public GameObject timerPanel;
+		public GameObject dockWorkerFishPanel;
+		public TextMeshProUGUI dockWorkerFishCountText;
+		public TextMeshProUGUI dockWorkerTimerText;
+		public Image dockWorkerDownOkImage;
+		public float speed = 1f;
 		public int CollectedFishCount
 		{
 			get { return _collectedFishCount; }
 		}
 
-		public Image dockWorkerDownOkImage;
-		private bool _isBusy = false;
-
-		private float _currentTimeDuration;
-		public TextMeshProUGUI dockWorkerTimerText;
-		public GameObject timerPanel;
-		private Sequence _dockWorkerDownAnimation;
-
-		private bool hasAnimationPlayed = false;
 		public override void Initialize(string name, float initialSpeed, int initialCapacity)
 		{
 			characterName = name;
@@ -55,9 +55,7 @@ namespace FishingIsland.Controllers
 		{
 			_initialPosition = transform.position;
 			_targetPosition = LevelManager.Instance.dockWorkerGoesFishing[0].position;
-			Debug.Log("99");
 			ChangeState(DockWorkerState.Idle);
-			Debug.Log("100");
 		}
 
 		private void Update()
@@ -108,18 +106,17 @@ namespace FishingIsland.Controllers
 		{
 			dockWorkerDownOkImage.gameObject.SetActive(true);
 
-			float animationDistance = 0.7f;
+			float animationDistance = 0.6f;
 			Vector3 initialPosition = dockWorkerDownOkImage.rectTransform.localPosition;
 			_initialDockWorkerDownPosition = initialPosition;
 
 			Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y - animationDistance, initialPosition.z);
 
 			_dockWorkerDownAnimation = DOTween.Sequence();
-			_dockWorkerDownAnimation.Append(dockWorkerDownOkImage.rectTransform.DOLocalMove(targetPosition, 1.0f).SetEase(Ease.OutQuad));
-			_dockWorkerDownAnimation.Append(dockWorkerDownOkImage.rectTransform.DOLocalMove(initialPosition, 1.0f).SetEase(Ease.InQuad));
+			_dockWorkerDownAnimation.Append(dockWorkerDownOkImage.rectTransform.DOLocalMove(targetPosition, 0.7f).SetEase(Ease.OutQuad));
+			_dockWorkerDownAnimation.Append(dockWorkerDownOkImage.rectTransform.DOLocalMove(initialPosition, 0.7f).SetEase(Ease.InQuad));
 
 			_dockWorkerDownAnimation.SetLoops(-1, LoopType.Yoyo);
-
 		}
 
 		private void KillDockWorkerDownAnimation()
@@ -134,7 +131,6 @@ namespace FishingIsland.Controllers
 		public void ChangeState(DockWorkerState state)
 		{
 			DockWorkerState = state;
-			//Debug.Log($"DockWorkerState: {state}");
 			switch (DockWorkerState)
 			{
 				case DockWorkerState.Idle:

@@ -104,12 +104,10 @@ namespace FishingIsland.Managers
 			}
 		}
 
-
 		private void UpdateHouseUpgradeFishWorkerCost()
 		{
 			houseUpgrade.fishWorkerLevelUpgradeCost = houseUpgrade.fishWorkerLevel * 15;
 		}
-
 
 		private void UpdateHouseUpgradeTimerCost()
 		{
@@ -126,12 +124,10 @@ namespace FishingIsland.Managers
 			return houseUpgrade.fishWorkerLevel;
 		}
 
-
 		public int GetTimerLevel()
 		{
 			return houseUpgrade.timerLevel;
 		}
-
 
 		public int GetCapacityLevel()
 		{
@@ -148,7 +144,6 @@ namespace FishingIsland.Managers
 			timerLevelIncreaseMoneyAmountText.text = $" {moneyText}";
 		}
 
-
 		public void CapacityLevelIncreaseMoneyText(int moneyText)
 		{
 			capacityLevelIncreaseMoneyAmountText.text = $" {moneyText}";
@@ -159,5 +154,4 @@ namespace FishingIsland.Managers
 			return houseUpgrade;
 		}
 	}
-
 }

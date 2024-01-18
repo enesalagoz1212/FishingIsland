@@ -8,7 +8,6 @@ namespace FishingIsland.Managers
     {
         public static CharacterManager Instance { get; private set; }
 
-		
 		public void Initialize()
 		{
 
@@ -24,11 +23,6 @@ namespace FishingIsland.Managers
 			{
 				Instance = this;
 			}
-		}
-
-		public void InstantiateCharacter(bool isMale)
-		{
-			
 		}
 	}
 }

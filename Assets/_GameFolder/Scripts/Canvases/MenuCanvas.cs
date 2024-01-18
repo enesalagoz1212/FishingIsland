@@ -10,20 +10,17 @@ namespace FishingIsland.Canvases
     public class MenuCanvas : MonoBehaviour
     {
         private GameManager _gameManager;
-        private CharacterManager _characterManager;
 
+        [Header("Button")]
         public Button playButton;
 
+        [Header("Images")]
         public Image characterSelectionImage;
         public Image menuBackgroundImage;
 
-        private bool _isMaleSelected;
-
-        public void Initialize(GameManager gameManager,CharacterManager characterManager)
+        public void Initialize(GameManager gameManager )
 		{
             _gameManager = gameManager;
-            _characterManager = characterManager;
-
         }
 
 		private void OnEnable()
@@ -50,10 +47,7 @@ namespace FishingIsland.Canvases
         private void OnGameStart()
 		{
             menuBackgroundImage.gameObject.SetActive(false);
-		}
-
-        
-      
+		}     
     }
 }
 

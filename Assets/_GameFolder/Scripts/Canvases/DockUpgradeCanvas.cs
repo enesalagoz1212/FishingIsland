@@ -10,22 +10,19 @@ namespace FishingIsland.Canvases
 {
     public class DockUpgradeCanvas : MonoBehaviour
     {
-        private DockController _dockController;
-
+        [Header("Buttons")]
         public Button dockCloseButton;
         public Button boatButton;
         public Button timerButton;
         public Button capacityButton;
 
+        [Header("Texts")]
         public TextMeshProUGUI boatLevelText;
         public TextMeshProUGUI timerLevelText;
         public TextMeshProUGUI capacityLevelText;
 
-
-        public void Initialize(DockController dockController)
+        public void Initialize( )
 		{
-            _dockController = dockController;
-
             dockCloseButton.onClick.AddListener(OnCloseButtonClick);
             boatButton.onClick.AddListener(OnBoatButtonClick);
             timerButton.onClick.AddListener(OnTimerButtonClick);
@@ -34,7 +31,6 @@ namespace FishingIsland.Canvases
 			DockUpgradeManager.OnBoatLevelUpdated += UpdateBoatLevelText;
 			DockUpgradeManager.OnTimerLevelUpdated += UpdateTimerLevelText;
 			DockUpgradeManager.OnCapacityLevelUpdated += UpdateCapacityLevelText;
-
 		
 			UpdateBoatLevelText(DockUpgradeManager.Instance.GetBoatLevel());
             UpdateTimerLevelText(DockUpgradeManager.Instance.GetTimerLevel());
@@ -44,27 +40,22 @@ namespace FishingIsland.Canvases
         public void OnCloseButtonClick()
 		{
             gameObject.SetActive(false);
-            //_dockController.ResetAnimation();
-            GameManager.OnCloseButton?.Invoke();
-           
+            GameManager.OnCloseButton?.Invoke();      
 		}
 
         public void OnBoatButtonClick()
 		{
             DockUpgradeManager.Instance.UpgradeBoatLevel();
-            Debug.Log("OnBoatButtonClick");
 		}
 
         public void OnTimerButtonClick()
 		{
             DockUpgradeManager.Instance.UpgradeTimerLevel();
-            Debug.Log("OnTimerButtonClick");
 		}
 
         public void OnCapacityButtonClick()
 		{
             DockUpgradeManager.Instance.UpgradeCapacityLevel();
-            Debug.Log("OnCapacityButtonClick");
 		}
 
         private void UpdateBoatLevelText(int newBoatLevel)
@@ -80,9 +71,7 @@ namespace FishingIsland.Canvases
         private void UpdateCapacityLevelText(int newCapacityLevel)
         {
             capacityLevelText.text = $" {newCapacityLevel}";
-        }
-
-      
+        }  
     }
 }
 

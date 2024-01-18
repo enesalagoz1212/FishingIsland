@@ -21,24 +21,24 @@ namespace FishingIsland.Controllers
 	{
 		public FishWorkerState FishWorkerState { get; private set; }
 		private HouseUpgrade houseUpgrade;
-		private int _fishCapacity;
-		public TextMeshProUGUI fishWorkerFishText;
-		private int _totalFishCount;
 
-		private int _fishPrice = 5;
-		public TextMeshProUGUI totalMoneyText;
-		public Image fishWorkerDownOkImage;
-		public GameObject fishWorkerFishPanel;
 		private Vector3 _initialFishWorkerDownPosition;
-
+		private int _fishCapacity;
+		private int _totalFishCount;
+		private int _fishPrice = 5;
 		private float _currentTimeDuration;
-		public TextMeshProUGUI fishWorkerTimerText;
-		public GameObject timerPanel;
-
 		private bool _isSellingFish = false;
+		private bool hasAnimationPlayed = false;
 
 		private Sequence _fishWorkerDownAnimation;
-		private bool hasAnimationPlayed = false;
+		
+		public GameObject fishWorkerFishPanel;
+		public GameObject timerPanel;
+		public TextMeshProUGUI totalMoneyText;
+		public TextMeshProUGUI fishWorkerTimerText;
+		public TextMeshProUGUI fishWorkerFishText;
+		public Image fishWorkerDownOkImage;
+
 		public override void Initialize(string name, float speed, int initialCapacity)
 		{
 			base.Initialize(name, speed, initialCapacity);
@@ -48,7 +48,6 @@ namespace FishingIsland.Controllers
 		{
 			ChangeState(FishWorkerState.Idle);
 		}
-
 
 		private void Update()
 		{
@@ -69,7 +68,6 @@ namespace FishingIsland.Controllers
 				AnimateFishWorkerDown();
 				hasAnimationPlayed = true;
 			}
-
 		}
 
 
@@ -98,7 +96,6 @@ namespace FishingIsland.Controllers
 		public void ChangeState(FishWorkerState state)
 		{
 			FishWorkerState = state;
-
 			switch (FishWorkerState)
 			{
 				case FishWorkerState.Idle:
@@ -107,19 +104,15 @@ namespace FishingIsland.Controllers
 					_totalFishCount = 0;
 					fishWorkerFishPanel.gameObject.SetActive(false);
 					_isSellingFish = false;
-					Debug.Log($"isSellingFish: {_isSellingFish}");
 					break;
 				case FishWorkerState.CollectingFish:
 					timerPanel.SetActive(true);
 					fishWorkerDownOkImage.gameObject.SetActive(false);
 					fishWorkerFishPanel.gameObject.SetActive(true);
-
 					ShackController.OnFishWorkerArrivedBox?.Invoke(this);
-
 					break;
 				case FishWorkerState.GoingToSellFish:
 					timerPanel.SetActive(false);
-					Debug.Log("GointToSellFish");
 					GoToSellFish();
 					break;
 				case FishWorkerState.ReturnsFromSellingFish:
@@ -132,15 +125,15 @@ namespace FishingIsland.Controllers
 		{
 			fishWorkerDownOkImage.gameObject.SetActive(true);
 
-			float animationDistance = 0.7f;
+			float animationDistance = 0.6f;
 			Vector3 initialPosition = fishWorkerDownOkImage.rectTransform.localPosition;
 			_initialFishWorkerDownPosition = initialPosition;
 
 			Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y - animationDistance, initialPosition.z);
 
 			_fishWorkerDownAnimation = DOTween.Sequence();
-			_fishWorkerDownAnimation.Append(fishWorkerDownOkImage.rectTransform.DOLocalMove(targetPosition, 1.0f).SetEase(Ease.OutQuad));
-			_fishWorkerDownAnimation.Append(fishWorkerDownOkImage.rectTransform.DOLocalMove(initialPosition, 1.0f).SetEase(Ease.InQuad));
+			_fishWorkerDownAnimation.Append(fishWorkerDownOkImage.rectTransform.DOLocalMove(targetPosition, 0.7f).SetEase(Ease.OutQuad));
+			_fishWorkerDownAnimation.Append(fishWorkerDownOkImage.rectTransform.DOLocalMove(initialPosition, 0.7f).SetEase(Ease.InQuad));
 	
 			_fishWorkerDownAnimation.SetLoops(-1, LoopType.Yoyo);
 
@@ -226,7 +219,5 @@ namespace FishingIsland.Controllers
 		{
 			totalMoneyText.text = $" {MoneyManager.Instance.GetMoney()}";
 		}
-
-
 	}
 }

@@ -32,9 +32,7 @@ namespace FishingIsland.Controllers
 	    public virtual void Start()
 		{
 
-		}
-
-		
+		}	
 	}
 }
 

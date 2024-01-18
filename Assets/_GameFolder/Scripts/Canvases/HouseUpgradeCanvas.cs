@@ -9,11 +9,13 @@ namespace FishingIsland.Canvases
 {
 	public class HouseUpgradeCanvas : MonoBehaviour
 	{
+		[Header("Buttons")]
 		public Button houseCloseButton;
 		public Button fishWorkerButton;
 		public Button timerButton;
 		public Button capacityButton;
 
+		[Header("Texts")]
 		public TextMeshProUGUI fishWorkerLevelText;
 		public TextMeshProUGUI timerLevelText;
 		public TextMeshProUGUI capacityLevelText;
@@ -62,7 +64,6 @@ namespace FishingIsland.Canvases
 
 		private void HouseUpgradeUpdateTimerLevelText(int newTimerLevel)
 		{
-
 			timerLevelText.text = $" {newTimerLevel}";
 		}
 
@@ -70,7 +71,6 @@ namespace FishingIsland.Canvases
 		{
 			capacityLevelText.text = $" {newCapacityLevel}";
 		}
-
 	}
 }
 

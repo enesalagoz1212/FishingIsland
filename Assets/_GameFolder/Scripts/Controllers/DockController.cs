@@ -10,17 +10,23 @@ namespace FishingIsland.Controllers
 {
 	public class DockController : MonoBehaviour
 	{
-		public GameObject dockUpgradeCanvas;
 		private DockUpgrade _dockUpgrade;
-		private Vector3 _initialDockUpPosition;
-		public Image dockUpImage;
-		private Sequence _dockUpAnimation;
 
+		private Vector3 _initialDockUpPosition;
+		private Sequence _dockUpAnimation;
 		private bool hasAnimationPlayed = false;
+		
+		public GameObject dockUpgradeCanvas;
+		public Image dockUpImage;
 
 		public void Initialize()
 		{
 
+		}
+
+		private void Start()
+		{
+			_initialDockUpPosition = dockUpImage.rectTransform.localPosition;
 		}
 
 		private void OnEnable()
@@ -30,25 +36,23 @@ namespace FishingIsland.Controllers
 
 		private void OnDisable()
 		{
-			GameManager.OnCloseButton -= OnCloseButtonAction;
-			
+			GameManager.OnCloseButton -= OnCloseButtonAction;		
 		}
 
 		private void OnCloseButtonAction()
 		{
-			Debug.Log("DockController tetiklendi");
 			ResetAnimation();
 			if (!CanUpgradeDock())
 			{
 				dockUpImage.gameObject.SetActive(false);
 			}
+	
 		}
 
 		private void Update()
 		{
 			if (CanUpgradeDock() && !hasAnimationPlayed)
 			{
-				Debug.Log("777");
 				AnimateDockUp();
 				hasAnimationPlayed = true;
 			}
@@ -56,7 +60,6 @@ namespace FishingIsland.Controllers
 			{
 
 			}
-
 		}
 
 		private void OnMouseDown()
@@ -66,8 +69,7 @@ namespace FishingIsland.Controllers
 				dockUpImage.gameObject.SetActive(false);
 				dockUpgradeCanvas.SetActive(true);
 				KillDockUpAnimation();
-			}
-		
+			}	
 		}
 
 		private bool CanUpgradeDock()
@@ -82,18 +84,16 @@ namespace FishingIsland.Controllers
 		{
 			dockUpImage.gameObject.SetActive(true);
 
-			float animationDistance = 0.7f;
-			Vector3 initialPosition = dockUpImage.rectTransform.localPosition;
-			_initialDockUpPosition = initialPosition;
+			float animationDistance = 0.6f;
+			Vector3 initialPosition = _initialDockUpPosition;
 
 			Vector3 targetPosition = new Vector3(initialPosition.x, initialPosition.y + animationDistance, initialPosition.z);
 
 			_dockUpAnimation = DOTween.Sequence();
-			_dockUpAnimation.Append(dockUpImage.rectTransform.DOLocalMove(targetPosition, 1.0f).SetEase(Ease.OutQuad));
-			_dockUpAnimation.Append(dockUpImage.rectTransform.DOLocalMove(initialPosition, 1.0f).SetEase(Ease.InQuad));
+			_dockUpAnimation.Append(dockUpImage.rectTransform.DOLocalMove(targetPosition, 0.7f).SetEase(Ease.OutQuad));
+			_dockUpAnimation.Append(dockUpImage.rectTransform.DOLocalMove(initialPosition, 0.7f).SetEase(Ease.InQuad));
 
 			_dockUpAnimation.SetLoops(-1, LoopType.Yoyo);
-
 		}
 
 		private void KillDockUpAnimation()
@@ -107,7 +107,6 @@ namespace FishingIsland.Controllers
 
 		public void ResetAnimation()
 		{
-			Debug.Log("ResetAnimation calisti");
 			hasAnimationPlayed = false;
 		}
 	}

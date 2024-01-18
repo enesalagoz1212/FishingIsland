@@ -11,18 +11,16 @@ namespace FishingIsland.Controllers
 	public class FishBoxController : MonoBehaviour
 	{
 		public static FishBoxController Instance;
-
 		private ShackUpgrade shackUpgrade;
+
 		private int _dockCapacity;
+		private int _totalFishCount;
+		private float _timePerFish;
+		private bool _isFishCollectionCompletedBox = false;
 
 		public TextMeshProUGUI boxFishText;
-		private int _totalFishCount;
-
-		public bool HasFishBox => _totalFishCount > 0;
-		private float _timePerFish;
-
-		private bool _isFishCollectionCompletedBox = false;
 		public bool IsFishCollectionCompleted => _isFishCollectionCompletedBox;
+		public bool HasFishBox => _totalFishCount > 0;
 
 		public static Action<BoatController> OnBoatArrivedBox;
 		public static Action<DockWorkerController> OnDockWorkerArrivedBox;
@@ -54,8 +52,6 @@ namespace FishingIsland.Controllers
 			OnDockWorkerArrivedBox -= OnDockWorkerArrivedBoxAction;
 		}
 
-		
-
 		private void UpdateFishCountText()
 		{
 			boxFishText.text = $" {_totalFishCount}";
@@ -63,13 +59,11 @@ namespace FishingIsland.Controllers
 
 		private void OnBoatArrivedBoxAction(BoatController boatController)
 		{
-			// Boat came to the Fish Box ( dock ) 
 			StartCoroutine(StartFishTransferFromBoat(boatController));
 		}
 
 		private void OnDockWorkerArrivedBoxAction(DockWorkerController dockWorkerController)
 		{
-			// dockWorker came to the fish Box
 			StartCoroutine(StartFishTransferFromDockWorker(dockWorkerController));
 		}
 
@@ -95,8 +89,7 @@ namespace FishingIsland.Controllers
 			else
 			{
 				_timePerFish = dockWorkerController.GetCurrentTimerDuration() / _totalFishCount;
-			}
-			
+			}		
 
 			for (int i = 0; i < _dockCapacity; i++)
 			{
@@ -112,9 +105,7 @@ namespace FishingIsland.Controllers
 				}
 			}
 			_isFishCollectionCompletedBox = true;
-
 		}
-
 
 		private void IncreaseFishCount(int amount)
 		{
@@ -127,7 +118,6 @@ namespace FishingIsland.Controllers
 			_totalFishCount -= amount;
 			UpdateFishCountText();
 		}
-
 	}
 }
 

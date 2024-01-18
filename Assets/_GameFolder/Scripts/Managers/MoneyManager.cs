@@ -15,10 +15,7 @@ namespace FishingIsland.Managers
 		{
 			UpdateMoneyText();
 		}
-		public float GetMoney()
-		{
-			return money;
-		}
+
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)
@@ -35,6 +32,11 @@ namespace FishingIsland.Managers
 		{
 			money += amount;
 			UpdateMoneyText();
+		}
+
+		public float GetMoney()
+		{
+			return money;
 		}
 
 		public void UpdateMoneyText()

@@ -10,21 +10,19 @@ namespace FishingIsland.Canvases
 {
     public class ShackUpgradeCanvas : MonoBehaviour
     {
-		private ShackController _shackController;
-
-        public Button shackCloseButton;
+		[Header("Buttons")]
+		public Button shackCloseButton;
 		public Button dockWorkerButton;
 		public Button timerButton;
 		public Button capacityButton;
 
+		[Header("Texts")]
 		public TextMeshProUGUI dockWorkerLevelText;
 		public TextMeshProUGUI timerLevelText;
 		public TextMeshProUGUI capacityLevelText;
 
-		public void Initialize(ShackController shackController)
+		public void Initialize()
 		{
-			_shackController = shackController;
-
 			shackCloseButton.onClick.AddListener(OnCloseButtonClick);
 			dockWorkerButton.onClick.AddListener(OnDockWorkerButtonClick);
 			timerButton.onClick.AddListener(OnTimerButtonClick);
@@ -42,7 +40,6 @@ namespace FishingIsland.Canvases
 		public void OnCloseButtonClick()
 		{
 			gameObject.SetActive(false);
-			//_shackController.ResetAnimation();
 			GameManager.OnCloseButton?.Invoke();
 		}
 
@@ -68,7 +65,6 @@ namespace FishingIsland.Canvases
 
 		private void ShackUpgradeUpdateTimerLevelText(int newTimerLevel)
 		{
-
 			timerLevelText.text = $" {newTimerLevel}";
 		}
 
