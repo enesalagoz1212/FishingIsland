@@ -43,6 +43,7 @@ namespace FishingIsland.Managers
         public void Initialize()
 		{
             LoadSave();
+            //ResetSaveData();
 		}
 
         private void OnApplicationQuit()
@@ -89,6 +90,22 @@ namespace FishingIsland.Managers
             {
                 JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(savedUpgrade), upgrade);
             }
+        }
+
+        public void ResetSaveData()
+        {
+            Debug.Log("ResetSaveData worked");
+            dockUpgrade.Reset();
+            houseUpgrade.Reset();
+            shackUpgrade.Reset();
+            moneyManager.Reset();
+            fishBoxController.Reset();
+            shackController.Reset();
+
+            SaveData saveData = new SaveData(dockUpgrade, houseUpgrade, shackUpgrade, moneyManager.money, fishBoxController.GetTotalFishCount(), shackController.GetTotalFishCount());
+
+            string json = JsonUtility.ToJson(saveData);
+            File.WriteAllText("save.json", json);
         }
     }
 }

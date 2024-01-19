@@ -43,6 +43,12 @@ namespace FishingIsland.Managers
 		{
 			moneyText.text = $" {money}";
 		}
+
+		public void Reset()
+		{
+			money = 0f;
+			UpdateMoneyText();
+		}
 	}
 }
 

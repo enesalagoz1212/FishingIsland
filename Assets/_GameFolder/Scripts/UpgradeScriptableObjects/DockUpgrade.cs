@@ -21,6 +21,24 @@ namespace FishingIsland.UpgradeScriptableObjects
 
 		public float initialTimerDurationBoat;
 		public float minTimerDurationBoat;
+
+		public void Reset()
+		{
+			boatLevel = 1;
+			timerLevel = 1;
+			capacityLevel = 1;
+
+			boatCapacityIncrease = 12;
+
+			boatLevelUpgradeCost = 35;
+			timerLevelUpgradeCost = 45;
+			capacityLevelUpgradeCost = 40;
+
+			boatFishCapacity = 10;
+
+			initialTimerDurationBoat = 7f;
+			minTimerDurationBoat = 3f;
+		}
 	}
 }
 

@@ -79,7 +79,6 @@ namespace FishingIsland.Controllers
 			}
 		}
 
-
 		private void OnMouseDown()
 		{
 			if (CanUpgradeShack())
@@ -217,6 +216,12 @@ namespace FishingIsland.Controllers
 		public void ResetAnimation()
 		{
 			_hasAnimationPlayed = false;
+		}
+
+		public void Reset()
+		{
+			_shackFishCount = 0;
+			UpdateFishCountText();
 		}
 	}
 

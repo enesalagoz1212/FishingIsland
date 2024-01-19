@@ -129,6 +129,12 @@ namespace FishingIsland.Controllers
 			_totalFishCount -= amount;
 			UpdateFishCountText();
 		}
+
+		public void Reset()
+		{
+			_totalFishCount = 0;
+			UpdateFishCountText();
+		}
 	}
 }
 
