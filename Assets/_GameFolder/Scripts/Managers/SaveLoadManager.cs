@@ -5,6 +5,7 @@ using FishingIsland.UpgradeScriptableObjects;
 using System.IO;
 using System;
 using FishingIsland.Managers;
+using FishingIsland.Controllers;
 
 namespace FishingIsland.Managers
 {
@@ -16,14 +17,18 @@ namespace FishingIsland.Managers
         public HouseUpgrade houseUpgrade;
         public ShackUpgrade shackUpgrade;
         public float money;
+        public int totalFishCountFishBox;
+        public int totalFishCountShack;
 
-        public SaveData(DockUpgrade dockUpgrade, HouseUpgrade houseUpgrade, ShackUpgrade shackUpgrade, float money)
+        public SaveData(DockUpgrade dockUpgrade, HouseUpgrade houseUpgrade, ShackUpgrade shackUpgrade, float money,int totalFishCountFishBox,int totalFishCountShack)
 		{
             this.dockUpgrade = dockUpgrade;
             this.houseUpgrade = houseUpgrade;
             this.shackUpgrade = shackUpgrade;
             this.money = money;
-		}
+            this.totalFishCountFishBox = totalFishCountFishBox;
+            this.totalFishCountShack = totalFishCountShack;
+        }
 	}
 
     public class SaveLoadManager : MonoBehaviour
@@ -32,11 +37,12 @@ namespace FishingIsland.Managers
         public HouseUpgrade houseUpgrade;
         public ShackUpgrade shackUpgrade;
         public MoneyManager moneyManager;
+        public FishBoxController fishBoxController;
+        public ShackController shackController;
 
         public void Initialize()
 		{
             LoadSave();
-
 		}
 
         private void OnApplicationQuit()
@@ -46,7 +52,8 @@ namespace FishingIsland.Managers
 
         public void SaveGame()
 		{
-            SaveData saveData = new SaveData(dockUpgrade, houseUpgrade, shackUpgrade, moneyManager.money);
+            SaveData saveData = new SaveData(dockUpgrade, houseUpgrade, shackUpgrade, moneyManager.money, fishBoxController.GetTotalFishCount(),shackController.GetTotalFishCount());
+
 
             string json = JsonUtility.ToJson(saveData);
             File.WriteAllText("save.json", json);
@@ -66,7 +73,10 @@ namespace FishingIsland.Managers
 
                 moneyManager.money = saveData.money;
                 moneyManager.UpdateMoneyText();
-			}
+
+                fishBoxController.SetTotalFishCount(saveData.totalFishCountFishBox);
+                shackController.SetTotalFishCount(saveData.totalFishCountShack);
+            }
 			else
 			{
                 Debug.Log("Save file not found");

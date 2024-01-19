@@ -40,6 +40,7 @@ namespace FishingIsland.Managers
 		[SerializeField] private ShackUpgradeManager shackUpgradeManager;
 		[SerializeField] private HouseUpgradeManager houseUpgradeManager;
 		[SerializeField] private MoneyManager moneyManager;
+		[SerializeField] private SaveLoadManager saveLoadManager;
 
 		private void Awake()
 		{
@@ -71,6 +72,7 @@ namespace FishingIsland.Managers
 			dockUpgradeManager.Initialize();
 			shackUpgradeManager.Initialize();
 			houseUpgradeManager.Initialize();
+			saveLoadManager.Initialize();
 
 			ChangeState(GameState.Menu);
 		}

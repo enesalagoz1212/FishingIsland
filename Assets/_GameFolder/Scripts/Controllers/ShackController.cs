@@ -91,6 +91,17 @@ namespace FishingIsland.Controllers
 
 		}
 
+		public int GetTotalFishCount()
+		{
+			return _shackFishCount;
+		}
+
+		public void SetTotalFishCount(int totalFishCount)
+		{
+			_shackFishCount = totalFishCount;
+			UpdateFishCountText();
+		}
+
 		private void OnCloseButtonAction()
 		{
 			ResetAnimation();

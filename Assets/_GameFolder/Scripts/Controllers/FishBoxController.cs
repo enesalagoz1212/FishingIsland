@@ -52,6 +52,17 @@ namespace FishingIsland.Controllers
 			OnDockWorkerArrivedBox -= OnDockWorkerArrivedBoxAction;
 		}
 
+		public int GetTotalFishCount()
+		{
+			return _totalFishCount;
+		}
+
+		public void SetTotalFishCount(int totalFishCount)
+		{
+			_totalFishCount = totalFishCount;
+			UpdateFishCountText();
+		}
+
 		private void UpdateFishCountText()
 		{
 			boxFishText.text = $" {_totalFishCount}";

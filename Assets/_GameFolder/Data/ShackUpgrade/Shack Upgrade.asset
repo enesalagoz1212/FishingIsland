@@ -15,7 +15,6 @@ MonoBehaviour:
   dockWorkerLevel: 1
   timerLevel: 1
   capacityLevel: 1
-  dockWorkerSpeedDecrease: 1
   dockWorkerCapacityIncrease: 6
   dockWorkerLevelUpgradeCost: 35
   timerLevelUpgradeCost: 45

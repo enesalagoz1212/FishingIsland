@@ -1430,6 +1430,8 @@ MonoBehaviour:
   houseUpgrade: {fileID: 11400000, guid: cd91d12afeee5b140a717dd2616e7e89, type: 2}
   shackUpgrade: {fileID: 11400000, guid: 04b934c31d181c243b2b855ab6762dfc, type: 2}
   moneyManager: {fileID: 1630697979}
+  fishBoxController: {fileID: 721450447}
+  shackController: {fileID: 200812009}
 --- !u!1 &137187779
 GameObject:
   m_ObjectHideFlags: 0
@@ -3213,6 +3215,7 @@ MonoBehaviour:
   shackUpgradeManager: {fileID: 1482243759}
   houseUpgradeManager: {fileID: 1257575250}
   moneyManager: {fileID: 1630697979}
+  saveLoadManager: {fileID: 120738298}
 --- !u!1 &300444325
 GameObject:
   m_ObjectHideFlags: 0
