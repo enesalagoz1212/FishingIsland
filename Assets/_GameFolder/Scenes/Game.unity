@@ -1382,6 +1382,54 @@ Transform:
   m_Father: {fileID: 436392118}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &120738296
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 120738297}
+  - component: {fileID: 120738298}
+  m_Layer: 0
+  m_Name: SaveLoadManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &120738297
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120738296}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 292130062}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &120738298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120738296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da924c418dbf04a47ad72d530a5414aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dockUpgrade: {fileID: 11400000, guid: 45e925f2f81ad82439a87585a58b5673, type: 2}
+  houseUpgrade: {fileID: 11400000, guid: cd91d12afeee5b140a717dd2616e7e89, type: 2}
+  shackUpgrade: {fileID: 11400000, guid: 04b934c31d181c243b2b855ab6762dfc, type: 2}
+  moneyManager: {fileID: 1630697979}
 --- !u!1 &137187779
 GameObject:
   m_ObjectHideFlags: 0
@@ -3138,6 +3186,7 @@ Transform:
   - {fileID: 289146303}
   - {fileID: 1459691916}
   - {fileID: 1630697978}
+  - {fileID: 120738297}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4674,12 +4723,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a2cbb2db66e8b746bfe2967e82b5b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dockTimerPanel: {fileID: 1519325827}
+  boatFishPanel: {fileID: 2101945488}
+  boatDownOkImage: {fileID: 2105235585}
   timerText: {fileID: 725073026}
   fishCapacityText: {fileID: 1273829150}
-  dockTimerPanel: {fileID: 1519325827}
   boxFishText: {fileID: 263154029}
-  boatDownOkImage: {fileID: 2105235585}
-  boatFishPanel: {fileID: 2101945488}
 --- !u!65 &436392120
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11938,12 +11987,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8b4c3734120be46ad6721d87ee09f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fishWorkerFishText: {fileID: 874727646}
-  totalMoneyText: {fileID: 506694388}
-  fishWorkerDownOkImage: {fileID: 137187781}
   fishWorkerFishPanel: {fileID: 1246355118}
-  fishWorkerTimerText: {fileID: 748535759}
   timerPanel: {fileID: 758525063}
+  totalMoneyText: {fileID: 506694388}
+  fishWorkerTimerText: {fileID: 748535759}
+  fishWorkerFishText: {fileID: 874727646}
+  fishWorkerDownOkImage: {fileID: 137187781}
 --- !u!1 &1458794332
 GameObject:
   m_ObjectHideFlags: 0
@@ -13782,7 +13831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b69be589bff94f40ac12d1f34dc32eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 100
+  money: 0
   moneyText: {fileID: 506694388}
 --- !u!1 &1632557694
 GameObject:
@@ -18662,12 +18711,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c54330f52fb57d4d929b1a0f49f1897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  dockWorkerFishCountText: {fileID: 202064225}
-  dockWorkerFishPanel: {fileID: 2013988974}
-  dockWorkerDownOkImage: {fileID: 35011668}
-  dockWorkerTimerText: {fileID: 474034688}
   timerPanel: {fileID: 799707271}
+  dockWorkerFishPanel: {fileID: 2013988974}
+  dockWorkerFishCountText: {fileID: 202064225}
+  dockWorkerTimerText: {fileID: 474034688}
+  dockWorkerDownOkImage: {fileID: 35011668}
+  speed: 1
 --- !u!1 &3867956153500974301
 GameObject:
   m_ObjectHideFlags: 0
