@@ -14,6 +14,7 @@ namespace FishingIsland.Controllers
 	{
 		public static ShackController Instance;
 
+		private UpgradeManager _upgradeManager;
 		private HouseUpgrade _houseUpgrade;
 		private ShackUpgrade _shackUpgrade;
 
@@ -26,7 +27,6 @@ namespace FishingIsland.Controllers
 
 		private Sequence _shackUpAnimation;
 
-		public GameObject shackUpgradeCanvas;
 		public TextMeshProUGUI shackFishCountText;
 		public Image shackUpImage;
 		public bool HasFishShack => _shackFishCount > 0;
@@ -34,6 +34,11 @@ namespace FishingIsland.Controllers
 
 		public static Action<FishWorkerController> OnFishWorkerArrivedBox;
 		public static Action<DockWorkerController> OnDockWorkerArrivedShack;
+
+		public void Initialize(UpgradeManager upgradeManager)
+		{
+			_upgradeManager = upgradeManager;
+		}
 
 		private void Awake()
 		{
@@ -85,7 +90,7 @@ namespace FishingIsland.Controllers
 			{
 				shackUpImage.gameObject.SetActive(false);
 				KillShackUpAnimation();
-				shackUpgradeCanvas.SetActive(true);
+				_upgradeManager.ActivateShackUpgradeCanvas();
 			}
 
 		}

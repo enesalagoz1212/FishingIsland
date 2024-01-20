@@ -4,6 +4,7 @@ using UnityEngine;
 using FishingIsland.UpgradeScriptableObjects;
 using TMPro;
 using System;
+using FishingIsland.UpgradeDatas;
 
 namespace FishingIsland.Managers
 {
@@ -12,6 +13,7 @@ namespace FishingIsland.Managers
         public static ShackUpgradeManager Instance { get; set; }
 
 		public ShackUpgrade shackUpgrade;
+		public ShackUpgradeData shackUpgradeData;
 
 		public static Action<int> OnShackUpgradeDockWorkerLevelUpdated;
 		public static Action<int> OnShackUpgradeTimerLevelUpdated;
@@ -45,10 +47,10 @@ namespace FishingIsland.Managers
 			if (MoneyManager.Instance.money >= shackUpgrade.dockWorkerLevelUpgradeCost)
 			{
 				MoneyManager.Instance.money -= shackUpgrade.dockWorkerLevelUpgradeCost;
-				shackUpgrade.dockWorkerLevel++;
+				shackUpgradeData.dockWorkerLevel++;
 				UpdateUpgradeDockWorkerCost();
 
-				OnShackUpgradeDockWorkerLevelUpdated?.Invoke(shackUpgrade.dockWorkerLevel);
+				OnShackUpgradeDockWorkerLevelUpdated?.Invoke(shackUpgradeData.dockWorkerLevel);
 
 				DockWorkerLevelIncreaseMoneyText(shackUpgrade.dockWorkerLevelUpgradeCost);
 
@@ -65,16 +67,16 @@ namespace FishingIsland.Managers
 			if (MoneyManager.Instance.money >= shackUpgrade.timerLevelUpgradeCost)
 			{
 				MoneyManager.Instance.money -= shackUpgrade.timerLevelUpgradeCost;
-				shackUpgrade.timerLevel++;
+				shackUpgradeData.timerLevel++;
 
-				if (shackUpgrade.timerLevel % 5 == 0)
+				if (shackUpgradeData.timerLevel % 5 == 0)
 				{
 					shackUpgrade.initialTimerDurationFishWorker = Mathf.Max(shackUpgrade.minTimerDurationFishWorker, shackUpgrade.initialTimerDurationFishWorker - 1.0f);
 				}
 
 				UpdateUpgradeTimerCost();
 
-				OnShackUpgradeTimerLevelUpdated?.Invoke(shackUpgrade.timerLevel);
+				OnShackUpgradeTimerLevelUpdated?.Invoke(shackUpgradeData.timerLevel);
 
 				TimerLevelIncreaseMoneyText(shackUpgrade.timerLevelUpgradeCost);
 
@@ -91,11 +93,11 @@ namespace FishingIsland.Managers
 			if (MoneyManager.Instance.money >= shackUpgrade.capacityLevelUpgradeCost)
 			{
 				MoneyManager.Instance.money -= shackUpgrade.capacityLevelUpgradeCost;
-				shackUpgrade.capacityLevel++;
+				shackUpgradeData.capacityLevel++;
 				shackUpgrade.dockWorkerFishCapacity += shackUpgrade.dockWorkerCapacityIncrease;
 
 				UpdateUpgradeCapacityCost();
-				OnShackUpgradeCapacityLevelUpdated?.Invoke(shackUpgrade.capacityLevel);
+				OnShackUpgradeCapacityLevelUpdated?.Invoke(shackUpgradeData.capacityLevel);
 				CapacityLevelIncreaseMoneyText(shackUpgrade.capacityLevelUpgradeCost);
 				MoneyManager.Instance.UpdateMoneyText();
 			}
@@ -107,33 +109,33 @@ namespace FishingIsland.Managers
 
 		private void UpdateUpgradeDockWorkerCost()
 		{
-			shackUpgrade.dockWorkerLevelUpgradeCost = shackUpgrade.dockWorkerLevel * 15;
+			shackUpgrade.dockWorkerLevelUpgradeCost = shackUpgradeData.dockWorkerLevel * 15;
 		}
 
 
 		private void UpdateUpgradeTimerCost()
 		{
-			shackUpgrade.timerLevelUpgradeCost = shackUpgrade.timerLevel * 25;
+			shackUpgrade.timerLevelUpgradeCost = shackUpgradeData.timerLevel * 25;
 		}
 
 		private void UpdateUpgradeCapacityCost()
 		{
-			shackUpgrade.capacityLevelUpgradeCost = shackUpgrade.capacityLevel * 30;
+			shackUpgrade.capacityLevelUpgradeCost = shackUpgradeData.capacityLevel * 30;
 		}
 
 		public int GetDockWorkerLevel()
 		{
-			return shackUpgrade.dockWorkerLevel;
+			return shackUpgradeData.dockWorkerLevel;
 		}
 
 		public int GetTimerLevel()
 		{
-			return shackUpgrade.timerLevel;
+			return shackUpgradeData.timerLevel;
 		}
 
 		public int GetCapacityLevel()
 		{
-			return shackUpgrade.capacityLevel;
+			return shackUpgradeData.capacityLevel;
 		}
 
 		public ShackUpgrade GetShackUpgrade()

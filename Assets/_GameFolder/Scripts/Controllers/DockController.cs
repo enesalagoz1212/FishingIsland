@@ -11,17 +11,17 @@ namespace FishingIsland.Controllers
 	public class DockController : MonoBehaviour
 	{
 		private DockUpgrade _dockUpgrade;
+		private UpgradeManager _upgradeManager;
 
 		private Vector3 _initialDockUpPosition;
 		private Sequence _dockUpAnimation;
 		private bool hasAnimationPlayed = false;
 		
-		public GameObject dockUpgradeCanvas;
 		public Image dockUpImage;
 
-		public void Initialize()
+		public void Initialize(UpgradeManager upgradeManager)
 		{
-
+			_upgradeManager = upgradeManager;
 		}
 
 		private void Start()
@@ -67,7 +67,7 @@ namespace FishingIsland.Controllers
 			if (CanUpgradeDock())
 			{
 				dockUpImage.gameObject.SetActive(false);
-				dockUpgradeCanvas.SetActive(true);
+				_upgradeManager.ActivateDockUpgradeCanvas();
 				KillDockUpAnimation();
 			}	
 		}

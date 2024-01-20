@@ -12,13 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa5f36e315fe0064496f2cf90d89698e, type: 3}
   m_Name: Shack Upgrade
   m_EditorClassIdentifier: 
-  dockWorkerLevel: 1
-  timerLevel: 1
-  capacityLevel: 1
   dockWorkerCapacityIncrease: 6
   dockWorkerLevelUpgradeCost: 35
   timerLevelUpgradeCost: 45
-  capacityLevelUpgradeCost: 40
+  capacityLevelUpgradeCost: 90
   dockWorkerFishCapacity: 10
   initialTimerDurationFishWorker: 7
   minTimerDurationFishWorker: 3

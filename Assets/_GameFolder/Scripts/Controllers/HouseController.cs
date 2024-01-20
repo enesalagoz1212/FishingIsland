@@ -11,13 +11,18 @@ namespace FishingIsland.Controllers
     public class HouseController : MonoBehaviour
     {
 		private HouseUpgrade _houseUpgrade;
+		private UpgradeManager _upgradeManager;
 
 		private Vector3 _initialHouseUpPosition;
 		private bool _hasAnimationPlayed = false;
 		private Sequence _houseUpAnimation;
 
-        public GameObject houseUpgradeCanvas;
 		public Image houseUpImage;
+
+		public void Initialize(UpgradeManager upgradeManager)
+		{
+			_upgradeManager = upgradeManager;	
+		}
 
 		private void Start()
 		{
@@ -61,7 +66,7 @@ namespace FishingIsland.Controllers
 			if (CanUpgradeHouse())
 			{
 				houseUpImage.gameObject.SetActive(false);
-				houseUpgradeCanvas.SetActive(true);
+				_upgradeManager.ActivateHouseUpgradeCanvas();
 				KillHouseUpAnimation();
 			}
 		}

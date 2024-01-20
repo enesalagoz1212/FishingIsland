@@ -1426,9 +1426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da924c418dbf04a47ad72d530a5414aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dockUpgrade: {fileID: 11400000, guid: 45e925f2f81ad82439a87585a58b5673, type: 2}
-  houseUpgrade: {fileID: 11400000, guid: cd91d12afeee5b140a717dd2616e7e89, type: 2}
-  shackUpgrade: {fileID: 11400000, guid: 04b934c31d181c243b2b855ab6762dfc, type: 2}
   moneyManager: {fileID: 1630697979}
   fishBoxController: {fileID: 721450447}
   shackController: {fileID: 200812009}
@@ -2207,7 +2204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43be622c6871bd3428e2c0346f3a1c3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shackUpgradeCanvas: {fileID: 392932630}
   shackFishCountText: {fileID: 471196058}
   shackUpImage: {fileID: 207676212}
 --- !u!65 &200812010
@@ -3216,6 +3212,9 @@ MonoBehaviour:
   houseUpgradeManager: {fileID: 1257575250}
   moneyManager: {fileID: 1630697979}
   saveLoadManager: {fileID: 120738298}
+  dockController: {fileID: 1586275669}
+  shackController: {fileID: 200812009}
+  houseController: {fileID: 1464561590}
 --- !u!1 &300444325
 GameObject:
   m_ObjectHideFlags: 0
@@ -9341,6 +9340,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dockUpgrade: {fileID: 11400000, guid: 45e925f2f81ad82439a87585a58b5673, type: 2}
+  dockUpgradeData:
+    boatLevel: 1
+    timerLevel: 1
+    capacityLevel: 1
   boatLevelIncreaseMoneyAmountText: {fileID: 1056245314}
   timerLevelIncreaseMoneyAmountText: {fileID: 113507191}
   capacityLevelIncreaseMoneyAmountText: {fileID: 2039087427}
@@ -11159,6 +11162,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   houseUpgrade: {fileID: 11400000, guid: cd91d12afeee5b140a717dd2616e7e89, type: 2}
+  houseUpgradeData:
+    fishWorkerLevel: 1
+    timerLevel: 1
+    capacityLevel: 1
   fishWorkerLevelIncreaseMoneyAmountText: {fileID: 207821830}
   timerLevelIncreaseMoneyAmountText: {fileID: 1897348473}
   capacityLevelIncreaseMoneyAmountText: {fileID: 145059195}
@@ -12154,7 +12161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aec682435a7f08242a7defb363534102, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  houseUpgradeCanvas: {fileID: 2042498373}
   houseUpImage: {fileID: 1146949885}
 --- !u!65 &1464561591
 BoxCollider:
@@ -12448,6 +12454,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shackUpgrade: {fileID: 11400000, guid: 04b934c31d181c243b2b855ab6762dfc, type: 2}
+  shackUpgradeData:
+    dockWorkerLevel: 1
+    timerLevel: 1
+    capacityLevel: 1
   dockWorkerLevelIncreaseMoneyAmountText: {fileID: 388629568}
   timerLevelIncreaseMoneyAmountText: {fileID: 1800922231}
   capacityLevelIncreaseMoneyAmountText: {fileID: 1767536288}
@@ -13132,7 +13142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eef35b5d5e6a334bbb7c885e3a91f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dockUpgradeCanvas: {fileID: 51102520}
   dockUpImage: {fileID: 18751653}
 --- !u!65 &1586275670
 BoxCollider:
@@ -13834,7 +13843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b69be589bff94f40ac12d1f34dc32eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 0
+  money: 500
   moneyText: {fileID: 506694388}
 --- !u!1 &1632557694
 GameObject:
