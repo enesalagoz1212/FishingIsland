@@ -16,7 +16,7 @@ namespace FishingIsland.Controllers
 		private Vector3 _initialDockUpPosition;
 		private Sequence _dockUpAnimation;
 		private bool hasAnimationPlayed = false;
-		
+
 		public Image dockUpImage;
 
 		public void Initialize(UpgradeManager upgradeManager)
@@ -36,22 +36,18 @@ namespace FishingIsland.Controllers
 
 		private void OnDisable()
 		{
-			GameManager.OnCloseButton -= OnCloseButtonAction;		
+			GameManager.OnCloseButton -= OnCloseButtonAction;
 		}
 
 		private void OnCloseButtonAction()
 		{
 			ResetAnimation();
-			if (!CanUpgradeDock())
-			{
-				dockUpImage.gameObject.SetActive(false);
-			}
-	
+			dockUpImage.gameObject.SetActive(false);
 		}
 
 		private void Update()
 		{
-			if (CanUpgradeDock() && !hasAnimationPlayed)
+			if (!hasAnimationPlayed)
 			{
 				AnimateDockUp();
 				hasAnimationPlayed = true;
@@ -64,21 +60,11 @@ namespace FishingIsland.Controllers
 
 		private void OnMouseDown()
 		{
-			if (CanUpgradeDock())
-			{
-				dockUpImage.gameObject.SetActive(false);
-				_upgradeManager.ActivateDockUpgradeCanvas();
-				KillDockUpAnimation();
-			}	
+			dockUpImage.gameObject.SetActive(false);
+			_upgradeManager.ActivateDockUpgradeCanvas();
+			KillDockUpAnimation();
 		}
 
-		private bool CanUpgradeDock()
-		{
-			_dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
-			return MoneyManager.Instance.GetMoney() >= _dockUpgrade.boatLevelUpgradeCost
-				|| MoneyManager.Instance.GetMoney() >= _dockUpgrade.timerLevelUpgradeCost
-				|| MoneyManager.Instance.GetMoney() >= _dockUpgrade.capacityLevelUpgradeCost;
-		}
 
 		public void AnimateDockUp()
 		{

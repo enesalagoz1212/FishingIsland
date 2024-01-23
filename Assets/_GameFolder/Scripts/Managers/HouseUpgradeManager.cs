@@ -4,7 +4,7 @@ using UnityEngine;
 using FishingIsland.UpgradeScriptableObjects;
 using TMPro;
 using System;
-using FishingIsland.UpgradeDatas;
+
 
 namespace FishingIsland.Managers
 {

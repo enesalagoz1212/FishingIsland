@@ -4,13 +4,12 @@ using UnityEngine;
 using FishingIsland.UpgradeScriptableObjects;
 using System;
 using TMPro;
-using FishingIsland.UpgradeDatas;
 
 namespace FishingIsland.Managers
 {
 	public class DockUpgradeManager : MonoBehaviour
 	{
-		public static DockUpgradeManager Instance { get;  set; }
+		public static DockUpgradeManager Instance { get; set; }
 
 		public DockUpgrade dockUpgrade;
 		public DockUpgradeData dockUpgradeData;
@@ -23,11 +22,17 @@ namespace FishingIsland.Managers
 		public TextMeshProUGUI timerLevelIncreaseMoneyAmountText;
 		public TextMeshProUGUI capacityLevelIncreaseMoneyAmountText;
 
+		private int _boatUpgradeCost;
+		private int _timerUpgradeCost;
+		private int _capacityUpgradeCost;
+
 		public void Initialize()
 		{
-			BoatLevelIncreaseMoneyText(dockUpgrade.boatLevelUpgradeCost);
-			TimerLevelIncreaseMoneyText(dockUpgrade.timerLevelUpgradeCost);
-			CapacityLevelIncreaseMoneyText(dockUpgrade.capacityLevelUpgradeCost);
+			UpdateUpgradeCosts();
+
+			BoatLevelIncreaseMoneyText(_boatUpgradeCost);
+			TimerLevelIncreaseMoneyText(_timerUpgradeCost);
+			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);
 		}
 
 		private void Awake()
@@ -39,22 +44,35 @@ namespace FishingIsland.Managers
 			else
 			{
 				Instance = this;
-			}	
+			}
+		}
+
+		public void UpdateUpgradeCosts()
+		{
+			_boatUpgradeCost = dockUpgrade.UpdateDockUpgradeBoatLevelCost(dockUpgradeData.boatLevel);
+			_timerUpgradeCost = dockUpgrade.UpdateDockUpgradeTimerLevelCost(dockUpgradeData.timerLevel);
+			_capacityUpgradeCost = dockUpgrade.UpdateDockUpgradeCapacityLevelCost(dockUpgradeData.capacityLevel);
 		}
 
 		public void UpgradeBoatLevel()
 		{
+
 			if (MoneyManager.Instance != null)
 			{
-				if (MoneyManager.Instance.money >= dockUpgrade.boatLevelUpgradeCost)
+				if (MoneyManager.Instance.money >= _boatUpgradeCost)
 				{
-					MoneyManager.Instance.money -= dockUpgrade.boatLevelUpgradeCost;
+					MoneyManager.Instance.money -= _boatUpgradeCost;
 					dockUpgradeData.boatLevel++;
-		
+
+					int boatLevelCost = dockUpgrade.UpdateDockUpgradeBoatLevelCost(dockUpgradeData.boatLevel);
 
 					OnBoatLevelUpdated?.Invoke(dockUpgradeData.boatLevel);
-					BoatLevelIncreaseMoneyText(dockUpgrade.boatLevelUpgradeCost);
+					BoatLevelIncreaseMoneyText(boatLevelCost);
 
+					UpdateUpgradeCosts();
+
+					SaveLoadManager.Instance.SaveGame();
+					SaveLoadManager.Instance.SaveDockUpgradeData(dockUpgradeData);
 					MoneyManager.Instance.UpdateMoneyText();
 				}
 				else
@@ -70,20 +88,21 @@ namespace FishingIsland.Managers
 
 		public void UpgradeTimerLevel()
 		{
-			if (MoneyManager.Instance.money >= dockUpgrade.timerLevelUpgradeCost)
+
+			if (MoneyManager.Instance.money >= _timerUpgradeCost)
 			{
-				MoneyManager.Instance.money -= dockUpgrade.timerLevelUpgradeCost;
+				MoneyManager.Instance.money -= _timerUpgradeCost;
 				dockUpgradeData.timerLevel++;
 
-				if (dockUpgradeData.timerLevel % 5 == 0)
-				{
-					dockUpgrade.initialTimerDurationBoat = Mathf.Max(dockUpgrade.minTimerDurationBoat, dockUpgrade.initialTimerDurationBoat - 1.0f);
-				}
-
-			
+				int timerLevelCost = dockUpgrade.UpdateDockUpgradeTimerLevelCost(dockUpgradeData.timerLevel);
 
 				OnTimerLevelUpdated?.Invoke(dockUpgradeData.timerLevel);
-				TimerLevelIncreaseMoneyText(dockUpgrade.timerLevelUpgradeCost);
+				TimerLevelIncreaseMoneyText(timerLevelCost);
+
+				UpdateUpgradeCosts();
+
+				SaveLoadManager.Instance.SaveGame();
+				SaveLoadManager.Instance.SaveDockUpgradeData(dockUpgradeData);
 				MoneyManager.Instance.UpdateMoneyText();
 			}
 			else
@@ -94,19 +113,26 @@ namespace FishingIsland.Managers
 
 		public void UpgradeCapacityLevel()
 		{
-			if (MoneyManager.Instance.money >= dockUpgrade.capacityLevelUpgradeCost)
+			if (MoneyManager.Instance.money >= _capacityUpgradeCost)
 			{
-				MoneyManager.Instance.money -= dockUpgrade.capacityLevelUpgradeCost;
+				MoneyManager.Instance.money -= _capacityUpgradeCost;
 				dockUpgradeData.capacityLevel++;
 
-				int totalFishCapacity = dockUpgrade.ReturnBoatFishCapacity(dockUpgradeData.capacityLevel);
+				int totalFishCapacity = dockUpgrade.ReturnBoatFishCapacity();
+				Debug.Log(totalFishCapacity);
 
-				dockUpgrade.UpdateFishCapacity(totalFishCapacity);
-				dockUpgrade.UpdateUpgradeCapacityCost(dockUpgradeData.capacityLevel);
+				int capacityLevelCost = dockUpgrade.UpdateDockUpgradeCapacityLevelCost(dockUpgradeData.capacityLevel);
+
+				Debug.Log(capacityLevelCost);
 
 				OnCapacityLevelUpdated?.Invoke(dockUpgradeData.capacityLevel);
-				CapacityLevelIncreaseMoneyText(dockUpgrade.capacityLevelUpgradeCost);
+				CapacityLevelIncreaseMoneyText(capacityLevelCost);
 
+
+				UpdateUpgradeCosts();
+
+				SaveLoadManager.Instance.SaveGame();
+				SaveLoadManager.Instance.SaveDockUpgradeData(dockUpgradeData);
 				MoneyManager.Instance.UpdateMoneyText();
 			}
 
@@ -122,7 +148,7 @@ namespace FishingIsland.Managers
 		{
 			return dockUpgradeData.boatLevel;
 		}
-	
+
 		public int GetTimerLevel()
 		{
 			return dockUpgradeData.timerLevel;

@@ -45,6 +45,7 @@ namespace FishingIsland.Managers
 		[SerializeField] private ShackController shackController;
 		[SerializeField] private HouseController houseController;
 
+
 		private void Awake()
 		{
 			if ( Instance !=null && Instance!=this)

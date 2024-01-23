@@ -128,8 +128,8 @@ namespace FishingIsland.Controllers
 
 		public void OnFishTransferredToFishBox()
 		{
-			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
-			_boatFishCapacity = dockUpgrade.boatFishCapacity;
+			//dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
+			_boatFishCapacity = dockUpgrade.ReturnBoatFishCapacity();
 			if (FishCount > 0)
 			{
 				FishCount--;
@@ -179,9 +179,10 @@ namespace FishingIsland.Controllers
 		{
 			dockTimerPanel.gameObject.SetActive(true);
 			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
-			_boatFishCapacity = dockUpgrade.boatFishCapacity;
+			_boatFishCapacity = dockUpgrade.ReturnBoatFishCapacity();
 
-			_currentTimerDuration = dockUpgrade.initialTimerDurationBoat;
+			_currentTimerDuration = dockUpgrade.TimerLevelIncrease();
+			//Debug.Log($"CurrentTimerDuration: { _currentTimerDuration}");
 			boatFishPanel.SetActive(true);
 			float timePerFish = _currentTimerDuration / _boatFishCapacity;
 
