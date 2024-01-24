@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Shack Upgrade
   m_EditorClassIdentifier: 
   dockWorkerCapacityIncrease: 6
-  dockWorkerLevelUpgradeCost: 35
-  timerLevelUpgradeCost: 45
-  capacityLevelUpgradeCost: 90
-  dockWorkerFishCapacity: 10
+  dockWorkerLevelUpgradeCost: 30
+  timerLevelUpgradeCost: 50
+  capacityLevelUpgradeCost: 60
+  dockWorkerFishCapacity: 16
   initialTimerDurationFishWorker: 7
   minTimerDurationFishWorker: 3

@@ -13845,6 +13845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: 500
+  startingMoney: 500
   moneyText: {fileID: 506694388}
 --- !u!1 &1632557694
 GameObject:

@@ -70,6 +70,19 @@ namespace FishingIsland.UpgradeScriptableObjects
 			return dockUpgradeData.currentTimerDurationBoat;
 		}
 
+		public void ResetGame()
+		{
+			dockUpgradeData.currentTimerDurationBoat = 7;
+			dockUpgradeData.boatLevel = 1;
+			dockUpgradeData.timerLevel = 1;
+			dockUpgradeData.capacityLevel = 1;
+
+
+			if (DockUpgradeManager.Instance != null)
+			{
+				DockUpgradeManager.Instance.UpdateUpgradeCosts();
+			}
+		}
 	}
 }
 

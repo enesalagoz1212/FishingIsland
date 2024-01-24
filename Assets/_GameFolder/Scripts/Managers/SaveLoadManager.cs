@@ -49,6 +49,14 @@ namespace FishingIsland.Managers
 			savePath = Application.persistentDataPath + "/saveData.json";
 		}
 
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.A))
+			{
+				ResetGame();
+				Debug.Log("Reset Game");
+			}
+		}
 
 		public void Initialize()
 		{
@@ -57,11 +65,12 @@ namespace FishingIsland.Managers
 			DockUpgradeData savedData = LoadDockUpgradeData();
 			DockUpgradeManager.Instance.dockUpgradeData = savedData;
 			DockUpgradeManager.Instance.UpdateUpgradeCosts();
+
 		}
 		public void SaveGame()
 		{
 			saveData.money = MoneyManager.Instance.money;
-			saveData.totalFishCountFishBox=FishBoxController.Instance.GetTotalFishCount();
+			saveData.totalFishCountFishBox = FishBoxController.Instance.GetTotalFishCount();
 			saveData.totalFishCountShack = ShackController.Instance.GetTotalFishCount();
 			saveData.dockUpgradeData = DockUpgradeManager.Instance.dockUpgradeData;
 
@@ -127,6 +136,25 @@ namespace FishingIsland.Managers
 				return new DockUpgradeData();
 			}
 		}
+
+		public void ResetGame()
+		{
+			saveData = new SaveData();
+			saveData.dockUpgradeData = new DockUpgradeData();
+
+			FishBoxController.Instance.Reset();
+			ShackController.Instance.Reset();
+
+			if (DockUpgradeManager.Instance != null)
+			{
+				DockUpgradeManager.Instance.ResetGame();
+			}
+
+			SaveGame();
+
+			Debug.Log("Game reset successfully");
+		}
+
 	}
 }
 

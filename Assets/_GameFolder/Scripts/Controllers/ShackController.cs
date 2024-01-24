@@ -31,6 +31,7 @@ namespace FishingIsland.Controllers
 		public Image shackUpImage;
 		public bool HasFishShack => _shackFishCount > 0;
 		public bool IsFishCollectionCompleted => _isFishCollectionCompletedShack;
+		public int startingFishCount;
 
 		public static Action<FishWorkerController> OnFishWorkerArrivedBox;
 		public static Action<DockWorkerController> OnDockWorkerArrivedShack;

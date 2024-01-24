@@ -21,6 +21,7 @@ namespace FishingIsland.Controllers
 		public TextMeshProUGUI boxFishText;
 		public bool IsFishCollectionCompleted => _isFishCollectionCompletedBox;
 		public bool HasFishBox => _totalFishCount > 0;
+		public int startingFishCount;
 
 		public static Action<BoatController> OnBoatArrivedBox;
 		public static Action<DockWorkerController> OnDockWorkerArrivedBox;

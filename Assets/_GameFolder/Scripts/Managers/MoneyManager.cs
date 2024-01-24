@@ -9,6 +9,7 @@ namespace FishingIsland.Managers
 		public static MoneyManager Instance { get; private set; }
 
 		public float money;
+		public float startingMoney;
 		public TextMeshProUGUI moneyText;
 
 		public void Initialize()

@@ -33,6 +33,8 @@ namespace FishingIsland.Managers
 			BoatLevelIncreaseMoneyText(_boatUpgradeCost);
 			TimerLevelIncreaseMoneyText(_timerUpgradeCost);
 			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);
+
+			
 		}
 
 		private void Awake()
@@ -177,6 +179,25 @@ namespace FishingIsland.Managers
 		public DockUpgrade GetDockUpgrade()
 		{
 			return dockUpgrade;
+		}
+
+		public void ResetGame()
+		{
+			dockUpgrade.ResetGame();
+			dockUpgradeData = dockUpgrade.dockUpgradeData;
+
+
+			OnBoatLevelUpdated?.Invoke(dockUpgradeData.boatLevel);
+			OnTimerLevelUpdated?.Invoke(dockUpgradeData.timerLevel);
+			OnCapacityLevelUpdated?.Invoke(dockUpgradeData.capacityLevel);
+
+			MoneyManager.Instance.money = MoneyManager.Instance.startingMoney;
+			MoneyManager.Instance.UpdateMoneyText();
+
+			UpdateUpgradeCosts();
+			BoatLevelIncreaseMoneyText(_boatUpgradeCost);
+			TimerLevelIncreaseMoneyText(_timerUpgradeCost);
+			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);
 		}
 	}
 }
