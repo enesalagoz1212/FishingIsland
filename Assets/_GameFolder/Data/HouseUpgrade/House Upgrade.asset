@@ -12,13 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 592934c4f5447bf47a28a3ec732c0afc, type: 3}
   m_Name: House Upgrade
   m_EditorClassIdentifier: 
-  fishWorkerLevel: 1
-  timerLevel: 1
-  capacityLevel: 1
   fishWorkerCapacityIncrease: 8
-  fishWorkerLevelUpgradeCost: 35
-  timerLevelUpgradeCost: 45
-  capacityLevelUpgradeCost: 40
+  fishWorkerLevelUpgradeCost: 30
+  timerLevelUpgradeCost: 40
+  capacityLevelUpgradeCost: 50
   fishWorkerFishCapacity: 10
   initialTimerDurationHouse: 7
   minTimerDurationHouse: 3

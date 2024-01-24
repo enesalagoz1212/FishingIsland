@@ -8,8 +8,8 @@ using FishingIsland.Managers;
 
 namespace FishingIsland.Controllers
 {
-    public class HouseController : MonoBehaviour
-    {
+	public class HouseController : MonoBehaviour
+	{
 		private HouseUpgrade _houseUpgrade;
 		private UpgradeManager _upgradeManager;
 
@@ -21,17 +21,17 @@ namespace FishingIsland.Controllers
 
 		public void Initialize(UpgradeManager upgradeManager)
 		{
-			_upgradeManager = upgradeManager;	
+			_upgradeManager = upgradeManager;
 		}
 
 		private void Start()
 		{
-			_initialHouseUpPosition= houseUpImage.rectTransform.localPosition;
+			_initialHouseUpPosition = houseUpImage.rectTransform.localPosition;
 		}
 
 		void Update()
-        {
-			if (CanUpgradeHouse() && !_hasAnimationPlayed)
+		{
+			if (!_hasAnimationPlayed)
 			{
 				AnimateHouseUp();
 				_hasAnimationPlayed = true;
@@ -55,28 +55,14 @@ namespace FishingIsland.Controllers
 		private void OnCloseButtonAction()
 		{
 			ResetAnimation();
-			if (!CanUpgradeHouse())
-			{
-				houseUpImage.gameObject.SetActive(false);
-			}
+			houseUpImage.gameObject.SetActive(false);
 		}
 
 		private void OnMouseDown()
 		{
-			if (CanUpgradeHouse())
-			{
-				houseUpImage.gameObject.SetActive(false);
-				_upgradeManager.ActivateHouseUpgradeCanvas();
-				KillHouseUpAnimation();
-			}
-		}
-
-		private bool CanUpgradeHouse()
-		{
-			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
-			return MoneyManager.Instance.GetMoney() >= _houseUpgrade.fishWorkerLevelUpgradeCost
-				|| MoneyManager.Instance.GetMoney() >= _houseUpgrade.timerLevelUpgradeCost
-				|| MoneyManager.Instance.GetMoney() >= _houseUpgrade.capacityLevelUpgradeCost;
+			houseUpImage.gameObject.SetActive(false);
+			_upgradeManager.ActivateHouseUpgradeCanvas();
+			KillHouseUpAnimation();
 		}
 
 		public void AnimateHouseUp()

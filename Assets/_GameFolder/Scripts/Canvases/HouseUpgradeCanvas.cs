@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using FishingIsland.Managers;
+using FishingIsland.UpgradeScriptableObjects;
 using TMPro;
 
 namespace FishingIsland.Canvases
@@ -30,6 +31,10 @@ namespace FishingIsland.Canvases
 			HouseUpgradeManager.OnHouseUpgradeFishWorkerLevelUpdated += HouseUpgradeUpdateFishWorkerLevelText;
 			HouseUpgradeManager.OnHouseUpgradeTimerLevelUpdated += HouseUpgradeUpdateTimerLevelText;
 			HouseUpgradeManager.OnHouseUpgradeCapacityLevelUpdated += HouseUpgradeUpdateCapacityLevelText;
+
+			HouseUpgradeData savedData = SaveLoadManager.Instance.LoadHouseUpgradeData();
+			HouseUpgradeManager.Instance.houseUpgradeData = savedData;
+			HouseUpgradeManager.Instance.UpdateUpgradeCosts();
 
 			HouseUpgradeUpdateFishWorkerLevelText(HouseUpgradeManager.Instance.GetFishWorkerLevel());
 			HouseUpgradeUpdateTimerLevelText(HouseUpgradeManager.Instance.GetTimerLevel());

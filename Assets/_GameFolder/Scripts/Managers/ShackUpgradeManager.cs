@@ -116,8 +116,6 @@ namespace FishingIsland.Managers
 				MoneyManager.Instance.money -= _capacityUpgradeCost;
 				shackUpgradeData.capacityLevel++;
 
-				int totalFishCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
-
 				int capacityLevelCost = shackUpgrade.UpdateShackUpgradeCapacityLevelCost(shackUpgradeData.capacityLevel);
 				OnShackUpgradeCapacityLevelUpdated?.Invoke(shackUpgradeData.capacityLevel);
 

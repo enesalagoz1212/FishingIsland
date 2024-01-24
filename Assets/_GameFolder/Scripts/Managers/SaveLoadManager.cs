@@ -69,6 +69,10 @@ namespace FishingIsland.Managers
 			ShackUpgradeData savedDataShack = LoadShackUpgradeData();
 			ShackUpgradeManager.Instance.shackUpgradeData = savedDataShack;
 			ShackUpgradeManager.Instance.UpdateUpgradeCosts();
+
+			HouseUpgradeData savedDataHouse = LoadHouseUpgradeData();
+			HouseUpgradeManager.Instance.houseUpgradeData = savedDataHouse;
+			HouseUpgradeManager.Instance.UpdateUpgradeCosts();
 		}
 		public void SaveGame()
 		{
@@ -77,6 +81,7 @@ namespace FishingIsland.Managers
 			saveData.totalFishCountShack = ShackController.Instance.GetTotalFishCount();
 			saveData.dockUpgradeData = DockUpgradeManager.Instance.dockUpgradeData;
 			saveData.shackUpgradeData = ShackUpgradeManager.Instance.shackUpgradeData;
+			saveData.houseUpgradeData = HouseUpgradeManager.Instance.houseUpgradeData;
 
 			string jsonData = JsonUtility.ToJson(saveData);
 			File.WriteAllText(savePath, jsonData);
@@ -112,6 +117,7 @@ namespace FishingIsland.Managers
 				saveData.money = MoneyManager.Instance.money;
 				saveData.dockUpgradeData = new DockUpgradeData();
 				saveData.shackUpgradeData = new ShackUpgradeData();
+				saveData.houseUpgradeData = new HouseUpgradeData();
 			}
 		}
 
@@ -164,11 +170,34 @@ namespace FishingIsland.Managers
 			}
 		}
 
+		public void SaveHouseUpgradeData(HouseUpgradeData houseUpgradeData)
+		{
+			saveData.houseUpgradeData = houseUpgradeData;
+
+			string jsonData = JsonUtility.ToJson(saveData);
+			File.WriteAllText(savePath, jsonData);
+		}
+
+		public HouseUpgradeData LoadHouseUpgradeData()
+		{
+			if (File.Exists(savePath))
+			{
+				string jsonData = File.ReadAllText(savePath);
+				SaveData loadedData= JsonUtility.FromJson<SaveData>(jsonData);
+				return loadedData.houseUpgradeData;
+			}
+			else
+			{
+				return new HouseUpgradeData();
+			}
+		}
+
 		public void ResetGame()
 		{
 			saveData = new SaveData();
 			saveData.dockUpgradeData = new DockUpgradeData();
 			saveData.shackUpgradeData = new ShackUpgradeData();
+			saveData.houseUpgradeData = new HouseUpgradeData();
 
 			FishBoxController.Instance.Reset();
 			ShackController.Instance.Reset();
@@ -181,6 +210,11 @@ namespace FishingIsland.Managers
 			if (ShackUpgradeManager.Instance!=null)
 			{
 				ShackUpgradeManager.Instance.ResetGame();
+			}
+
+			if (HouseUpgradeManager.Instance!=null)
+			{
+				HouseUpgradeManager.Instance.ResetGame();
 			}
 
 			SaveGame();

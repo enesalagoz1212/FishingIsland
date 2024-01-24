@@ -58,7 +58,6 @@ namespace FishingIsland.Managers
 
 		public void UpgradeBoatLevel()
 		{
-
 			if (MoneyManager.Instance != null)
 			{
 				if (MoneyManager.Instance.money >= _boatUpgradeCost)
@@ -119,8 +118,6 @@ namespace FishingIsland.Managers
 			{
 				MoneyManager.Instance.money -= _capacityUpgradeCost;
 				dockUpgradeData.capacityLevel++;
-
-				int totalFishCapacity = dockUpgrade.ReturnBoatFishCapacity();
 
 
 				int capacityLevelCost = dockUpgrade.UpdateDockUpgradeCapacityLevelCost(dockUpgradeData.capacityLevel);

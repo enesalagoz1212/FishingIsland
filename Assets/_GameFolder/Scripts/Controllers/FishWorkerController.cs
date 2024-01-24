@@ -74,7 +74,7 @@ namespace FishingIsland.Controllers
 		public float GetCurrentTimerDuration()
 		{
 			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
-			_currentTimeDuration = houseUpgrade.initialTimerDurationHouse;
+			_currentTimeDuration = houseUpgrade.TimerLevelIncrease();
 			return _currentTimeDuration;
 		}
 
@@ -149,10 +149,10 @@ namespace FishingIsland.Controllers
 		}
 
 
-		public void OnFishTransferredToFishWorker()
+		public void OnFishTransferredToFishWorker()           //
 		{
 			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
-			_fishCapacity = houseUpgrade.fishWorkerFishCapacity;
+			_fishCapacity = houseUpgrade.ReturnFishWorkerFishCapacity();
 
 			_totalFishCount++;
 			UpdateFishCountText(_totalFishCount);

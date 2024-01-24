@@ -113,7 +113,8 @@ namespace FishingIsland.Controllers
 		private IEnumerator StartFishTransferFromFishWorker(FishWorkerController fishWorkerController)
 		{
 			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
-			_fishCapacity = _houseUpgrade.fishWorkerFishCapacity;
+			_fishCapacity = _houseUpgrade.ReturnFishWorkerFishCapacity();
+			Debug.Log(_fishCapacity);
 			_isFishCollectionCompletedShack = false;
 
 			if (_shackFishCount > _fishCapacity)

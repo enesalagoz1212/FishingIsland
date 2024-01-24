@@ -163,20 +163,14 @@ namespace FishingIsland.Controllers
 		}
 
 
-		public void OnFishCollectedFishBox()           //
+		public void OnFishCollectedFishBox()           
 		{
-			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-			_dockCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
-
 			_collectedFishCount++;
 			UpdateFishCountText(_collectedFishCount);
 		}
 
-		public void OnFishCollectionCompleted()          //
+		public void OnFishCollectionCompleted()          
 		{
-			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-			_currentTimeDuration = shackUpgrade.CurrentTimerDuration();
-
 			ChangeState(DockWorkerState.ReturningFromCollectingFish);
 		}
 
