@@ -55,7 +55,7 @@ namespace FishingIsland.Controllers
 
 		private void Start()
 		{
-			_initialShackUpPosition= shackUpImage.rectTransform.localPosition;
+			_initialShackUpPosition = shackUpImage.rectTransform.localPosition;
 		}
 
 		private void OnEnable()
@@ -74,26 +74,22 @@ namespace FishingIsland.Controllers
 
 		private void Update()
 		{
-			if (CanUpgradeShack() && !_hasAnimationPlayed)
+			if (!_hasAnimationPlayed)
 			{
 				AnimateShackUp();
 				_hasAnimationPlayed = true;
 			}
 			else
 			{
-				
+
 			}
 		}
 
 		private void OnMouseDown()
 		{
-			if (CanUpgradeShack())
-			{
-				shackUpImage.gameObject.SetActive(false);
-				KillShackUpAnimation();
-				_upgradeManager.ActivateShackUpgradeCanvas();
-			}
-
+			shackUpImage.gameObject.SetActive(false);
+			KillShackUpAnimation();
+			_upgradeManager.ActivateShackUpgradeCanvas();
 		}
 
 		public int GetTotalFishCount()
@@ -110,10 +106,8 @@ namespace FishingIsland.Controllers
 		private void OnCloseButtonAction()
 		{
 			ResetAnimation();
-			if (!CanUpgradeShack())
-			{
-				shackUpImage.gameObject.SetActive(false);
-			}
+
+			shackUpImage.gameObject.SetActive(false);
 		}
 
 		private IEnumerator StartFishTransferFromFishWorker(FishWorkerController fishWorkerController)
@@ -211,13 +205,6 @@ namespace FishingIsland.Controllers
 			shackUpImage.rectTransform.anchoredPosition = _initialShackUpPosition;
 		}
 
-		private bool CanUpgradeShack()
-		{
-			_shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-			return MoneyManager.Instance.GetMoney() >= _shackUpgrade.dockWorkerLevelUpgradeCost
-				|| MoneyManager.Instance.GetMoney() >= _shackUpgrade.timerLevelUpgradeCost
-				|| MoneyManager.Instance.GetMoney() >= _shackUpgrade.capacityLevelUpgradeCost;
-		}
 
 		public void ResetAnimation()
 		{

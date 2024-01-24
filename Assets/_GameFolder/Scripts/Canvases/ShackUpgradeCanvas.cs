@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using FishingIsland.Managers;
 using FishingIsland.Controllers;
+using FishingIsland.UpgradeScriptableObjects;
 
 namespace FishingIsland.Canvases
 {
@@ -31,6 +32,10 @@ namespace FishingIsland.Canvases
 			ShackUpgradeManager.OnShackUpgradeDockWorkerLevelUpdated += ShackUpgradeUpdateDockWorkerLevelText;
 			ShackUpgradeManager.OnShackUpgradeTimerLevelUpdated += ShackUpgradeUpdateTimerLevelText;
 			ShackUpgradeManager.OnShackUpgradeCapacityLevelUpdated += ShackUpgradeUpdateCapacityLevelText;
+
+			ShackUpgradeData savedData = SaveLoadManager.Instance.LoadShackUpgradeData();
+			ShackUpgradeManager.Instance.shackUpgradeData = savedData;
+			ShackUpgradeManager.Instance.UpdateUpgradeCosts();
 
 			ShackUpgradeUpdateDockWorkerLevelText(ShackUpgradeManager.Instance.GetDockWorkerLevel());
 			ShackUpgradeUpdateTimerLevelText(ShackUpgradeManager.Instance.GetTimerLevel());

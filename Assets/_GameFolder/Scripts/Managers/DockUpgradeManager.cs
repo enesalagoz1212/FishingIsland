@@ -121,11 +121,9 @@ namespace FishingIsland.Managers
 				dockUpgradeData.capacityLevel++;
 
 				int totalFishCapacity = dockUpgrade.ReturnBoatFishCapacity();
-				Debug.Log(totalFishCapacity);
+
 
 				int capacityLevelCost = dockUpgrade.UpdateDockUpgradeCapacityLevelCost(dockUpgradeData.capacityLevel);
-
-				Debug.Log(capacityLevelCost);
 
 				OnCapacityLevelUpdated?.Invoke(dockUpgradeData.capacityLevel);
 				CapacityLevelIncreaseMoneyText(capacityLevelCost);
@@ -183,7 +181,8 @@ namespace FishingIsland.Managers
 
 		public void ResetGame()
 		{
-			dockUpgrade.ResetGame();
+			dockUpgrade.ResetGameDockUpgrade();
+
 			dockUpgradeData = dockUpgrade.dockUpgradeData;
 
 

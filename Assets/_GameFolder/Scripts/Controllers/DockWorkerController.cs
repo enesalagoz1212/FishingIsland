@@ -83,7 +83,7 @@ namespace FishingIsland.Controllers
 		public float GetCurrentTimerDuration()
 		{
 			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-			_currentTimeDuration = shackUpgrade.initialTimerDurationFishWorker;
+			_currentTimeDuration = shackUpgrade.CurrentTimerDuration();
 			return _currentTimeDuration;
 		}
 
@@ -163,19 +163,19 @@ namespace FishingIsland.Controllers
 		}
 
 
-		public void OnFishCollectedFishBox()
+		public void OnFishCollectedFishBox()           //
 		{
 			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-			_dockCapacity = shackUpgrade.dockWorkerFishCapacity;
+			_dockCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
 
 			_collectedFishCount++;
 			UpdateFishCountText(_collectedFishCount);
 		}
 
-		public void OnFishCollectionCompleted()
+		public void OnFishCollectionCompleted()          //
 		{
 			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-			_currentTimeDuration = shackUpgrade.initialTimerDurationFishWorker;
+			_currentTimeDuration = shackUpgrade.CurrentTimerDuration();
 
 			ChangeState(DockWorkerState.ReturningFromCollectingFish);
 		}

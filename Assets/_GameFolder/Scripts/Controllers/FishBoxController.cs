@@ -92,8 +92,8 @@ namespace FishingIsland.Controllers
 		private IEnumerator StartFishTransferFromDockWorker(DockWorkerController dockWorkerController)
 		{
 			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-			_dockCapacity = shackUpgrade.dockWorkerFishCapacity;
-
+			_dockCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
+			Debug.Log($"DockCapacity: {_dockCapacity}");
 			if (_totalFishCount > _dockCapacity)
 			{
 				_timePerFish = dockWorkerController.GetCurrentTimerDuration() / _dockCapacity;

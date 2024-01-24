@@ -8,9 +8,9 @@ using System;
 
 namespace FishingIsland.Managers
 {
-    public class ShackUpgradeManager : MonoBehaviour
-    {
-        public static ShackUpgradeManager Instance { get; set; }
+	public class ShackUpgradeManager : MonoBehaviour
+	{
+		public static ShackUpgradeManager Instance { get; set; }
 
 		public ShackUpgrade shackUpgrade;
 		public ShackUpgradeData shackUpgradeData;
@@ -23,11 +23,17 @@ namespace FishingIsland.Managers
 		public TextMeshProUGUI timerLevelIncreaseMoneyAmountText;
 		public TextMeshProUGUI capacityLevelIncreaseMoneyAmountText;
 
+		private int _dockWorkerUpgradeCost;
+		private int _timerUpgradeCost;
+		private int _capacityUpgradeCost;
+
 		public void Initialize()
 		{
-			DockWorkerLevelIncreaseMoneyText(shackUpgrade.dockWorkerLevelUpgradeCost);
-			TimerLevelIncreaseMoneyText(shackUpgrade.timerLevelUpgradeCost);
-			CapacityLevelIncreaseMoneyText(shackUpgrade.capacityLevelUpgradeCost);
+			UpdateUpgradeCosts();
+
+			DockWorkerLevelIncreaseMoneyText(_dockWorkerUpgradeCost);
+			TimerLevelIncreaseMoneyText(_timerUpgradeCost);
+			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);
 		}
 
 		private void Awake()
@@ -42,17 +48,31 @@ namespace FishingIsland.Managers
 			}
 		}
 
+
+		public void UpdateUpgradeCosts()
+		{
+			_dockWorkerUpgradeCost = shackUpgrade.UpdateShackUpgradeDockWorkerLevelCost(shackUpgradeData.dockWorkerLevel);
+			_timerUpgradeCost = shackUpgrade.UpdateShackUpgradeTimerLevelCost(shackUpgradeData.timerLevel);
+			_capacityUpgradeCost = shackUpgrade.UpdateShackUpgradeCapacityLevelCost(shackUpgradeData.capacityLevel);
+		}
+
 		public void UpgradeDockWorkerLevel()
 		{
-			if (MoneyManager.Instance.money >= shackUpgrade.dockWorkerLevelUpgradeCost)
+			if (MoneyManager.Instance.money >= _dockWorkerUpgradeCost)
 			{
-				MoneyManager.Instance.money -= shackUpgrade.dockWorkerLevelUpgradeCost;
+				MoneyManager.Instance.money -= _dockWorkerUpgradeCost;
 				shackUpgradeData.dockWorkerLevel++;
-				UpdateUpgradeDockWorkerCost();
+
+				int dockWorkerLevelCost = shackUpgrade.UpdateShackUpgradeDockWorkerLevelCost(shackUpgradeData.dockWorkerLevel);
 
 				OnShackUpgradeDockWorkerLevelUpdated?.Invoke(shackUpgradeData.dockWorkerLevel);
 
-				DockWorkerLevelIncreaseMoneyText(shackUpgrade.dockWorkerLevelUpgradeCost);
+				DockWorkerLevelIncreaseMoneyText(dockWorkerLevelCost);
+
+
+				UpdateUpgradeCosts();
+				SaveLoadManager.Instance.SaveGame();
+				SaveLoadManager.Instance.SaveShackUpgradeData(shackUpgradeData);
 
 				MoneyManager.Instance.UpdateMoneyText();
 			}
@@ -64,21 +84,22 @@ namespace FishingIsland.Managers
 
 		public void UpgradeTimerLevel()
 		{
-			if (MoneyManager.Instance.money >= shackUpgrade.timerLevelUpgradeCost)
+			if (MoneyManager.Instance.money >= _timerUpgradeCost)
 			{
-				MoneyManager.Instance.money -= shackUpgrade.timerLevelUpgradeCost;
+				MoneyManager.Instance.money -= _timerUpgradeCost;
 				shackUpgradeData.timerLevel++;
 
-				if (shackUpgradeData.timerLevel % 5 == 0)
-				{
-					shackUpgrade.initialTimerDurationFishWorker = Mathf.Max(shackUpgrade.minTimerDurationFishWorker, shackUpgrade.initialTimerDurationFishWorker - 1.0f);
-				}
+				int timerLevelCost = shackUpgrade.UpdateShackUpgradeTimerLevelCost(shackUpgradeData.timerLevel);
 
-				UpdateUpgradeTimerCost();
 
 				OnShackUpgradeTimerLevelUpdated?.Invoke(shackUpgradeData.timerLevel);
 
-				TimerLevelIncreaseMoneyText(shackUpgrade.timerLevelUpgradeCost);
+				TimerLevelIncreaseMoneyText(timerLevelCost);
+
+				UpdateUpgradeCosts();
+
+				SaveLoadManager.Instance.SaveGame();
+				SaveLoadManager.Instance.SaveShackUpgradeData(shackUpgradeData);
 
 				MoneyManager.Instance.UpdateMoneyText();
 			}
@@ -90,15 +111,22 @@ namespace FishingIsland.Managers
 
 		public void UpgradeCapacityLevel()
 		{
-			if (MoneyManager.Instance.money >= shackUpgrade.capacityLevelUpgradeCost)
+			if (MoneyManager.Instance.money >= _capacityUpgradeCost)
 			{
-				MoneyManager.Instance.money -= shackUpgrade.capacityLevelUpgradeCost;
+				MoneyManager.Instance.money -= _capacityUpgradeCost;
 				shackUpgradeData.capacityLevel++;
-				shackUpgrade.dockWorkerFishCapacity += shackUpgrade.dockWorkerCapacityIncrease;
 
-				UpdateUpgradeCapacityCost();
+				int totalFishCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
+
+				int capacityLevelCost = shackUpgrade.UpdateShackUpgradeCapacityLevelCost(shackUpgradeData.capacityLevel);
 				OnShackUpgradeCapacityLevelUpdated?.Invoke(shackUpgradeData.capacityLevel);
-				CapacityLevelIncreaseMoneyText(shackUpgrade.capacityLevelUpgradeCost);
+
+				CapacityLevelIncreaseMoneyText(capacityLevelCost);
+
+				UpdateUpgradeCosts();
+				SaveLoadManager.Instance.SaveGame();
+				SaveLoadManager.Instance.SaveShackUpgradeData(shackUpgradeData);
+
 				MoneyManager.Instance.UpdateMoneyText();
 			}
 			else
@@ -107,21 +135,6 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		private void UpdateUpgradeDockWorkerCost()
-		{
-			shackUpgrade.dockWorkerLevelUpgradeCost = shackUpgradeData.dockWorkerLevel * 15;
-		}
-
-
-		private void UpdateUpgradeTimerCost()
-		{
-			shackUpgrade.timerLevelUpgradeCost = shackUpgradeData.timerLevel * 25;
-		}
-
-		private void UpdateUpgradeCapacityCost()
-		{
-			shackUpgrade.capacityLevelUpgradeCost = shackUpgradeData.capacityLevel * 30;
-		}
 
 		public int GetDockWorkerLevel()
 		{
@@ -156,6 +169,25 @@ namespace FishingIsland.Managers
 		public void CapacityLevelIncreaseMoneyText(int moneyText)
 		{
 			capacityLevelIncreaseMoneyAmountText.text = $" {moneyText}";
+		}
+
+		public void ResetGame()
+		{
+			shackUpgrade.ResetGameShackUpgrade();
+			shackUpgradeData = shackUpgrade.shackUpgradeData;
+
+
+			OnShackUpgradeDockWorkerLevelUpdated?.Invoke(shackUpgradeData.dockWorkerLevel);
+			OnShackUpgradeTimerLevelUpdated?.Invoke(shackUpgradeData.timerLevel);
+			OnShackUpgradeCapacityLevelUpdated?.Invoke(shackUpgradeData.capacityLevel);
+
+			MoneyManager.Instance.money = MoneyManager.Instance.startingMoney;
+			MoneyManager.Instance.UpdateMoneyText();
+
+			UpdateUpgradeCosts();
+			DockWorkerLevelIncreaseMoneyText(_dockWorkerUpgradeCost);
+			TimerLevelIncreaseMoneyText(_timerUpgradeCost);
+			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);
 		}
 	}
 }

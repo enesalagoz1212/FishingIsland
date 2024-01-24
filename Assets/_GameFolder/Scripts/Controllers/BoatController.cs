@@ -182,7 +182,7 @@ namespace FishingIsland.Controllers
 			_boatFishCapacity = dockUpgrade.ReturnBoatFishCapacity();
 
 			_currentTimerDuration = dockUpgrade.TimerLevelIncrease();
-			//Debug.Log($"CurrentTimerDuration: { _currentTimerDuration}");
+
 			boatFishPanel.SetActive(true);
 			float timePerFish = _currentTimerDuration / _boatFishCapacity;
 
