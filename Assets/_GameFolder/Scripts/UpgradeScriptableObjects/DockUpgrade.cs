@@ -9,12 +9,16 @@ namespace FishingIsland.UpgradeScriptableObjects
 	[Serializable]
 	public class DockUpgradeData
 	{
-		public int boatLevel = 1;
-		public int timerLevel = 1;
-		public int capacityLevel = 1;
+		public int boatLevel;
+		public int timerLevel;
+		public int capacityLevel;
 
-		public float currentTimerDurationBoat = 7;
-
+		public DockUpgradeData(int levelBoat, int levelTimer, int levelCapacity)
+		{
+			boatLevel = levelBoat;
+			timerLevel = levelTimer;
+			capacityLevel = levelCapacity;
+		}
 	}
 
 	[CreateAssetMenu(fileName = "New Dock Upgrade", menuName = "Dock Upgrade")]
@@ -61,18 +65,15 @@ namespace FishingIsland.UpgradeScriptableObjects
 
 		public float TimerLevelIncrease()
 		{
-
-			if (dockUpgradeData.timerLevel % 5 == 0)
-			{
-				dockUpgradeData.currentTimerDurationBoat = Mathf.Max(minTimerDurationBoat, initialTimerDurationBoat - 1.0f);
-			}
-
-			return dockUpgradeData.currentTimerDurationBoat;
+			float divisionDock = dockUpgradeData.timerLevel / 5f;
+			divisionDock = MathF.Floor(divisionDock);
+			var time = initialTimerDurationBoat - divisionDock;
+			return Mathf.Max(time, minTimerDurationBoat);
 		}
+
 
 		public void ResetGameDockUpgrade()
 		{
-			dockUpgradeData.currentTimerDurationBoat = 7;
 			dockUpgradeData.boatLevel = 1;
 			dockUpgradeData.timerLevel = 1;
 			dockUpgradeData.capacityLevel = 1;

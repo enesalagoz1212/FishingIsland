@@ -12,7 +12,7 @@ namespace FishingIsland.Managers
     {
         public static HouseUpgradeManager Instance { get; private set; }
         public HouseUpgrade houseUpgrade;
-		public HouseUpgradeData houseUpgradeData;
+		public HouseUpgradeData houseUpgradeData { get; set; }
 
 		public static Action<int> OnHouseUpgradeFishWorkerLevelUpdated;
 		public static Action<int> OnHouseUpgradeTimerLevelUpdated;

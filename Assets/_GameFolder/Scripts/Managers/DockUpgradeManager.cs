@@ -12,7 +12,7 @@ namespace FishingIsland.Managers
 		public static DockUpgradeManager Instance { get; set; }
 
 		public DockUpgrade dockUpgrade;
-		public DockUpgradeData dockUpgradeData;
+		public DockUpgradeData dockUpgradeData { get; set; }
 
 		public static Action<int> OnBoatLevelUpdated;
 		public static Action<int> OnTimerLevelUpdated;
@@ -32,9 +32,7 @@ namespace FishingIsland.Managers
 
 			BoatLevelIncreaseMoneyText(_boatUpgradeCost);
 			TimerLevelIncreaseMoneyText(_timerUpgradeCost);
-			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);
-
-			
+			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);		
 		}
 
 		private void Awake()
@@ -89,7 +87,6 @@ namespace FishingIsland.Managers
 
 		public void UpgradeTimerLevel()
 		{
-
 			if (MoneyManager.Instance.money >= _timerUpgradeCost)
 			{
 				MoneyManager.Instance.money -= _timerUpgradeCost;
@@ -97,6 +94,8 @@ namespace FishingIsland.Managers
 
 				int timerLevelCost = dockUpgrade.UpdateDockUpgradeTimerLevelCost(dockUpgradeData.timerLevel);
 
+				float updatedTimerDuration = dockUpgrade.TimerLevelIncrease();
+				Debug.Log("Updated Timer Duration DockUpgrade: " + updatedTimerDuration);
 				OnTimerLevelUpdated?.Invoke(dockUpgradeData.timerLevel);
 				TimerLevelIncreaseMoneyText(timerLevelCost);
 
@@ -118,7 +117,6 @@ namespace FishingIsland.Managers
 			{
 				MoneyManager.Instance.money -= _capacityUpgradeCost;
 				dockUpgradeData.capacityLevel++;
-
 
 				int capacityLevelCost = dockUpgrade.UpdateDockUpgradeCapacityLevelCost(dockUpgradeData.capacityLevel);
 

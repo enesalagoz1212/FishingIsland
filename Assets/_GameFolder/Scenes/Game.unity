@@ -2206,6 +2206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shackFishCountText: {fileID: 471196058}
   shackUpImage: {fileID: 207676212}
+  startingFishCount: 0
 --- !u!65 &200812010
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6525,6 +6526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxFishText: {fileID: 263154029}
+  startingFishCount: 0
 --- !u!4 &721450448
 Transform:
   m_ObjectHideFlags: 0
@@ -9340,11 +9342,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dockUpgrade: {fileID: 11400000, guid: 45e925f2f81ad82439a87585a58b5673, type: 2}
-  dockUpgradeData:
-    boatLevel: 1
-    timerLevel: 1
-    capacityLevel: 1
-    currentTimerDurationBoat: 7
   boatLevelIncreaseMoneyAmountText: {fileID: 1056245314}
   timerLevelIncreaseMoneyAmountText: {fileID: 113507191}
   capacityLevelIncreaseMoneyAmountText: {fileID: 2039087427}
@@ -11163,10 +11160,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   houseUpgrade: {fileID: 11400000, guid: cd91d12afeee5b140a717dd2616e7e89, type: 2}
-  houseUpgradeData:
-    fishWorkerLevel: 1
-    timerLevel: 1
-    capacityLevel: 1
   fishWorkerLevelIncreaseMoneyAmountText: {fileID: 207821830}
   timerLevelIncreaseMoneyAmountText: {fileID: 1897348473}
   capacityLevelIncreaseMoneyAmountText: {fileID: 145059195}
@@ -12455,10 +12448,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shackUpgrade: {fileID: 11400000, guid: 04b934c31d181c243b2b855ab6762dfc, type: 2}
-  shackUpgradeData:
-    dockWorkerLevel: 1
-    timerLevel: 1
-    capacityLevel: 1
   dockWorkerLevelIncreaseMoneyAmountText: {fileID: 388629568}
   timerLevelIncreaseMoneyAmountText: {fileID: 1800922231}
   capacityLevelIncreaseMoneyAmountText: {fileID: 1767536288}
@@ -13844,8 +13833,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b69be589bff94f40ac12d1f34dc32eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 500
-  startingMoney: 500
+  money: 250000
+  startingMoney: 250000
   moneyText: {fileID: 506694388}
 --- !u!1 &1632557694
 GameObject:

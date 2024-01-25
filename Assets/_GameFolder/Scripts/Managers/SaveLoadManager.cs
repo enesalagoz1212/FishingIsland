@@ -20,9 +20,6 @@ namespace FishingIsland.Managers
 		public float money;
 		public int totalFishCountFishBox;
 		public int totalFishCountShack;
-
-
-
 	}
 
 	public class SaveLoadManager : MonoBehaviour
@@ -115,9 +112,9 @@ namespace FishingIsland.Managers
 			{
 				saveData = new SaveData();
 				saveData.money = MoneyManager.Instance.money;
-				saveData.dockUpgradeData = new DockUpgradeData();
-				saveData.shackUpgradeData = new ShackUpgradeData();
-				saveData.houseUpgradeData = new HouseUpgradeData();
+				saveData.dockUpgradeData = new DockUpgradeData(1,1,1);
+				saveData.shackUpgradeData = new ShackUpgradeData(1,1,1);
+				saveData.houseUpgradeData = new HouseUpgradeData(1,1,1);
 			}
 		}
 
@@ -144,7 +141,7 @@ namespace FishingIsland.Managers
 			}
 			else
 			{
-				return new DockUpgradeData();
+				return new DockUpgradeData(1,1,1);
 			}
 		}
 
@@ -166,7 +163,7 @@ namespace FishingIsland.Managers
 			}
 			else
 			{
-				return new ShackUpgradeData();
+				return new ShackUpgradeData(1,1,1);
 			}
 		}
 
@@ -188,16 +185,16 @@ namespace FishingIsland.Managers
 			}
 			else
 			{
-				return new HouseUpgradeData();
+				return new HouseUpgradeData(1,1,1);
 			}
 		}
 
 		public void ResetGame()
 		{
 			saveData = new SaveData();
-			saveData.dockUpgradeData = new DockUpgradeData();
-			saveData.shackUpgradeData = new ShackUpgradeData();
-			saveData.houseUpgradeData = new HouseUpgradeData();
+			saveData.dockUpgradeData = new DockUpgradeData(1, 1, 1);
+			saveData.shackUpgradeData = new ShackUpgradeData(1,1,1);
+			saveData.houseUpgradeData = new HouseUpgradeData(1,1,1);
 
 			FishBoxController.Instance.Reset();
 			ShackController.Instance.Reset();

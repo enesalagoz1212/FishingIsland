@@ -83,7 +83,7 @@ namespace FishingIsland.Controllers
 		public float GetCurrentTimerDuration()
 		{
 			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-			_currentTimeDuration = shackUpgrade.CurrentTimerDuration();
+			_currentTimeDuration = shackUpgrade.TimerLevelIncrease();
 			return _currentTimeDuration;
 		}
 

@@ -13,7 +13,7 @@ namespace FishingIsland.Managers
 		public static ShackUpgradeManager Instance { get; set; }
 
 		public ShackUpgrade shackUpgrade;
-		public ShackUpgradeData shackUpgradeData;
+		public ShackUpgradeData shackUpgradeData { get; set; }
 
 		public static Action<int> OnShackUpgradeDockWorkerLevelUpdated;
 		public static Action<int> OnShackUpgradeTimerLevelUpdated;
@@ -91,7 +91,6 @@ namespace FishingIsland.Managers
 
 				int timerLevelCost = shackUpgrade.UpdateShackUpgradeTimerLevelCost(shackUpgradeData.timerLevel);
 
-
 				OnShackUpgradeTimerLevelUpdated?.Invoke(shackUpgradeData.timerLevel);
 
 				TimerLevelIncreaseMoneyText(timerLevelCost);
@@ -117,6 +116,8 @@ namespace FishingIsland.Managers
 				shackUpgradeData.capacityLevel++;
 
 				int capacityLevelCost = shackUpgrade.UpdateShackUpgradeCapacityLevelCost(shackUpgradeData.capacityLevel);
+		
+
 				OnShackUpgradeCapacityLevelUpdated?.Invoke(shackUpgradeData.capacityLevel);
 
 				CapacityLevelIncreaseMoneyText(capacityLevelCost);
