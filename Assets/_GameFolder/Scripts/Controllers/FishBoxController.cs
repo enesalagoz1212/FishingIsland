@@ -17,6 +17,7 @@ namespace FishingIsland.Controllers
 		private int _totalFishCount;
 		private float _timePerFish;
 		private bool _isFishCollectionCompletedBox = false;
+		private bool _numberOfFish = true;
 
 		public TextMeshProUGUI boxFishText;
 		public bool IsFishCollectionCompleted => _isFishCollectionCompletedBox;
@@ -38,7 +39,7 @@ namespace FishingIsland.Controllers
 		}
 		public void Initialize()
 		{
-			
+
 		}
 
 		private void OnEnable()
@@ -91,31 +92,56 @@ namespace FishingIsland.Controllers
 
 		private IEnumerator StartFishTransferFromDockWorker(DockWorkerController dockWorkerController)
 		{
+			_numberOfFish = true;
+			_isFishCollectionCompletedBox = false;
 			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
 			_dockCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
-			Debug.Log($"DockCapacity: {_dockCapacity}");
-			if (_totalFishCount > _dockCapacity)
-			{
-				_timePerFish = dockWorkerController.GetCurrentTimerDuration() / _dockCapacity;
-			}
-			else
-			{
-				_timePerFish = dockWorkerController.GetCurrentTimerDuration() / _totalFishCount;
-			}		
 
-			for (int i = 0; i < _dockCapacity; i++)
+			float initialTime = dockWorkerController.GetCurrentTimerDuration();
+			float currentTime = initialTime;
+			float elapsedTime = 0;
+			int fishCount = 0;
+			while (fishCount < _dockCapacity && HasFishBox && !_isFishCollectionCompletedBox)
 			{
-				if (HasFishBox)
+				elapsedTime += Time.deltaTime;
+				int currentDockCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
+				if (currentDockCapacity != _dockCapacity)
 				{
-					dockWorkerController.OnFishCollectedFishBox();
-					DecreaseFishCount(1);
-					yield return new WaitForSeconds(_timePerFish);
+					_dockCapacity = currentDockCapacity;
+					_numberOfFish = false;
+					float newCurrentTime = shackUpgrade.TimerLevelIncrease() - elapsedTime;
+					currentTime = newCurrentTime;
+				}
+
+				if (_numberOfFish)
+				{
+					if (_totalFishCount > _dockCapacity)
+					{
+						_timePerFish = currentTime / _dockCapacity;
+					}
+					else
+					{
+						_timePerFish = currentTime / _totalFishCount;
+					}
 				}
 				else
 				{
-					break;
+					if (_totalFishCount > _dockCapacity)
+					{
+						_timePerFish = currentTime / _dockCapacity;
+					}
+					else
+					{
+						_timePerFish = currentTime / _totalFishCount;
+					}
 				}
+
+				dockWorkerController.OnFishCollectedFishBox();
+				DecreaseFishCount(1);
+				fishCount++;
+				yield return new WaitForSeconds(_timePerFish);
 			}
+
 			_isFishCollectionCompletedBox = true;
 		}
 

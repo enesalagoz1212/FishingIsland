@@ -64,10 +64,12 @@ namespace FishingIsland.Controllers
 			{
 				if (_currentTimeDuration <= 0 && FishBoxController.Instance.IsFishCollectionCompleted)
 				{
+					Debug.Log("if blogu calisti");
 					OnFishCollectionCompleted();
 				}
 				else
 				{
+					Debug.Log("else blogu calisti");
 					_currentTimeDuration -= Time.deltaTime;
 					UpdateTimerDurationText();
 				}

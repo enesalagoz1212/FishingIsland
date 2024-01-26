@@ -128,7 +128,6 @@ namespace FishingIsland.Controllers
 
 		public void OnFishTransferredToFishBox()
 		{
-			//dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
 			_boatFishCapacity = dockUpgrade.ReturnBoatFishCapacity();
 			if (FishCount > 0)
 			{
@@ -186,12 +185,25 @@ namespace FishingIsland.Controllers
 			boatFishPanel.SetActive(true);
 			float timePerFish = _currentTimerDuration / _boatFishCapacity;
 
-			for (int i = 0; i < _boatFishCapacity; i++)
+			while (FishCount < _boatFishCapacity)
 			{
+				if (_boatFishCapacity != dockUpgrade.ReturnBoatFishCapacity())
+				{
+					dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
+					_boatFishCapacity = dockUpgrade.ReturnBoatFishCapacity();
+
+					timePerFish = _currentTimerDuration / _boatFishCapacity;
+
+					Debug.Log("Upgrade detected. New capacity: " + _boatFishCapacity);
+				}
+
 				yield return new WaitForSeconds(timePerFish);
+
 				FishCount++;
 				UpdateFishCapacityText(FishCount);
 			}
 		}
+
+		
 	}
 }

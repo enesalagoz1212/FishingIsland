@@ -95,7 +95,7 @@ namespace FishingIsland.Managers
 				int timerLevelCost = dockUpgrade.UpdateDockUpgradeTimerLevelCost(dockUpgradeData.timerLevel);
 
 				float updatedTimerDuration = dockUpgrade.TimerLevelIncrease();
-				Debug.Log("Updated Timer Duration DockUpgrade: " + updatedTimerDuration);
+	
 				OnTimerLevelUpdated?.Invoke(dockUpgradeData.timerLevel);
 				TimerLevelIncreaseMoneyText(timerLevelCost);
 
