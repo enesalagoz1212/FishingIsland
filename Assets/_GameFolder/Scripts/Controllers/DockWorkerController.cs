@@ -27,16 +27,13 @@ namespace FishingIsland.Controllers
 		private Vector3 _initialDockWorkerDownPosition;
 		private int _collectedFishCount = 0;
 		private int _dockCapacity;
-		private float _currentTimeDuration;
 		private bool _isBusy = false;
 		private bool hasAnimationPlayed = false;
 
 		private Sequence _dockWorkerDownAnimation;
 		
-		public GameObject timerPanel;
 		public GameObject dockWorkerFishPanel;
 		public TextMeshProUGUI dockWorkerFishCountText;
-		public TextMeshProUGUI dockWorkerTimerText;
 		public Image dockWorkerDownOkImage;
 		public float speed = 1f;
 		public int CollectedFishCount
@@ -62,16 +59,14 @@ namespace FishingIsland.Controllers
 		{
 			if (DockWorkerState == DockWorkerState.CollectingFish)
 			{
-				if (_currentTimeDuration <= 0 && FishBoxController.Instance.IsFishCollectionCompleted)
+				if (FishBoxController.Instance.IsFishCollectionCompleted)
 				{
 					Debug.Log("if blogu calisti");
 					OnFishCollectionCompleted();
 				}
 				else
 				{
-					Debug.Log("else blogu calisti");
-					_currentTimeDuration -= Time.deltaTime;
-					UpdateTimerDurationText();
+
 				}
 			}
 
@@ -80,18 +75,6 @@ namespace FishingIsland.Controllers
 				AnimateDockWorkerDown();
 				hasAnimationPlayed = true;
 			}
-		}
-
-		public float GetCurrentTimerDuration()
-		{
-			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-			_currentTimeDuration = shackUpgrade.TimerLevelIncrease();
-			return _currentTimeDuration;
-		}
-
-		public void UpdateTimerDurationText()
-		{
-			dockWorkerTimerText.text = $" {(int)_currentTimeDuration}s";
 		}
 
 		public override void WorkerMouseDown()
@@ -137,7 +120,6 @@ namespace FishingIsland.Controllers
 			{
 				case DockWorkerState.Idle:
 					hasAnimationPlayed = false;
-					_currentTimeDuration = GetCurrentTimerDuration();
 					_collectedFishCount = 0;
 					_isBusy = false;
 					dockWorkerFishPanel.gameObject.SetActive(false);
@@ -150,14 +132,12 @@ namespace FishingIsland.Controllers
 					});
 					break;
 				case DockWorkerState.CollectingFish:
-					timerPanel.SetActive(true);
 					dockWorkerFishPanel.gameObject.SetActive(true);
 					FishBoxController.OnDockWorkerArrivedBox?.Invoke(this);
 					break;
 				case DockWorkerState.ReturningFromCollectingFish:
 					transform.DOMove(_initialPosition, speed).OnComplete(() =>
 					{
-						timerPanel.SetActive(false);
 						ShackController.OnDockWorkerArrivedShack?.Invoke(this);
 					});
 					break;

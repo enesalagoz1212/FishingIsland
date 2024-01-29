@@ -15,15 +15,15 @@ namespace FishingIsland.Managers
 		public HouseUpgradeData houseUpgradeData { get; set; }
 
 		public static Action<int> OnHouseUpgradeFishWorkerLevelUpdated;
-		public static Action<int> OnHouseUpgradeTimerLevelUpdated;
+		public static Action<int> OnHouseUpgradeSpeedLevelUpdated;
 		public static Action<int> OnHouseUpgradeCapacityLevelUpdated;
 
 		public TextMeshProUGUI fishWorkerLevelIncreaseMoneyAmountText;
-		public TextMeshProUGUI timerLevelIncreaseMoneyAmountText;
+		public TextMeshProUGUI speedLevelIncreaseMoneyAmountText;
 		public TextMeshProUGUI capacityLevelIncreaseMoneyAmountText;
 
 		private int _fishWorkerUpgradeCost;
-		private int _timerUpgradeCost;
+		private int _speedUpgradeCost;
 		private int _capacityUpgradeCost;
 
 		public void Initialize()
@@ -31,7 +31,7 @@ namespace FishingIsland.Managers
 			UpdateUpgradeCosts();
 
 			FishWorkerLevelIncreaseMoneyText(_fishWorkerUpgradeCost);
-			TimerLevelIncreaseMoneyText(_timerUpgradeCost);
+			SpeedLevelIncreaseMoneyText(_speedUpgradeCost);
 			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);
 		}
 
@@ -50,7 +50,7 @@ namespace FishingIsland.Managers
 		public void UpdateUpgradeCosts()
 		{
 			_fishWorkerUpgradeCost = houseUpgrade.UpdateHouseUpgradeFishWorkerLevelCost(houseUpgradeData.fishWorkerLevel);
-			_timerUpgradeCost = houseUpgrade.UpdateHouseUpgradeTimerLevelCost(houseUpgradeData.timerLevel);
+			_speedUpgradeCost = houseUpgrade.UpdateHouseUpgradeSpeedLevelCost(houseUpgradeData.speedLevel);
 			_capacityUpgradeCost = houseUpgrade.UpdateHouseUpgradeCapacityLevelCost(houseUpgradeData.capacityLevel);
 		}
 
@@ -77,18 +77,18 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		public void UpgradeTimerLevel()
+		public void UpgradeSpeedLevel()
 		{
-			if (MoneyManager.Instance.money >= _timerUpgradeCost)
+			if (MoneyManager.Instance.money >= _speedUpgradeCost)
 			{
-				MoneyManager.Instance.money -= _timerUpgradeCost;
-				houseUpgradeData.timerLevel++;
+				MoneyManager.Instance.money -= _speedUpgradeCost;
+				houseUpgradeData.speedLevel++;
 
-				int timerLevelCost = houseUpgrade.UpdateHouseUpgradeTimerLevelCost(houseUpgradeData.timerLevel);
+				int speedLevelCost = houseUpgrade.UpdateHouseUpgradeSpeedLevelCost(houseUpgradeData.speedLevel);
 
-				OnHouseUpgradeTimerLevelUpdated?.Invoke(houseUpgradeData.timerLevel);
+				OnHouseUpgradeSpeedLevelUpdated?.Invoke(houseUpgradeData.speedLevel);
 
-				TimerLevelIncreaseMoneyText(timerLevelCost);
+				SpeedLevelIncreaseMoneyText(speedLevelCost);
 
 				UpdateUpgradeCosts();
 
@@ -132,9 +132,9 @@ namespace FishingIsland.Managers
 			return houseUpgradeData.fishWorkerLevel;
 		}
 
-		public int GetTimerLevel()
+		public int GetSpeedLevel()
 		{
-			return houseUpgradeData.timerLevel;
+			return houseUpgradeData.speedLevel;
 		}
 
 		public int GetCapacityLevel()
@@ -147,9 +147,9 @@ namespace FishingIsland.Managers
 			fishWorkerLevelIncreaseMoneyAmountText.text = $" {moneyText}";
 		}
 
-		public void TimerLevelIncreaseMoneyText(int moneyText)
+		public void SpeedLevelIncreaseMoneyText(int moneyText)
 		{
-			timerLevelIncreaseMoneyAmountText.text = $" {moneyText}";
+			speedLevelIncreaseMoneyAmountText.text = $" {moneyText}";
 		}
 
 		public void CapacityLevelIncreaseMoneyText(int moneyText)
@@ -170,7 +170,7 @@ namespace FishingIsland.Managers
 
 
 			OnHouseUpgradeFishWorkerLevelUpdated?.Invoke(houseUpgradeData.fishWorkerLevel);
-			OnHouseUpgradeTimerLevelUpdated?.Invoke(houseUpgradeData.timerLevel);
+			OnHouseUpgradeSpeedLevelUpdated?.Invoke(houseUpgradeData.speedLevel);
 			OnHouseUpgradeCapacityLevelUpdated?.Invoke(houseUpgradeData.capacityLevel);
 
 			MoneyManager.Instance.money = MoneyManager.Instance.startingMoney;
@@ -179,7 +179,7 @@ namespace FishingIsland.Managers
 			UpdateUpgradeCosts();
 
 			FishWorkerLevelIncreaseMoneyText(_fishWorkerUpgradeCost);
-			TimerLevelIncreaseMoneyText(_timerUpgradeCost);
+			SpeedLevelIncreaseMoneyText(_speedUpgradeCost);
 			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);
 		}
 	}

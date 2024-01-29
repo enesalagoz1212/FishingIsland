@@ -26,16 +26,13 @@ namespace FishingIsland.Controllers
 		private int _fishCapacity;
 		private int _totalFishCount;
 		private int _fishPrice = 5;
-		private float _currentTimeDuration;
 		private bool _isSellingFish = false;
 		private bool hasAnimationPlayed = false;
 
 		private Sequence _fishWorkerDownAnimation;
 		
 		public GameObject fishWorkerFishPanel;
-		public GameObject timerPanel;
 		public TextMeshProUGUI totalMoneyText;
-		public TextMeshProUGUI fishWorkerTimerText;
 		public TextMeshProUGUI fishWorkerFishText;
 		public Image fishWorkerDownOkImage;
 
@@ -53,14 +50,13 @@ namespace FishingIsland.Controllers
 		{
 			if (FishWorkerState == FishWorkerState.CollectingFish)
 			{
-				if (_currentTimeDuration <= 0 && ShackController.Instance.IsFishCollectionCompleted)
+				if (ShackController.Instance.IsFishCollectionCompleted)
 				{
 					OnFishCollectionCompleted();
 				}
 				else
 				{
-					_currentTimeDuration -= Time.deltaTime;
-					UpdateTimerDurationText();
+
 				}
 			}
 			if (ShackController.Instance.HasFishShack && !hasAnimationPlayed && FishWorkerState == FishWorkerState.Idle)
@@ -69,19 +65,7 @@ namespace FishingIsland.Controllers
 				hasAnimationPlayed = true;
 			}
 		}
-
-
-		public float GetCurrentTimerDuration()
-		{
-			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
-			_currentTimeDuration = houseUpgrade.TimerLevelIncrease();
-			return _currentTimeDuration;
-		}
-
-		public void UpdateTimerDurationText()
-		{
-			fishWorkerTimerText.text = $" {(int)_currentTimeDuration}s";
-		}
+	
 
 		public override void WorkerMouseDown()
 		{
@@ -100,19 +84,16 @@ namespace FishingIsland.Controllers
 			{
 				case FishWorkerState.Idle:
 					hasAnimationPlayed = false;
-					_currentTimeDuration = GetCurrentTimerDuration();
 					_totalFishCount = 0;
 					fishWorkerFishPanel.gameObject.SetActive(false);
 					_isSellingFish = false;
 					break;
 				case FishWorkerState.CollectingFish:
-					timerPanel.SetActive(true);
 					fishWorkerDownOkImage.gameObject.SetActive(false);
 					fishWorkerFishPanel.gameObject.SetActive(true);
 					ShackController.OnFishWorkerArrivedBox?.Invoke(this);
 					break;
 				case FishWorkerState.GoingToSellFish:
-					timerPanel.SetActive(false);
 					GoToSellFish();
 					break;
 				case FishWorkerState.ReturnsFromSellingFish:

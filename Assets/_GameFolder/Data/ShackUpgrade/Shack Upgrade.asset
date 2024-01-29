@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dockWorkerCapacityIncrease: 6
   dockWorkerLevelUpgradeCost: 30
-  timerLevelUpgradeCost: 40
+  speedLevelUpgradeCost: 40
   capacityLevelUpgradeCost: 50
   dockWorkerFishCapacity: 10
   initialTimerDurationFishWorker: 7

@@ -14,23 +14,23 @@ namespace FishingIsland.Canvases
 		[Header("Buttons")]
 		public Button dockCloseButton;
 		public Button boatButton;
-		public Button timerButton;
+		public Button speedButton;
 		public Button capacityButton;
 
 		[Header("Texts")]
 		public TextMeshProUGUI boatLevelText;
-		public TextMeshProUGUI timerLevelText;
+		public TextMeshProUGUI speedLevelText;
 		public TextMeshProUGUI capacityLevelText;
 
 		public void Initialize()
 		{
 			dockCloseButton.onClick.AddListener(OnCloseButtonClick);
 			boatButton.onClick.AddListener(OnBoatButtonClick);
-			timerButton.onClick.AddListener(OnTimerButtonClick);
+			speedButton.onClick.AddListener(OnSpeedButtonClick);
 			capacityButton.onClick.AddListener(OnCapacityButtonClick);
 
 			DockUpgradeManager.OnBoatLevelUpdated += UpdateBoatLevelText;
-			DockUpgradeManager.OnTimerLevelUpdated += UpdateTimerLevelText;
+			DockUpgradeManager.OnSpeedLevelUpdated += UpdateSpeedLevelText;
 			DockUpgradeManager.OnCapacityLevelUpdated += UpdateCapacityLevelText;
 
 			DockUpgradeData savedData = SaveLoadManager.Instance.LoadDockUpgradeData();
@@ -38,7 +38,7 @@ namespace FishingIsland.Canvases
 			DockUpgradeManager.Instance.UpdateUpgradeCosts();
 
 			UpdateBoatLevelText(DockUpgradeManager.Instance.GetBoatLevel());
-			UpdateTimerLevelText(DockUpgradeManager.Instance.GetTimerLevel());
+			UpdateSpeedLevelText(DockUpgradeManager.Instance.GetTimerLevel());
 			UpdateCapacityLevelText(DockUpgradeManager.Instance.GetCapacityLevel());
 		}
 
@@ -53,9 +53,9 @@ namespace FishingIsland.Canvases
 			DockUpgradeManager.Instance.UpgradeBoatLevel();
 		}
 
-		public void OnTimerButtonClick()
+		public void OnSpeedButtonClick()
 		{
-			DockUpgradeManager.Instance.UpgradeTimerLevel();
+			DockUpgradeManager.Instance.UpgradeSpeedLevel();
 		}
 
 		public void OnCapacityButtonClick()
@@ -68,9 +68,9 @@ namespace FishingIsland.Canvases
 			boatLevelText.text = $" {newBoatLevel}";
 		}
 
-		private void UpdateTimerLevelText(int newTimerLevel)
+		private void UpdateSpeedLevelText(int newSpeedLevel)
 		{
-			timerLevelText.text = $" {newTimerLevel}";
+			speedLevelText.text = $" {newSpeedLevel}";
 		}
 
 		private void UpdateCapacityLevelText(int newCapacityLevel)

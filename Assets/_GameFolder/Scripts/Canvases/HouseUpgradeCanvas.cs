@@ -13,23 +13,23 @@ namespace FishingIsland.Canvases
 		[Header("Buttons")]
 		public Button houseCloseButton;
 		public Button fishWorkerButton;
-		public Button timerButton;
+		public Button speedButton;
 		public Button capacityButton;
 
 		[Header("Texts")]
 		public TextMeshProUGUI fishWorkerLevelText;
-		public TextMeshProUGUI timerLevelText;
+		public TextMeshProUGUI speedLevelText;
 		public TextMeshProUGUI capacityLevelText;
 
 		public void Initialize()
 		{
 			houseCloseButton.onClick.AddListener(OnCloseButtonClick);
 			fishWorkerButton.onClick.AddListener(OnDockWorkerButtonClick);
-			timerButton.onClick.AddListener(OnTimerButtonClick);
+			speedButton.onClick.AddListener(OnSpeedButtonClick);
 			capacityButton.onClick.AddListener(OnCapacityButtonClick);
 
 			HouseUpgradeManager.OnHouseUpgradeFishWorkerLevelUpdated += HouseUpgradeUpdateFishWorkerLevelText;
-			HouseUpgradeManager.OnHouseUpgradeTimerLevelUpdated += HouseUpgradeUpdateTimerLevelText;
+			HouseUpgradeManager.OnHouseUpgradeSpeedLevelUpdated += HouseUpgradeUpdateSpeedLevelText;
 			HouseUpgradeManager.OnHouseUpgradeCapacityLevelUpdated += HouseUpgradeUpdateCapacityLevelText;
 
 			HouseUpgradeData savedData = SaveLoadManager.Instance.LoadHouseUpgradeData();
@@ -37,7 +37,7 @@ namespace FishingIsland.Canvases
 			HouseUpgradeManager.Instance.UpdateUpgradeCosts();
 
 			HouseUpgradeUpdateFishWorkerLevelText(HouseUpgradeManager.Instance.GetFishWorkerLevel());
-			HouseUpgradeUpdateTimerLevelText(HouseUpgradeManager.Instance.GetTimerLevel());
+			HouseUpgradeUpdateSpeedLevelText(HouseUpgradeManager.Instance.GetSpeedLevel());
 			HouseUpgradeUpdateCapacityLevelText(HouseUpgradeManager.Instance.GetCapacityLevel());
 		}
 
@@ -52,9 +52,9 @@ namespace FishingIsland.Canvases
 			HouseUpgradeManager.Instance.UpgradeFishWorkerLevel();
 		}
 
-		public void OnTimerButtonClick()
+		public void OnSpeedButtonClick()
 		{
-			HouseUpgradeManager.Instance.UpgradeTimerLevel();
+			HouseUpgradeManager.Instance.UpgradeSpeedLevel();
 		}
 
 		public void OnCapacityButtonClick()
@@ -67,9 +67,9 @@ namespace FishingIsland.Canvases
 			fishWorkerLevelText.text = $" {newFishWorkerLevel}";
 		}
 
-		private void HouseUpgradeUpdateTimerLevelText(int newTimerLevel)
+		private void HouseUpgradeUpdateSpeedLevelText(int newTimerLevel)
 		{
-			timerLevelText.text = $" {newTimerLevel}";
+			speedLevelText.text = $" {newTimerLevel}";
 		}
 
 		private void HouseUpgradeUpdateCapacityLevelText(int newCapacityLevel)

@@ -10,13 +10,13 @@ namespace FishingIsland.UpgradeScriptableObjects
 	public class DockUpgradeData
 	{
 		public int boatLevel;
-		public int timerLevel;
+		public int speedLevel;
 		public int capacityLevel;
 
-		public DockUpgradeData(int levelBoat, int levelTimer, int levelCapacity)
+		public DockUpgradeData(int levelBoat, int levelSpeed, int levelCapacity)
 		{
 			boatLevel = levelBoat;
-			timerLevel = levelTimer;
+			speedLevel = levelSpeed;
 			capacityLevel = levelCapacity;
 		}
 	}
@@ -29,7 +29,7 @@ namespace FishingIsland.UpgradeScriptableObjects
 		[SerializeField] private int boatCapacityIncrease;
 
 		[SerializeField] private int boatLevelUpgradeCost;
-		[SerializeField] private int timerLevelUpgradeCost;
+		[SerializeField] private int speedLevelUpgradeCost;
 		[SerializeField] private int capacityLevelUpgradeCost;
 
 
@@ -52,8 +52,8 @@ namespace FishingIsland.UpgradeScriptableObjects
 
 		public int UpdateDockUpgradeTimerLevelCost(int newLevel)
 		{
-			int timerLevelCost = timerLevelUpgradeCost * newLevel;
-			return timerLevelCost;
+			int speedLevelCost = speedLevelUpgradeCost * newLevel;
+			return speedLevelCost;
 		}
 
 		public int UpdateDockUpgradeCapacityLevelCost(int newLevel)
@@ -63,19 +63,13 @@ namespace FishingIsland.UpgradeScriptableObjects
 		}
 
 
-		public float TimerLevelIncrease()
-		{
-			float divisionDock = dockUpgradeData.timerLevel / 5f;
-			divisionDock = MathF.Floor(divisionDock);
-			var time = initialTimerDurationBoat - divisionDock;
-			return Mathf.Max(time, minTimerDurationBoat);
-		}
+	
 
 
 		public void ResetGameDockUpgrade()
 		{
 			dockUpgradeData.boatLevel = 1;
-			dockUpgradeData.timerLevel = 1;
+			dockUpgradeData.speedLevel = 1;
 			dockUpgradeData.capacityLevel = 1;
 
 

@@ -114,18 +114,8 @@ namespace FishingIsland.Controllers
 		{
 			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
 			_fishCapacity = _houseUpgrade.ReturnFishWorkerFishCapacity();
-			Debug.Log(_fishCapacity);
+
 			_isFishCollectionCompletedShack = false;
-
-			if (_shackFishCount > _fishCapacity)
-			{
-				_timePerFish = fishWorkerController.GetCurrentTimerDuration() / _fishCapacity;
-			}
-			else
-			{
-				_timePerFish = fishWorkerController.GetCurrentTimerDuration() / _shackFishCount;
-			}
-
 
 			for (int i = 0; i < _fishCapacity; i++)
 			{

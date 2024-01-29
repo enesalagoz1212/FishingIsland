@@ -14,23 +14,23 @@ namespace FishingIsland.Canvases
 		[Header("Buttons")]
 		public Button shackCloseButton;
 		public Button dockWorkerButton;
-		public Button timerButton;
+		public Button speedButton;
 		public Button capacityButton;
 
 		[Header("Texts")]
 		public TextMeshProUGUI dockWorkerLevelText;
-		public TextMeshProUGUI timerLevelText;
+		public TextMeshProUGUI speedLevelText;
 		public TextMeshProUGUI capacityLevelText;
 
 		public void Initialize()
 		{
 			shackCloseButton.onClick.AddListener(OnCloseButtonClick);
 			dockWorkerButton.onClick.AddListener(OnDockWorkerButtonClick);
-			timerButton.onClick.AddListener(OnTimerButtonClick);
+			speedButton.onClick.AddListener(OnSpeedButtonClick);
 			capacityButton.onClick.AddListener(OnCapacityButtonClick);
 
 			ShackUpgradeManager.OnShackUpgradeDockWorkerLevelUpdated += ShackUpgradeUpdateDockWorkerLevelText;
-			ShackUpgradeManager.OnShackUpgradeTimerLevelUpdated += ShackUpgradeUpdateTimerLevelText;
+			ShackUpgradeManager.OnShackUpgradeSpeedLevelUpdated += ShackUpgradeUpdateSpeedLevelText;
 			ShackUpgradeManager.OnShackUpgradeCapacityLevelUpdated += ShackUpgradeUpdateCapacityLevelText;
 
 			ShackUpgradeData savedData = SaveLoadManager.Instance.LoadShackUpgradeData();
@@ -38,7 +38,7 @@ namespace FishingIsland.Canvases
 			ShackUpgradeManager.Instance.UpdateUpgradeCosts();
 
 			ShackUpgradeUpdateDockWorkerLevelText(ShackUpgradeManager.Instance.GetDockWorkerLevel());
-			ShackUpgradeUpdateTimerLevelText(ShackUpgradeManager.Instance.GetTimerLevel());
+			ShackUpgradeUpdateSpeedLevelText(ShackUpgradeManager.Instance.GetSpeedLevel());
 			ShackUpgradeUpdateCapacityLevelText(ShackUpgradeManager.Instance.GetCapacityLevel());
 		}
 
@@ -53,9 +53,9 @@ namespace FishingIsland.Canvases
 			ShackUpgradeManager.Instance.UpgradeDockWorkerLevel();
 		}
 
-		public void OnTimerButtonClick()
+		public void OnSpeedButtonClick()
 		{
-			ShackUpgradeManager.Instance.UpgradeTimerLevel();
+			ShackUpgradeManager.Instance.UpgradeSpeedLevel();
 		}
 
 		public void OnCapacityButtonClick()
@@ -68,9 +68,9 @@ namespace FishingIsland.Canvases
 			dockWorkerLevelText.text = $" {newDockWorkerLevel}";
 		}
 
-		private void ShackUpgradeUpdateTimerLevelText(int newTimerLevel)
+		private void ShackUpgradeUpdateSpeedLevelText(int newSpeedLevel)
 		{
-			timerLevelText.text = $" {newTimerLevel}";
+			speedLevelText.text = $" {newSpeedLevel}";
 		}
 
 		private void ShackUpgradeUpdateCapacityLevelText(int newCapacityLevel)

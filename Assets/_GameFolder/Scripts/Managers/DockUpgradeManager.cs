@@ -15,15 +15,15 @@ namespace FishingIsland.Managers
 		public DockUpgradeData dockUpgradeData { get; set; }
 
 		public static Action<int> OnBoatLevelUpdated;
-		public static Action<int> OnTimerLevelUpdated;
+		public static Action<int> OnSpeedLevelUpdated;
 		public static Action<int> OnCapacityLevelUpdated;
 
 		public TextMeshProUGUI boatLevelIncreaseMoneyAmountText;
-		public TextMeshProUGUI timerLevelIncreaseMoneyAmountText;
+		public TextMeshProUGUI speedLevelIncreaseMoneyAmountText;
 		public TextMeshProUGUI capacityLevelIncreaseMoneyAmountText;
 
 		private int _boatUpgradeCost;
-		private int _timerUpgradeCost;
+		private int _speedUpgradeCost;
 		private int _capacityUpgradeCost;
 
 		public void Initialize()
@@ -31,7 +31,7 @@ namespace FishingIsland.Managers
 			UpdateUpgradeCosts();
 
 			BoatLevelIncreaseMoneyText(_boatUpgradeCost);
-			TimerLevelIncreaseMoneyText(_timerUpgradeCost);
+			SpeedLevelIncreaseMoneyText(_speedUpgradeCost);
 			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);		
 		}
 
@@ -50,7 +50,7 @@ namespace FishingIsland.Managers
 		public void UpdateUpgradeCosts()
 		{
 			_boatUpgradeCost = dockUpgrade.UpdateDockUpgradeBoatLevelCost(dockUpgradeData.boatLevel);
-			_timerUpgradeCost = dockUpgrade.UpdateDockUpgradeTimerLevelCost(dockUpgradeData.timerLevel);
+			_speedUpgradeCost = dockUpgrade.UpdateDockUpgradeTimerLevelCost(dockUpgradeData.speedLevel);
 			_capacityUpgradeCost = dockUpgrade.UpdateDockUpgradeCapacityLevelCost(dockUpgradeData.capacityLevel);
 		}
 
@@ -85,19 +85,17 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		public void UpgradeTimerLevel()
+		public void UpgradeSpeedLevel()
 		{
-			if (MoneyManager.Instance.money >= _timerUpgradeCost)
+			if (MoneyManager.Instance.money >= _speedUpgradeCost)
 			{
-				MoneyManager.Instance.money -= _timerUpgradeCost;
-				dockUpgradeData.timerLevel++;
+				MoneyManager.Instance.money -= _speedUpgradeCost;
+				dockUpgradeData.speedLevel++;
 
-				int timerLevelCost = dockUpgrade.UpdateDockUpgradeTimerLevelCost(dockUpgradeData.timerLevel);
-
-				float updatedTimerDuration = dockUpgrade.TimerLevelIncrease();
+				int speedLevelCost = dockUpgrade.UpdateDockUpgradeTimerLevelCost(dockUpgradeData.speedLevel);
 	
-				OnTimerLevelUpdated?.Invoke(dockUpgradeData.timerLevel);
-				TimerLevelIncreaseMoneyText(timerLevelCost);
+				OnSpeedLevelUpdated?.Invoke(dockUpgradeData.speedLevel);
+				SpeedLevelIncreaseMoneyText(speedLevelCost);
 
 				UpdateUpgradeCosts();
 
@@ -146,7 +144,7 @@ namespace FishingIsland.Managers
 
 		public int GetTimerLevel()
 		{
-			return dockUpgradeData.timerLevel;
+			return dockUpgradeData.speedLevel;
 		}
 
 		public int GetCapacityLevel()
@@ -159,9 +157,9 @@ namespace FishingIsland.Managers
 			boatLevelIncreaseMoneyAmountText.text = $" {moneyText}";
 		}
 
-		public void TimerLevelIncreaseMoneyText(int moneyText)
+		public void SpeedLevelIncreaseMoneyText(int moneyText)
 		{
-			timerLevelIncreaseMoneyAmountText.text = $"{moneyText}";
+			speedLevelIncreaseMoneyAmountText.text = $"{moneyText}";
 		}
 
 		public void CapacityLevelIncreaseMoneyText(int moneyText)
@@ -182,7 +180,7 @@ namespace FishingIsland.Managers
 
 
 			OnBoatLevelUpdated?.Invoke(dockUpgradeData.boatLevel);
-			OnTimerLevelUpdated?.Invoke(dockUpgradeData.timerLevel);
+			OnSpeedLevelUpdated?.Invoke(dockUpgradeData.speedLevel);
 			OnCapacityLevelUpdated?.Invoke(dockUpgradeData.capacityLevel);
 
 			MoneyManager.Instance.money = MoneyManager.Instance.startingMoney;
@@ -190,7 +188,7 @@ namespace FishingIsland.Managers
 
 			UpdateUpgradeCosts();
 			BoatLevelIncreaseMoneyText(_boatUpgradeCost);
-			TimerLevelIncreaseMoneyText(_timerUpgradeCost);
+			SpeedLevelIncreaseMoneyText(_speedUpgradeCost);
 			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);
 		}
 	}

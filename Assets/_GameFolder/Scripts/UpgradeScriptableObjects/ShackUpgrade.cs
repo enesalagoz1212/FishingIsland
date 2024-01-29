@@ -10,13 +10,13 @@ namespace FishingIsland.UpgradeScriptableObjects
 	public class ShackUpgradeData
 	{
 		public int dockWorkerLevel;
-		public int timerLevel;
+		public int speedLevel;
 		public int capacityLevel;
 
-		public ShackUpgradeData(int levelDockWorker, int levelTimer, int levelCapacity)
+		public ShackUpgradeData(int levelDockWorker, int levelSpeed, int levelCapacity)
 		{
 			dockWorkerLevel = levelDockWorker;
-			timerLevel = levelTimer;
+			speedLevel = levelSpeed;
 			capacityLevel = levelCapacity;
 		}
 	}
@@ -29,7 +29,7 @@ namespace FishingIsland.UpgradeScriptableObjects
 		[SerializeField] private int dockWorkerCapacityIncrease;
 
 		[SerializeField] private int dockWorkerLevelUpgradeCost;
-		[SerializeField] private int timerLevelUpgradeCost;
+		[SerializeField] private int speedLevelUpgradeCost;
 		[SerializeField] private int capacityLevelUpgradeCost;
 
 		[SerializeField] private int dockWorkerFishCapacity;
@@ -49,10 +49,10 @@ namespace FishingIsland.UpgradeScriptableObjects
 			return dockWorkerLevelCost;
 		}
 
-		public int UpdateShackUpgradeTimerLevelCost(int newLevel)
+		public int UpdateShackUpgradeSpeedLevelCost(int newLevel)
 		{
-			int timerLevelCost = timerLevelUpgradeCost * newLevel;
-			return timerLevelCost;
+			int speedLevelCost = speedLevelUpgradeCost * newLevel;
+			return speedLevelCost;
 		}
 
 		public int UpdateShackUpgradeCapacityLevelCost(int newLevel)
@@ -62,18 +62,10 @@ namespace FishingIsland.UpgradeScriptableObjects
 		}
 
 
-		public float TimerLevelIncrease()
-		{
-			float divisionShack = shackUpgradeData.timerLevel  / 5f;
-			divisionShack = MathF.Floor(divisionShack);
-			var time = initialTimerDurationFishWorker - divisionShack;
-			return Mathf.Max(time, minTimerDurationFishWorker);
-		}
-
 		public void ResetGameShackUpgrade()
 		{
 			shackUpgradeData.dockWorkerLevel = 1;
-			shackUpgradeData.timerLevel = 1;
+			shackUpgradeData.speedLevel = 1;
 			shackUpgradeData.capacityLevel = 1;
 
 

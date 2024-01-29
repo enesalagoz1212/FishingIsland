@@ -10,12 +10,12 @@ namespace FishingIsland.UpgradeScriptableObjects
 	public class HouseUpgradeData
 	{
 		public int fishWorkerLevel;
-		public int timerLevel;
+		public int speedLevel;
 		public int capacityLevel;
-		public HouseUpgradeData(int levelFishWorker,int levelTimer,int levelCapacity)
+		public HouseUpgradeData(int levelFishWorker,int levelSpeed,int levelCapacity)
 		{
 			fishWorkerLevel = levelFishWorker;
-			timerLevel = levelTimer;
+			speedLevel = levelSpeed;
 			capacityLevel = levelCapacity;
 		}
 	}
@@ -28,7 +28,7 @@ namespace FishingIsland.UpgradeScriptableObjects
 		[SerializeField] private int fishWorkerCapacityIncrease;
 
 		[SerializeField] private int fishWorkerLevelUpgradeCost;
-		[SerializeField] private int timerLevelUpgradeCost;
+		[SerializeField] private int speedLevelUpgradeCost;
 		[SerializeField] private int capacityLevelUpgradeCost;
 
 		[SerializeField] private int fishWorkerFishCapacity;
@@ -49,10 +49,10 @@ namespace FishingIsland.UpgradeScriptableObjects
 			return fishWorkerLevelCost;
 		}
 
-		public int UpdateHouseUpgradeTimerLevelCost(int newLevel)
+		public int UpdateHouseUpgradeSpeedLevelCost(int newLevel)
 		{
-			int timerLevelCost = timerLevelUpgradeCost * newLevel;
-			return timerLevelCost;
+			int speedLevelCost = speedLevelUpgradeCost * newLevel;
+			return speedLevelCost;
 		}
 
 		public int UpdateHouseUpgradeCapacityLevelCost(int newLevel)
@@ -61,18 +61,11 @@ namespace FishingIsland.UpgradeScriptableObjects
 			return capacityLevelCost;
 		}
 
-		public float TimerLevelIncrease()
-		{
-			float divisionHouse = houseUpgradeData.timerLevel / 5f;
-			divisionHouse = MathF.Floor(divisionHouse);
-			var time = initialTimerDurationHouse - divisionHouse;
-			return Mathf.Max(time, minTimerDurationHouse);
-		}
 
 		public void ResetGameHouseUpgrade()
 		{
 			houseUpgradeData.fishWorkerLevel = 1;
-			houseUpgradeData.timerLevel = 1;
+			houseUpgradeData.speedLevel = 1;
 			houseUpgradeData.capacityLevel = 1;
 
 
