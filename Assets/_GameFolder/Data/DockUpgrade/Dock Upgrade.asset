@@ -19,3 +19,5 @@ MonoBehaviour:
   boatFishCapacity: 10
   initialTimerDurationBoat: 7
   minTimerDurationBoat: 3
+  speedIncreasePerLevel: 0.5
+  initialSpeed: 2

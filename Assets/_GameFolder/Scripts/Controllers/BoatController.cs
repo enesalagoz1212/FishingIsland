@@ -21,6 +21,7 @@ namespace FishingIsland.Controllers
 	{
 		public BoatState BoatState { get; private set; }
 		private DockUpgrade dockUpgrade;
+		private DockUpgradeData dockUpgradeData;
 
 		private Vector3 _initialPosition;
 		private Vector3 _initialBoatDownPosition;
@@ -70,11 +71,6 @@ namespace FishingIsland.Controllers
 					 });
 					break;
 			}
-		}
-
-		private void Update()
-		{
-			SpeedControlBoat();
 		}
 
 		private void AnimateBoatDown()
@@ -147,48 +143,42 @@ namespace FishingIsland.Controllers
 			StartCoroutine(CollectFish());
 		}
 
-		private void SpeedControlBoat()
-		{
-			if (BoatState == BoatState.Fishing)
-			{
-				dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
-
-				if ( FishCount >= _boatFishCapacity)
-				{
-					ChangeState(BoatState.ReturningToPort);
-				}
-				else
-				{
-
-				}
-			}
-		}
-
 		private IEnumerator CollectFish()
 		{
 			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
 			_boatFishCapacity = dockUpgrade.ReturnBoatFishCapacity();
-
 			boatFishPanel.SetActive(true);
 
-			float oneFishGatherSpeed = 2f;
+			float oneFishGatherSpeed = dockUpgrade.UpdateDockUpgradeSpeed(dockUpgrade.dockUpgradeData.speedLevel);
 			float oneFishGatherTime;
 			float timer = 0f;
 
-			oneFishGatherTime = 1 / oneFishGatherSpeed;
-
-			while (FishCount < _boatFishCapacity)
+			while (FishCount < dockUpgrade.ReturnBoatFishCapacity())
 			{
+				if (oneFishGatherSpeed != dockUpgrade.UpdateDockUpgradeSpeed(dockUpgrade.dockUpgradeData.speedLevel))
+				{
+					oneFishGatherSpeed = dockUpgrade.UpdateDockUpgradeSpeed(dockUpgrade.dockUpgradeData.speedLevel);
+				}
+
+				oneFishGatherTime = 1 / oneFishGatherSpeed;
+				Debug.Log(oneFishGatherTime);
+				
+
 				timer += Time.deltaTime;
 
 				if (timer >= oneFishGatherTime)
 				{
+
 					FishCount++;
 					UpdateFishCapacityText(FishCount);
 					timer = 0f;
 				}
-
 				yield return null;
+
+				if (FishCount >= dockUpgrade.ReturnBoatFishCapacity())
+				{
+					ChangeState(BoatState.ReturningToPort);
+				}
 			}
 		}
 

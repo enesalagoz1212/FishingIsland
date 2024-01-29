@@ -142,7 +142,7 @@ namespace FishingIsland.Managers
 			return dockUpgradeData.boatLevel;
 		}
 
-		public int GetTimerLevel()
+		public int GetSpeedLevel()
 		{
 			return dockUpgradeData.speedLevel;
 		}

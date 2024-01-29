@@ -38,7 +38,7 @@ namespace FishingIsland.Canvases
 			DockUpgradeManager.Instance.UpdateUpgradeCosts();
 
 			UpdateBoatLevelText(DockUpgradeManager.Instance.GetBoatLevel());
-			UpdateSpeedLevelText(DockUpgradeManager.Instance.GetTimerLevel());
+			UpdateSpeedLevelText(DockUpgradeManager.Instance.GetSpeedLevel());
 			UpdateCapacityLevelText(DockUpgradeManager.Instance.GetCapacityLevel());
 		}
 

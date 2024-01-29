@@ -62,6 +62,7 @@ namespace FishingIsland.UpgradeScriptableObjects
 		}
 
 
+
 		public void ResetGameHouseUpgrade()
 		{
 			houseUpgradeData.fishWorkerLevel = 1;
