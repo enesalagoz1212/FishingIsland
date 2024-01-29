@@ -161,18 +161,17 @@ namespace FishingIsland.Controllers
 				}
 
 				oneFishGatherTime = 1 / oneFishGatherSpeed;
-				Debug.Log(oneFishGatherTime);
-				
+
 
 				timer += Time.deltaTime;
 
 				if (timer >= oneFishGatherTime)
 				{
-
 					FishCount++;
 					UpdateFishCapacityText(FishCount);
 					timer = 0f;
 				}
+
 				yield return null;
 
 				if (FishCount >= dockUpgrade.ReturnBoatFishCapacity())

@@ -96,20 +96,35 @@ namespace FishingIsland.Controllers
 
 			int fishCount = 0;
 
-			float oneFishGatherSpeed = 2f;
-			float oneFishGatherTime = 1 / oneFishGatherSpeed;
+			float oneFishGatherSpeed = shackUpgrade.UpdateShackUpgradeSpeed(shackUpgrade.shackUpgradeData.speedLevel);
+			float oneFishGatherTime;
 			float timer = 0f;
+
 			while (fishCount < shackUpgrade.ReturnDockWorkerFishCapacity() && HasFishBox && !_isFishCollectionCompletedBox)
 			{
+				if (oneFishGatherSpeed != shackUpgrade.UpdateShackUpgradeSpeed(shackUpgrade.shackUpgradeData.speedLevel))
+				{
+					oneFishGatherSpeed = shackUpgrade.UpdateShackUpgradeSpeed(shackUpgrade.shackUpgradeData.speedLevel);
+				}
+
+				oneFishGatherTime = 1 / oneFishGatherSpeed;
+				Debug.Log(oneFishGatherTime);
 				timer += Time.deltaTime;
-				if(timer >= oneFishGatherTime)
+
+				if (timer >= oneFishGatherTime)
 				{
 					dockWorkerController.OnFishCollectedFishBox();
 					DecreaseFishCount(1);
 					fishCount++;
 					timer = 0f;
 				}
+
+				if (fishCount >= shackUpgrade.ReturnDockWorkerFishCapacity() || !HasFishBox)
+				{
+					dockWorkerController.OnFishCollectionCompleted();
+				}
 				yield return null;
+
 			}
 
 			_isFishCollectionCompletedBox = true;

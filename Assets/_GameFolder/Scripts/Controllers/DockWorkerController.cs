@@ -31,7 +31,7 @@ namespace FishingIsland.Controllers
 		private bool hasAnimationPlayed = false;
 
 		private Sequence _dockWorkerDownAnimation;
-		
+
 		public GameObject dockWorkerFishPanel;
 		public TextMeshProUGUI dockWorkerFishCountText;
 		public Image dockWorkerDownOkImage;
@@ -57,19 +57,6 @@ namespace FishingIsland.Controllers
 
 		private void Update()
 		{
-			if (DockWorkerState == DockWorkerState.CollectingFish)
-			{
-				if (FishBoxController.Instance.IsFishCollectionCompleted)
-				{
-					Debug.Log("if blogu calisti");
-					OnFishCollectionCompleted();
-				}
-				else
-				{
-
-				}
-			}
-
 			if (FishBoxController.Instance.HasFishBox && !hasAnimationPlayed && DockWorkerState == DockWorkerState.Idle)
 			{
 				AnimateDockWorkerDown();
@@ -145,13 +132,13 @@ namespace FishingIsland.Controllers
 		}
 
 
-		public void OnFishCollectedFishBox()           
+		public void OnFishCollectedFishBox()
 		{
 			_collectedFishCount++;
 			UpdateFishCountText(_collectedFishCount);
 		}
 
-		public void OnFishCollectionCompleted()          
+		public void OnFishCollectionCompleted()
 		{
 			ChangeState(DockWorkerState.ReturningFromCollectingFish);
 		}
