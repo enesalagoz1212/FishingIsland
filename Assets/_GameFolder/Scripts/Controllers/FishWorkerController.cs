@@ -48,17 +48,6 @@ namespace FishingIsland.Controllers
 
 		private void Update()
 		{
-			if (FishWorkerState == FishWorkerState.CollectingFish)
-			{
-				if (ShackController.Instance.IsFishCollectionCompleted)
-				{
-					OnFishCollectionCompleted();
-				}
-				else
-				{
-
-				}
-			}
 			if (ShackController.Instance.HasFishShack && !hasAnimationPlayed && FishWorkerState == FishWorkerState.Idle)
 			{
 				AnimateFishWorkerDown();
@@ -130,7 +119,7 @@ namespace FishingIsland.Controllers
 		}
 
 
-		public void OnFishTransferredToFishWorker()           //
+		public void OnFishTransferredToFishWorker()           
 		{
 			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
 			_fishCapacity = houseUpgrade.ReturnFishWorkerFishCapacity();

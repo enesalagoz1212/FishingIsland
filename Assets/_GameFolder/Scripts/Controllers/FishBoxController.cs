@@ -108,7 +108,6 @@ namespace FishingIsland.Controllers
 				}
 
 				oneFishGatherTime = 1 / oneFishGatherSpeed;
-				Debug.Log(oneFishGatherTime);
 				timer += Time.deltaTime;
 
 				if (timer >= oneFishGatherTime)

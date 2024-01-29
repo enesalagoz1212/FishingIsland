@@ -117,18 +117,40 @@ namespace FishingIsland.Controllers
 
 			_isFishCollectionCompletedShack = false;
 
-			for (int i = 0; i < _fishCapacity; i++)
+			int fishCount = 0;
+
+			float oneFishGatherSpeed = _houseUpgrade.UpdateHouseUpgradeSpeed(_houseUpgrade.houseUpgradeData.speedLevel);
+			float oneFishGatherTime;
+			float timer = 0f;
+
+
+			while (fishCount < _houseUpgrade.ReturnFishWorkerFishCapacity() && HasFishShack && !_isFishCollectionCompletedShack)
 			{
-				if (HasFishShack)
+				if (oneFishGatherSpeed != _houseUpgrade.UpdateHouseUpgradeSpeed(_houseUpgrade.houseUpgradeData.speedLevel))
+				{
+					oneFishGatherSpeed = _houseUpgrade.UpdateHouseUpgradeSpeed(_houseUpgrade.houseUpgradeData.speedLevel);
+				}
+
+				oneFishGatherTime = 1 / oneFishGatherSpeed;
+				Debug.Log(oneFishGatherTime);
+
+				timer += Time.deltaTime;
+
+				if (timer >= oneFishGatherTime)
 				{
 					fishWorkerController.OnFishTransferredToFishWorker();
 					DecreaseFishCount(1);
-					yield return new WaitForSeconds(_timePerFish);
+					fishCount++;
+					timer = 0;
 				}
-				else
+
+				if (fishCount >= _houseUpgrade.ReturnFishWorkerFishCapacity() || !HasFishShack)
 				{
-					break;
+					fishWorkerController.OnFishCollectionCompleted();
 				}
+
+				yield return null;
+
 			}
 			_isFishCollectionCompletedShack = true;
 		}

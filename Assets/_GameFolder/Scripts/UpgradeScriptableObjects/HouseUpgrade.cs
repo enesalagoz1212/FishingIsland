@@ -36,7 +36,8 @@ namespace FishingIsland.UpgradeScriptableObjects
 		[SerializeField] private float initialTimerDurationHouse;
 		[SerializeField] private float minTimerDurationHouse;
 
-
+		[SerializeField] private float speedIncreasePerLevel;
+		[SerializeField] private float initialSpeed;
 
 		public int ReturnFishWorkerFishCapacity()
 		{
@@ -61,7 +62,10 @@ namespace FishingIsland.UpgradeScriptableObjects
 			return capacityLevelCost;
 		}
 
-
+		public float UpdateHouseUpgradeSpeed(int newLevel)
+		{
+			return initialSpeed + (speedIncreasePerLevel * (newLevel - 1));
+		}
 
 		public void ResetGameHouseUpgrade()
 		{

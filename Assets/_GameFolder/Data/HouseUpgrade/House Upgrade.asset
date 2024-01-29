@@ -19,3 +19,5 @@ MonoBehaviour:
   fishWorkerFishCapacity: 10
   initialTimerDurationHouse: 7
   minTimerDurationHouse: 3
+  speedIncreasePerLevel: 0.5
+  initialSpeed: 2
