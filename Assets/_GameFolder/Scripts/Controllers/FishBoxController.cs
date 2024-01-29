@@ -5,6 +5,7 @@ using TMPro;
 using System;
 using FishingIsland.UpgradeScriptableObjects;
 using FishingIsland.Managers;
+using UnityEngine.UI;
 
 namespace FishingIsland.Controllers
 {
@@ -15,9 +16,13 @@ namespace FishingIsland.Controllers
 
 		private int _dockCapacity;
 		private int _totalFishCount;
+		private int _fishCount = 0;
+		private float _currentProgress;
 		private bool _isFishCollectionCompletedBox = false;
 
 		public TextMeshProUGUI boxFishText;
+		public Image dockWorkerBarImage;
+		public Image circularProgressBar;
 		public bool IsFishCollectionCompleted => _isFishCollectionCompletedBox;
 		public bool HasFishBox => _totalFishCount > 0;
 		public int startingFishCount;
@@ -88,19 +93,21 @@ namespace FishingIsland.Controllers
 			}
 		}
 
+
 		private IEnumerator StartFishTransferFromDockWorker(DockWorkerController dockWorkerController)
 		{
+			dockWorkerBarImage.gameObject.SetActive(true);
 			_isFishCollectionCompletedBox = false;
 			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
 			_dockCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
 
-			int fishCount = 0;
+
 
 			float oneFishGatherSpeed = shackUpgrade.UpdateShackUpgradeSpeed(shackUpgrade.shackUpgradeData.speedLevel);
 			float oneFishGatherTime;
 			float timer = 0f;
 
-			while (fishCount < shackUpgrade.ReturnDockWorkerFishCapacity() && HasFishBox && !_isFishCollectionCompletedBox)
+			while (_fishCount < shackUpgrade.ReturnDockWorkerFishCapacity() && HasFishBox && !_isFishCollectionCompletedBox)
 			{
 				if (oneFishGatherSpeed != shackUpgrade.UpdateShackUpgradeSpeed(shackUpgrade.shackUpgradeData.speedLevel))
 				{
@@ -114,11 +121,13 @@ namespace FishingIsland.Controllers
 				{
 					dockWorkerController.OnFishCollectedFishBox();
 					DecreaseFishCount(1);
-					fishCount++;
+					_fishCount++;
+
+					UpdateCircularProgressBar();
 					timer = 0f;
 				}
 
-				if (fishCount >= shackUpgrade.ReturnDockWorkerFishCapacity() || !HasFishBox)
+				if (_fishCount >= shackUpgrade.ReturnDockWorkerFishCapacity() || !HasFishBox)
 				{
 					dockWorkerController.OnFishCollectionCompleted();
 				}
@@ -145,6 +154,31 @@ namespace FishingIsland.Controllers
 		{
 			_totalFishCount = 0;
 			UpdateFishCountText();
+		}
+
+		private void UpdateCircularProgressBar()
+		{
+			if (circularProgressBar != null)
+			{
+				shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+				int maxCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
+				
+				if (maxCapacity >=_totalFishCount )
+				{
+					maxCapacity =_totalFishCount;
+				}				
+
+				_currentProgress = (float)_fishCount / maxCapacity;
+
+				circularProgressBar.fillAmount = _currentProgress;
+
+				if (circularProgressBar.fillAmount >= 1f)
+				{
+					dockWorkerBarImage.gameObject.SetActive(false);
+					circularProgressBar.fillAmount = 0f;
+				}
+			}
+
 		}
 	}
 }
