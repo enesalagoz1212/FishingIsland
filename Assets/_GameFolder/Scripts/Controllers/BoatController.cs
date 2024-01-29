@@ -26,10 +26,13 @@ namespace FishingIsland.Controllers
 		private Vector3 _initialPosition;
 		private Vector3 _initialBoatDownPosition;
 		private int _boatFishCapacity;
+		private float currentProgress;
 		private bool _canClick = true;
 		public int FishCount { get; private set; }
 		public GameObject boatFishPanel;
 		public Image boatDownOkImage;
+		public Image boatBarImage;
+		public Image circularProgressBar;
 		public TextMeshProUGUI fishCapacityText;
 		public TextMeshProUGUI boxFishText;
 
@@ -152,6 +155,8 @@ namespace FishingIsland.Controllers
 			float oneFishGatherSpeed = dockUpgrade.UpdateDockUpgradeSpeed(dockUpgrade.dockUpgradeData.speedLevel);
 			float oneFishGatherTime;
 			float timer = 0f;
+			currentProgress = 0;
+			boatBarImage.gameObject.SetActive(true);
 
 			while (FishCount < dockUpgrade.ReturnBoatFishCapacity())
 			{
@@ -169,6 +174,8 @@ namespace FishingIsland.Controllers
 				{
 					FishCount++;
 					UpdateFishCapacityText(FishCount);
+
+					UpdateCircularProgressBar();
 					timer = 0f;
 				}
 
@@ -181,6 +188,24 @@ namespace FishingIsland.Controllers
 			}
 		}
 
+		private void UpdateCircularProgressBar()
+		{
+			if (circularProgressBar != null)
+			{
+				dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
+				int maxCapacity = dockUpgrade.ReturnBoatFishCapacity();
 
+				currentProgress = (float)FishCount / maxCapacity;
+
+				circularProgressBar.fillAmount = currentProgress;
+
+				if (circularProgressBar.fillAmount >= 1f)
+				{
+					boatBarImage.gameObject.SetActive(false);
+					circularProgressBar.fillAmount = 0f;
+				}
+			}
+
+		}
 	}
 }
