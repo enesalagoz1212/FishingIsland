@@ -17,7 +17,7 @@ MonoBehaviour:
   speedLevelUpgradeCost: 40
   capacityLevelUpgradeCost: 50
   dockWorkerFishCapacity: 10
-  initialTimerDurationFishWorker: 7
-  minTimerDurationFishWorker: 3
   speedIncreasePerLevel: 0.5
   initialSpeed: 2
+  dockWorkerLevelIncreasePerLevel: 0.3
+  initialDockWorkerLevel: 7

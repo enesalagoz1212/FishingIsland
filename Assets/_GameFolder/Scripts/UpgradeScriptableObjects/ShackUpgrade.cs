@@ -37,6 +37,10 @@ namespace FishingIsland.UpgradeScriptableObjects
 		[SerializeField] private float speedIncreasePerLevel;
 		[SerializeField] private float initialSpeed;
 
+
+		[SerializeField] private float dockWorkerLevelIncreasePerLevel;
+		[SerializeField] private float initialDockWorkerLevel;
+
 		public int ReturnDockWorkerFishCapacity()
 		{
 			return dockWorkerFishCapacity + (shackUpgradeData.capacityLevel - 1) * dockWorkerCapacityIncrease;
@@ -64,6 +68,12 @@ namespace FishingIsland.UpgradeScriptableObjects
 		{
 			return initialSpeed + (speedIncreasePerLevel * (newLevel - 1));
 		}
+
+		public float UpdateShackUpgradeDockWorkerLevelSpeed(int newLevel)
+		{
+			return initialDockWorkerLevel - (dockWorkerLevelIncreasePerLevel * (newLevel - 1));
+		}
+
 
 		public void ResetGameShackUpgrade()
 		{

@@ -60,7 +60,7 @@ namespace FishingIsland.Controllers
 					{
 						MoveToPosition(randomSpawnPoint.position, 1f, () =>
 						{
-							 ChangeState(BoatState.Fishing);
+							ChangeState(BoatState.Fishing);
 						});
 					}
 					break;
@@ -72,9 +72,9 @@ namespace FishingIsland.Controllers
 					boatBarImage.gameObject.SetActive(false);
 					circularProgressBar.fillAmount = 0f;
 					MoveToPosition(_initialPosition, 1f, () =>
-					 {
-						 FishBoxController.OnBoatArrivedBox?.Invoke(this);
-					 });
+					{
+						FishBoxController.OnBoatArrivedBox?.Invoke(this);
+					});
 					break;
 			}
 		}
@@ -110,7 +110,6 @@ namespace FishingIsland.Controllers
 			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
 			float updatedBoatSpeed = dockUpgrade.UpdateDockUpgradeBoatLevel(dockUpgrade.dockUpgradeData.boatLevel);
 
-			Debug.Log(updatedBoatSpeed);
 			transform.DOMove(targetPosition, duration * updatedBoatSpeed).OnComplete(() =>
 			{
 				onComplete?.Invoke();
@@ -163,7 +162,7 @@ namespace FishingIsland.Controllers
 			float oneFishGatherTime;
 			float timer = 0f;
 			currentProgress = 0;
-			
+
 
 			while (FishCount < dockUpgrade.ReturnBoatFishCapacity())
 			{

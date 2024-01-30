@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using FishingIsland.Managers;
 using FishingIsland.UpgradeScriptableObjects;
+using System;
 
 namespace FishingIsland.Controllers
 {
@@ -38,7 +39,7 @@ namespace FishingIsland.Controllers
 		public GameObject dockWorkerFishPanel;
 		public TextMeshProUGUI dockWorkerFishCountText;
 		public Image dockWorkerDownOkImage;
-		public float speed = 1f;
+		public float speed;
 		public int CollectedFishCount
 		{
 			get { return _collectedFishCount; }
@@ -116,7 +117,7 @@ namespace FishingIsland.Controllers
 					break;
 				case DockWorkerState.GoToCollectFish:
 					dockWorkerDownOkImage.gameObject.SetActive(false);
-					transform.DOMove(_targetPosition, speed).OnComplete(() =>
+					MoveToPosition(_targetPosition, 1, () =>
 					{
 						ChangeState(DockWorkerState.CollectingFish);
 					});
@@ -130,8 +131,7 @@ namespace FishingIsland.Controllers
 				case DockWorkerState.ReturningFromCollectingFish:
 					dockWorkerBarImage.gameObject.SetActive(false);
 					circularProgressBar.fillAmount = 0f;
-
-					transform.DOMove(_initialPosition, speed).OnComplete(() =>
+					MoveToPosition(_initialPosition, 1, () =>
 					{
 						ShackController.OnDockWorkerArrivedShack?.Invoke(this);
 					});
@@ -139,6 +139,16 @@ namespace FishingIsland.Controllers
 			}
 		}
 
+		public void MoveToPosition(Vector3 targetPosition, float duration, Action onComplete = null)
+		{
+			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+			float updatedDockWorkerSpeed = shackUpgrade.UpdateShackUpgradeDockWorkerLevelSpeed(shackUpgrade.shackUpgradeData.dockWorkerLevel);
+			Debug.Log(updatedDockWorkerSpeed);
+			transform.DOMove(targetPosition, duration * updatedDockWorkerSpeed).OnComplete(() =>
+			{
+				onComplete?.Invoke();
+			});
+		}
 
 		public void OnFishCollectedFishBox()
 		{
