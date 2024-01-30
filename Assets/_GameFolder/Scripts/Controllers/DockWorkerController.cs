@@ -143,7 +143,7 @@ namespace FishingIsland.Controllers
 		{
 			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
 			float updatedDockWorkerSpeed = shackUpgrade.UpdateShackUpgradeDockWorkerLevelSpeed(shackUpgrade.shackUpgradeData.dockWorkerLevel);
-			Debug.Log(updatedDockWorkerSpeed);
+
 			transform.DOMove(targetPosition, duration * updatedDockWorkerSpeed).OnComplete(() =>
 			{
 				onComplete?.Invoke();

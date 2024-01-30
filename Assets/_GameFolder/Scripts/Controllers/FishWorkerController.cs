@@ -28,6 +28,8 @@ namespace FishingIsland.Controllers
 		private int _fishPrice = 5;
 		private bool _isSellingFish = false;
 		private bool hasAnimationPlayed = false;
+		private float _fishWorkerSpeed;
+
 
 		private Sequence _fishWorkerDownAnimation;
 
@@ -149,16 +151,21 @@ namespace FishingIsland.Controllers
 
 		private void MoveOnPath(List<Transform> pathList, Action onCompleteAction)
 		{
+
 			if (pathList != null && pathList.Count > 0)
 			{
+				houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
+				_fishWorkerSpeed = houseUpgrade.UpdateDockUpgradeFishWorkerLevelSpeed(houseUpgrade.houseUpgradeData.fishWorkerLevel);
+				Debug.Log(_fishWorkerSpeed);
+
 				Vector3 currentPosition = transform.position;
 				Sequence pathSequence = DOTween.Sequence();
 
-				pathSequence.Append(transform.DOMove(pathList[0].position, 2f).SetEase(Ease.Linear));
+				pathSequence.Append(transform.DOMove(pathList[0].position, _fishWorkerSpeed).SetEase(Ease.Linear));
 
 				for (int i = 1; i < pathList.Count; i++)
 				{
-					pathSequence.Append(transform.DOMove(pathList[i].position, 2f).SetEase(Ease.Linear));
+					pathSequence.Append(transform.DOMove(pathList[i].position, _fishWorkerSpeed).SetEase(Ease.Linear));
 				}
 
 				pathSequence.OnComplete(() => onCompleteAction?.Invoke());
@@ -172,6 +179,11 @@ namespace FishingIsland.Controllers
 		private void GoToSellFish()
 		{
 			MoveOnPath(LevelManager.Instance.fishWorkerSellPath, () => StartCoroutine(SellFish()));
+		}
+
+		private void UpdateFishWorkerSpeed(float newSpeed)
+		{
+			_fishWorkerSpeed = newSpeed;
 		}
 
 		private void ReturnToInitialPoint()

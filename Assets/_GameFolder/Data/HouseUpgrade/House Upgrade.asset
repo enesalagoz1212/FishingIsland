@@ -17,7 +17,7 @@ MonoBehaviour:
   speedLevelUpgradeCost: 40
   capacityLevelUpgradeCost: 50
   fishWorkerFishCapacity: 10
-  initialTimerDurationHouse: 7
-  minTimerDurationHouse: 3
   speedIncreasePerLevel: 0.5
   initialSpeed: 2
+  fishWorkerLevelIncreasePerLevelSpeed: 0.3
+  initialFishWorkerLevel: 5
