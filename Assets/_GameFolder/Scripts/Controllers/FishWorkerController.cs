@@ -30,11 +30,13 @@ namespace FishingIsland.Controllers
 		private bool hasAnimationPlayed = false;
 
 		private Sequence _fishWorkerDownAnimation;
-		
+
 		public GameObject fishWorkerFishPanel;
 		public TextMeshProUGUI totalMoneyText;
 		public TextMeshProUGUI fishWorkerFishText;
 		public Image fishWorkerDownOkImage;
+		public Image fishWorkerBarImage;
+		public Image circularProgressBar;
 
 		public override void Initialize(string name, float speed, int initialCapacity)
 		{
@@ -54,7 +56,7 @@ namespace FishingIsland.Controllers
 				hasAnimationPlayed = true;
 			}
 		}
-	
+
 
 		public override void WorkerMouseDown()
 		{
@@ -79,10 +81,13 @@ namespace FishingIsland.Controllers
 					break;
 				case FishWorkerState.CollectingFish:
 					fishWorkerDownOkImage.gameObject.SetActive(false);
+					fishWorkerBarImage.gameObject.SetActive(true);
 					fishWorkerFishPanel.gameObject.SetActive(true);
 					ShackController.OnFishWorkerArrivedBox?.Invoke(this);
 					break;
 				case FishWorkerState.GoingToSellFish:
+					fishWorkerBarImage.gameObject.SetActive(false);
+					circularProgressBar.fillAmount = 0f;
 					GoToSellFish();
 					break;
 				case FishWorkerState.ReturnsFromSellingFish:
@@ -104,7 +109,7 @@ namespace FishingIsland.Controllers
 			_fishWorkerDownAnimation = DOTween.Sequence();
 			_fishWorkerDownAnimation.Append(fishWorkerDownOkImage.rectTransform.DOLocalMove(targetPosition, 0.7f).SetEase(Ease.OutQuad));
 			_fishWorkerDownAnimation.Append(fishWorkerDownOkImage.rectTransform.DOLocalMove(initialPosition, 0.7f).SetEase(Ease.InQuad));
-	
+
 			_fishWorkerDownAnimation.SetLoops(-1, LoopType.Yoyo);
 
 		}
@@ -119,13 +124,17 @@ namespace FishingIsland.Controllers
 		}
 
 
-		public void OnFishTransferredToFishWorker()           
+		public void OnFishTransferredToFishWorker()
 		{
 			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
 			_fishCapacity = houseUpgrade.ReturnFishWorkerFishCapacity();
 
 			_totalFishCount++;
 			UpdateFishCountText(_totalFishCount);
+
+			var currentProgress = (float)_totalFishCount / _fishCapacity;
+
+			circularProgressBar.fillAmount = currentProgress;
 		}
 
 		public void OnFishCollectionCompleted()
