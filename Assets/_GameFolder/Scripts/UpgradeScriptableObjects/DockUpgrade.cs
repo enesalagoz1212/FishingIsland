@@ -35,11 +35,11 @@ namespace FishingIsland.UpgradeScriptableObjects
 
 		[SerializeField] private int boatFishCapacity;
 
-		[SerializeField] private float initialTimerDurationBoat;
-		[SerializeField] private float minTimerDurationBoat;
+		[SerializeField] private float speedLevelIncreasePerLevel;
+		[SerializeField] private float initialSpeedLevel;
 
-		[SerializeField] private float speedIncreasePerLevel;
-		[SerializeField] private float initialSpeed;
+		[SerializeField] private float boatLevelIncreasePerLevel;
+		[SerializeField] private float initialBoatLevel;
 
 		public int ReturnBoatFishCapacity() 
 		{
@@ -52,7 +52,7 @@ namespace FishingIsland.UpgradeScriptableObjects
 			return boatLevelCost;
 		}
 
-		public int UpdateDockUpgradeTimerLevelCost(int newLevel)
+		public int UpdateDockUpgradeSpeedLevelCost(int newLevel)
 		{
 			int speedLevelCost = speedLevelUpgradeCost * newLevel;
 			return speedLevelCost;
@@ -64,12 +64,15 @@ namespace FishingIsland.UpgradeScriptableObjects
 			return capacityLevelCost;
 		}
 
-		public float UpdateDockUpgradeSpeed(int newLevel)
+		public float UpdateDockUpgradeSpeedLevel(int newLevel)
 		{
-			return initialSpeed + (speedIncreasePerLevel * (newLevel - 1));
+			return initialSpeedLevel + (speedLevelIncreasePerLevel * (newLevel - 1));
 		}
 
-
+		public float UpdateDockUpgradeBoatLevel(int newLevel)
+		{
+		     return initialBoatLevel - (boatLevelIncreasePerLevel * (newLevel - 1));
+		}
 
 
 		public void ResetGameDockUpgrade()

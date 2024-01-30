@@ -50,7 +50,7 @@ namespace FishingIsland.Managers
 		public void UpdateUpgradeCosts()
 		{
 			_boatUpgradeCost = dockUpgrade.UpdateDockUpgradeBoatLevelCost(dockUpgradeData.boatLevel);
-			_speedUpgradeCost = dockUpgrade.UpdateDockUpgradeTimerLevelCost(dockUpgradeData.speedLevel);
+			_speedUpgradeCost = dockUpgrade.UpdateDockUpgradeSpeedLevelCost(dockUpgradeData.speedLevel);
 			_capacityUpgradeCost = dockUpgrade.UpdateDockUpgradeCapacityLevelCost(dockUpgradeData.capacityLevel);
 		}
 
@@ -92,7 +92,7 @@ namespace FishingIsland.Managers
 				MoneyManager.Instance.money -= _speedUpgradeCost;
 				dockUpgradeData.speedLevel++;
 
-				int speedLevelCost = dockUpgrade.UpdateDockUpgradeTimerLevelCost(dockUpgradeData.speedLevel);
+				int speedLevelCost = dockUpgrade.UpdateDockUpgradeSpeedLevelCost(dockUpgradeData.speedLevel);
 	
 				OnSpeedLevelUpdated?.Invoke(dockUpgradeData.speedLevel);
 				SpeedLevelIncreaseMoneyText(speedLevelCost);

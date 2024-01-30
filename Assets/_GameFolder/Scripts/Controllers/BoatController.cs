@@ -58,16 +58,19 @@ namespace FishingIsland.Controllers
 					Transform randomSpawnPoint = LevelManager.Instance.GetRandomBoatSpawnPoint();
 					if (randomSpawnPoint != null)
 					{
-						MoveToPosition(randomSpawnPoint.position, 2f, () =>
-						 {
+						MoveToPosition(randomSpawnPoint.position, 1f, () =>
+						{
 							 ChangeState(BoatState.Fishing);
-						 });
+						});
 					}
 					break;
 				case BoatState.Fishing:
+					boatBarImage.gameObject.SetActive(true);
 					UpdateCollectTheFishText();
 					break;
 				case BoatState.ReturningToPort:
+					boatBarImage.gameObject.SetActive(false);
+					circularProgressBar.fillAmount = 0f;
 					MoveToPosition(_initialPosition, 1f, () =>
 					 {
 						 FishBoxController.OnBoatArrivedBox?.Invoke(this);
@@ -104,7 +107,11 @@ namespace FishingIsland.Controllers
 
 		private void MoveToPosition(Vector3 targetPosition, float duration, Action onComplete)
 		{
-			transform.DOMove(targetPosition, duration).OnComplete(() =>
+			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
+			float updatedBoatSpeed = dockUpgrade.UpdateDockUpgradeBoatLevel(dockUpgrade.dockUpgradeData.boatLevel);
+
+			Debug.Log(updatedBoatSpeed);
+			transform.DOMove(targetPosition, duration * updatedBoatSpeed).OnComplete(() =>
 			{
 				onComplete?.Invoke();
 			});
@@ -152,17 +159,17 @@ namespace FishingIsland.Controllers
 			_boatFishCapacity = dockUpgrade.ReturnBoatFishCapacity();
 			boatFishPanel.SetActive(true);
 
-			float oneFishGatherSpeed = dockUpgrade.UpdateDockUpgradeSpeed(dockUpgrade.dockUpgradeData.speedLevel);
+			float oneFishGatherSpeed = dockUpgrade.UpdateDockUpgradeSpeedLevel(dockUpgrade.dockUpgradeData.speedLevel);
 			float oneFishGatherTime;
 			float timer = 0f;
 			currentProgress = 0;
-			boatBarImage.gameObject.SetActive(true);
+			
 
 			while (FishCount < dockUpgrade.ReturnBoatFishCapacity())
 			{
-				if (oneFishGatherSpeed != dockUpgrade.UpdateDockUpgradeSpeed(dockUpgrade.dockUpgradeData.speedLevel))
+				if (oneFishGatherSpeed != dockUpgrade.UpdateDockUpgradeSpeedLevel(dockUpgrade.dockUpgradeData.speedLevel))
 				{
-					oneFishGatherSpeed = dockUpgrade.UpdateDockUpgradeSpeed(dockUpgrade.dockUpgradeData.speedLevel);
+					oneFishGatherSpeed = dockUpgrade.UpdateDockUpgradeSpeedLevel(dockUpgrade.dockUpgradeData.speedLevel);
 				}
 
 				oneFishGatherTime = 1 / oneFishGatherSpeed;
@@ -198,12 +205,6 @@ namespace FishingIsland.Controllers
 				currentProgress = (float)FishCount / maxCapacity;
 
 				circularProgressBar.fillAmount = currentProgress;
-
-				if (circularProgressBar.fillAmount >= 1f)
-				{
-					boatBarImage.gameObject.SetActive(false);
-					circularProgressBar.fillAmount = 0f;
-				}
 			}
 
 		}

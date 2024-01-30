@@ -122,13 +122,10 @@ namespace FishingIsland.Controllers
 					});
 					break;
 				case DockWorkerState.CollectingFish:
-					Debug.Log("1");
-					dockWorkerBarImage.gameObject.SetActive(true);
-					Debug.Log("2");
-					dockWorkerFishPanel.gameObject.SetActive(true);
-					Debug.Log("3");
+					dockWorkerBarImage.gameObject.SetActive(true);				
+					dockWorkerFishPanel.gameObject.SetActive(true);					
 					FishBoxController.OnDockWorkerArrivedBox?.Invoke(this);
-					Debug.Log("4");
+					
 					break;
 				case DockWorkerState.ReturningFromCollectingFish:
 					dockWorkerBarImage.gameObject.SetActive(false);

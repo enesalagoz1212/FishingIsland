@@ -79,7 +79,6 @@ namespace FishingIsland.Controllers
 
 		private void OnDockWorkerArrivedBoxAction(DockWorkerController dockWorkerController)
 		{
-			Debug.Log("5");
 			StartCoroutine(StartFishTransferFromDockWorker(dockWorkerController));
 		}
 
@@ -96,45 +95,35 @@ namespace FishingIsland.Controllers
 
 		private IEnumerator StartFishTransferFromDockWorker(DockWorkerController dockWorkerController)
 		{
-			Debug.Log("6");
 			_isFishCollectionCompletedBox = false;
 			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
 			_dockCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
-			Debug.Log("7");
 
 
 			float oneFishGatherSpeed = shackUpgrade.UpdateShackUpgradeSpeed(shackUpgrade.shackUpgradeData.speedLevel);
 			float oneFishGatherTime;
 			float timer = 0f;
 
-			Debug.Log("8");
-
 			while (_fishCount < shackUpgrade.ReturnDockWorkerFishCapacity() && HasFishBox && !_isFishCollectionCompletedBox)
 			{
-				Debug.Log("9");
 				if (oneFishGatherSpeed != shackUpgrade.UpdateShackUpgradeSpeed(shackUpgrade.shackUpgradeData.speedLevel))
 				{
-					Debug.Log("10");
 					oneFishGatherSpeed = shackUpgrade.UpdateShackUpgradeSpeed(shackUpgrade.shackUpgradeData.speedLevel);
 				}
 
 				oneFishGatherTime = 1 / oneFishGatherSpeed;
 				timer += Time.deltaTime;
 
-				Debug.Log("11");
 				if (timer >= oneFishGatherTime)
 				{
-					Debug.Log("12");
 					dockWorkerController.OnFishCollectedFishBox();
 					DecreaseFishCount(1);
 					_fishCount++;
-					Debug.Log("13");
 					timer = 0f;
 				}
 
 				if (_fishCount >= shackUpgrade.ReturnDockWorkerFishCapacity() || !HasFishBox)
 				{
-					Debug.Log("14");
 					dockWorkerController.OnFishCollectionCompleted();
 				}
 				yield return null;

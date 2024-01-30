@@ -17,7 +17,7 @@ MonoBehaviour:
   speedLevelUpgradeCost: 40
   capacityLevelUpgradeCost: 50
   boatFishCapacity: 10
-  initialTimerDurationBoat: 7
-  minTimerDurationBoat: 3
-  speedIncreasePerLevel: 0.5
-  initialSpeed: 2
+  speedLevelIncreasePerLevel: 0.5
+  initialSpeedLevel: 2
+  boatLevelIncreasePerLevel: 0.3
+  initialBoatLevel: 7

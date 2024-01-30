@@ -34,10 +34,6 @@ namespace FishingIsland.UpgradeScriptableObjects
 
 		[SerializeField] private int dockWorkerFishCapacity;
 
-		[SerializeField] private float initialTimerDurationFishWorker;
-		[SerializeField] private float minTimerDurationFishWorker;
-
-
 		[SerializeField] private float speedIncreasePerLevel;
 		[SerializeField] private float initialSpeed;
 
