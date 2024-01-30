@@ -151,12 +151,10 @@ namespace FishingIsland.Controllers
 
 		private void MoveOnPath(List<Transform> pathList, Action onCompleteAction)
 		{
-
 			if (pathList != null && pathList.Count > 0)
 			{
 				houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
 				_fishWorkerSpeed = houseUpgrade.UpdateDockUpgradeFishWorkerLevelSpeed(houseUpgrade.houseUpgradeData.fishWorkerLevel);
-				Debug.Log(_fishWorkerSpeed);
 
 				Vector3 currentPosition = transform.position;
 				Sequence pathSequence = DOTween.Sequence();

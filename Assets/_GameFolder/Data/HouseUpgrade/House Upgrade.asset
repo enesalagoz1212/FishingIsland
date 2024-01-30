@@ -19,5 +19,5 @@ MonoBehaviour:
   fishWorkerFishCapacity: 10
   speedIncreasePerLevel: 0.5
   initialSpeed: 2
-  fishWorkerLevelIncreasePerLevelSpeed: 0.3
+  fishWorkerLevelIncreasePerLevelSpeed: 0.2
   initialFishWorkerLevel: 5
