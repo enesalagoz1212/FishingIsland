@@ -6390,8 +6390,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxFishText: {fileID: 263154029}
-  dockWorkerBarImage: {fileID: 1623593613}
-  circularProgressBar: {fileID: 1777783905}
   startingFishCount: 0
 --- !u!4 &721450448
 Transform:
@@ -13431,7 +13429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1623593612
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18596,6 +18594,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c54330f52fb57d4d929b1a0f49f1897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dockWorkerBarImage: {fileID: 1623593613}
+  circularProgressBar: {fileID: 1777783905}
   dockWorkerFishPanel: {fileID: 2013988974}
   dockWorkerFishCountText: {fileID: 202064225}
   dockWorkerDownOkImage: {fileID: 35011668}

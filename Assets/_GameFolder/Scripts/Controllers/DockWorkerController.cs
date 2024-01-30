@@ -30,6 +30,9 @@ namespace FishingIsland.Controllers
 		private bool _isBusy = false;
 		private bool hasAnimationPlayed = false;
 
+		public Image dockWorkerBarImage;
+		public Image circularProgressBar;
+
 		private Sequence _dockWorkerDownAnimation;
 
 		public GameObject dockWorkerFishPanel;
@@ -119,10 +122,18 @@ namespace FishingIsland.Controllers
 					});
 					break;
 				case DockWorkerState.CollectingFish:
+					Debug.Log("1");
+					dockWorkerBarImage.gameObject.SetActive(true);
+					Debug.Log("2");
 					dockWorkerFishPanel.gameObject.SetActive(true);
+					Debug.Log("3");
 					FishBoxController.OnDockWorkerArrivedBox?.Invoke(this);
+					Debug.Log("4");
 					break;
 				case DockWorkerState.ReturningFromCollectingFish:
+					dockWorkerBarImage.gameObject.SetActive(false);
+					circularProgressBar.fillAmount = 0f;
+
 					transform.DOMove(_initialPosition, speed).OnComplete(() =>
 					{
 						ShackController.OnDockWorkerArrivedShack?.Invoke(this);
@@ -136,6 +147,15 @@ namespace FishingIsland.Controllers
 		{
 			_collectedFishCount++;
 			UpdateFishCountText(_collectedFishCount);
+
+			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+			int maxCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
+
+			var currentProgress = (float)_collectedFishCount / maxCapacity;
+
+			circularProgressBar.fillAmount = currentProgress;
+
+		
 		}
 
 		public void OnFishCollectionCompleted()
