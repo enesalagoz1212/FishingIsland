@@ -27,6 +27,7 @@ namespace FishingIsland.Managers
 		public static Action<int> OnMoneyScored;
 		public static Action OnFishCollectionAndTransfer;
 		public static Action OnCloseButton;
+		public static Action OnButtonClickedDockUpgrade;
 
 
 		[SerializeField] private UiManager uiManager;
