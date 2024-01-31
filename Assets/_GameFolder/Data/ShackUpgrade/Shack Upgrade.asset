@@ -21,3 +21,4 @@ MonoBehaviour:
   initialSpeed: 2
   dockWorkerLevelIncreasePerLevel: 0.3
   initialDockWorkerLevel: 7
+  maxLevelShack: 20

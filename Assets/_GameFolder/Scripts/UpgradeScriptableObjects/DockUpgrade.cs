@@ -41,6 +41,8 @@ namespace FishingIsland.UpgradeScriptableObjects
 		[SerializeField] private float boatLevelIncreasePerLevel;
 		[SerializeField] private float initialBoatLevel;
 
+		[SerializeField] private int maxLevelDock;
+
 		public int ReturnBoatFishCapacity() 
 		{
 			return boatFishCapacity + (dockUpgradeData.capacityLevel - 1) * boatCapacityIncrease;
@@ -74,6 +76,10 @@ namespace FishingIsland.UpgradeScriptableObjects
 		     return initialBoatLevel - (boatLevelIncreasePerLevel * (newLevel - 1));
 		}
 
+		public int MaxLevelDock() 
+		{
+			return maxLevelDock;
+		}
 
 		public void ResetGameDockUpgrade()
 		{

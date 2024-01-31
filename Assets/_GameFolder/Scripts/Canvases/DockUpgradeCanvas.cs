@@ -11,6 +11,8 @@ namespace FishingIsland.Canvases
 {
 	public class DockUpgradeCanvas : MonoBehaviour
 	{
+		private DockUpgrade _dockUpgrade;
+
 		[Header("Buttons")]
 		public Button dockCloseButton;
 		public Button boatButton;
@@ -40,8 +42,17 @@ namespace FishingIsland.Canvases
 			UpdateBoatLevelText(DockUpgradeManager.Instance.GetBoatLevel());
 			UpdateSpeedLevelText(DockUpgradeManager.Instance.GetSpeedLevel());
 			UpdateCapacityLevelText(DockUpgradeManager.Instance.GetCapacityLevel());
+
+		
 		}
 
+		private void Start()
+		{
+			_dockUpgrade = DockUpgradeManager.Instance.dockUpgrade;
+			UpdateButtonInteractivityBoatButton();
+			UpdateButtonInteractivitySpeedButton();
+			UpdateButtonInteractivityCapacityButton();
+		}
 		public void OnCloseButtonClick()
 		{
 			gameObject.SetActive(false);
@@ -51,16 +62,19 @@ namespace FishingIsland.Canvases
 		public void OnBoatButtonClick()
 		{
 			DockUpgradeManager.Instance.UpgradeBoatLevel();
+			UpdateButtonInteractivityBoatButton();
 		}
 
 		public void OnSpeedButtonClick()
 		{
 			DockUpgradeManager.Instance.UpgradeSpeedLevel();
+			UpdateButtonInteractivitySpeedButton();
 		}
 
 		public void OnCapacityButtonClick()
 		{
 			DockUpgradeManager.Instance.UpgradeCapacityLevel();
+			UpdateButtonInteractivityCapacityButton();
 		}
 
 		private void UpdateBoatLevelText(int newBoatLevel)
@@ -76,6 +90,30 @@ namespace FishingIsland.Canvases
 		private void UpdateCapacityLevelText(int newCapacityLevel)
 		{
 			capacityLevelText.text = $" {newCapacityLevel}";
+		}
+
+		public void UpdateButtonInteractivityBoatButton()
+		{
+			int maxLevelBoat = _dockUpgrade.MaxLevelDock();
+
+			bool canUpgradeBoat = _dockUpgrade.dockUpgradeData.boatLevel < maxLevelBoat;
+			boatButton.interactable = canUpgradeBoat;
+		}
+
+		public void UpdateButtonInteractivitySpeedButton()
+		{
+			int maxLevelSpeed = _dockUpgrade.MaxLevelDock();
+
+			bool canUpgradeSpeed = _dockUpgrade.dockUpgradeData.speedLevel < maxLevelSpeed;
+			speedButton.interactable = canUpgradeSpeed;
+		}
+
+		public void UpdateButtonInteractivityCapacityButton()
+		{
+			int maxLevelCapacity = _dockUpgrade.MaxLevelDock();
+
+			bool canUpgradeCapacity = _dockUpgrade.dockUpgradeData.capacityLevel < maxLevelCapacity;
+			capacityButton.interactable = canUpgradeCapacity;
 		}
 	}
 }

@@ -21,3 +21,4 @@ MonoBehaviour:
   initialSpeed: 2
   fishWorkerLevelIncreasePerLevelSpeed: 0.2
   initialFishWorkerLevel: 5
+  maxLevelHouse: 20

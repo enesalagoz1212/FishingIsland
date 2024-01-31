@@ -41,6 +41,8 @@ namespace FishingIsland.UpgradeScriptableObjects
 		[SerializeField] private float dockWorkerLevelIncreasePerLevel;
 		[SerializeField] private float initialDockWorkerLevel;
 
+		[SerializeField] private int maxLevelShack;
+
 		public int ReturnDockWorkerFishCapacity()
 		{
 			return dockWorkerFishCapacity + (shackUpgradeData.capacityLevel - 1) * dockWorkerCapacityIncrease;
@@ -74,6 +76,10 @@ namespace FishingIsland.UpgradeScriptableObjects
 			return initialDockWorkerLevel - (dockWorkerLevelIncreasePerLevel * (newLevel - 1));
 		}
 
+		public int MaxLevelShack()
+		{
+			return maxLevelShack;
+		}
 
 		public void ResetGameShackUpgrade()
 		{

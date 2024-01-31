@@ -21,3 +21,4 @@ MonoBehaviour:
   initialSpeedLevel: 2
   boatLevelIncreasePerLevel: 0.3
   initialBoatLevel: 7
+  maxLevelDock: 20

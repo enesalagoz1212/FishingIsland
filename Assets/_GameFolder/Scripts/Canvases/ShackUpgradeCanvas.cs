@@ -11,6 +11,8 @@ namespace FishingIsland.Canvases
 {
     public class ShackUpgradeCanvas : MonoBehaviour
     {
+		private ShackUpgrade _shackUpgrade;
+
 		[Header("Buttons")]
 		public Button shackCloseButton;
 		public Button dockWorkerButton;
@@ -42,6 +44,14 @@ namespace FishingIsland.Canvases
 			ShackUpgradeUpdateCapacityLevelText(ShackUpgradeManager.Instance.GetCapacityLevel());
 		}
 
+		private void Start()
+		{
+			_shackUpgrade = ShackUpgradeManager.Instance.shackUpgrade;
+			UpdateButtonInteractivityDockWorkerButton();
+			UpdateButtonInteractivitySpeedButton();
+			UpdateButtonInteractivityCapacityButton();
+		}
+
 		public void OnCloseButtonClick()
 		{
 			gameObject.SetActive(false);
@@ -51,16 +61,19 @@ namespace FishingIsland.Canvases
 		public void OnDockWorkerButtonClick()
 		{
 			ShackUpgradeManager.Instance.UpgradeDockWorkerLevel();
+			UpdateButtonInteractivityDockWorkerButton();
 		}
 
 		public void OnSpeedButtonClick()
 		{
 			ShackUpgradeManager.Instance.UpgradeSpeedLevel();
+			UpdateButtonInteractivitySpeedButton();
 		}
 
 		public void OnCapacityButtonClick()
 		{
 			ShackUpgradeManager.Instance.UpgradeCapacityLevel();
+			UpdateButtonInteractivityCapacityButton();
 		}
 
 		private void ShackUpgradeUpdateDockWorkerLevelText(int newDockWorkerLevel)
@@ -76,6 +89,30 @@ namespace FishingIsland.Canvases
 		private void ShackUpgradeUpdateCapacityLevelText(int newCapacityLevel)
 		{
 			capacityLevelText.text = $" {newCapacityLevel}";
+		}
+
+		public void UpdateButtonInteractivityDockWorkerButton()
+		{
+			int maxLevelDockWorker = _shackUpgrade.MaxLevelShack();
+
+			bool canUpgradeBoat = _shackUpgrade.shackUpgradeData.dockWorkerLevel < maxLevelDockWorker;
+			dockWorkerButton.interactable = canUpgradeBoat;
+		}
+
+		public void UpdateButtonInteractivitySpeedButton()
+		{
+			int maxLevelSpeed = _shackUpgrade.MaxLevelShack();
+
+			bool canUpgradeSpeed = _shackUpgrade.shackUpgradeData.speedLevel < maxLevelSpeed;
+			speedButton.interactable = canUpgradeSpeed;
+		}
+
+		public void UpdateButtonInteractivityCapacityButton()
+		{
+			int maxLevelCapacity = _shackUpgrade.MaxLevelShack();
+
+			bool canUpgradeCapacity = _shackUpgrade.shackUpgradeData.capacityLevel < maxLevelCapacity;
+			capacityButton.interactable = canUpgradeCapacity;
 		}
 	}
 }

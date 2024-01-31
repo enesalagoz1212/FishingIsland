@@ -39,6 +39,8 @@ namespace FishingIsland.UpgradeScriptableObjects
 
 		[SerializeField] private float fishWorkerLevelIncreasePerLevelSpeed;
 		[SerializeField] private float initialFishWorkerLevel;
+
+		[SerializeField] private int maxLevelHouse;
 		public int ReturnFishWorkerFishCapacity()
 		{
 			return fishWorkerFishCapacity + (houseUpgradeData.capacityLevel - 1) * fishWorkerCapacityIncrease;
@@ -70,6 +72,11 @@ namespace FishingIsland.UpgradeScriptableObjects
 		public float UpdateDockUpgradeFishWorkerLevelSpeed(int newLevel)
 		{
 			return initialFishWorkerLevel - (fishWorkerLevelIncreasePerLevelSpeed * (newLevel - 1));
+		}
+
+		public int MaxLevelHouse()
+		{
+			return maxLevelHouse;
 		}
 
 		public void ResetGameHouseUpgrade()
