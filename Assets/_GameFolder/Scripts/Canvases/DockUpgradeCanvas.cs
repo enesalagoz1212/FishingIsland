@@ -24,9 +24,9 @@ namespace FishingIsland.Canvases
 		public TextMeshProUGUI speedLevelText;
 		public TextMeshProUGUI capacityLevelText;
 
-		private bool _canBoatButton;
-		private bool _canSpeedButton;
-		private bool _canCapacityButton;
+		private bool _canBoatButton = true;
+		private bool _canSpeedButton = true;
+		private bool _canCapacityButton = true;
 		public void Initialize()
 		{
 			dockCloseButton.onClick.AddListener(OnCloseButtonClick);
@@ -67,28 +67,31 @@ namespace FishingIsland.Canvases
 			int speedLevel = _dockUpgrade.dockUpgradeData.speedLevel;
 			int capacityLevel = _dockUpgrade.dockUpgradeData.capacityLevel;
 
-			if (_canBoatButton)
+			if (boatLevel == 10 && _canBoatButton)
 			{
-				bool boatLevelFar = Mathf.Abs(boatLevel - speedLevel) >= 3 || Mathf.Abs(boatLevel - capacityLevel) >= 3;
-				boatButton.interactable = !boatLevelFar;
+				boatButton.interactable = false;
+			}
+
+			if (speedLevel == 10 && _canSpeedButton)
+			{
+				speedButton.interactable = false;
+			}
+
+			if (capacityLevel == 10 && _canCapacityButton)
+			{
+				capacityButton.interactable = false;
+			}
+
+			if (boatLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			{
+				boatButton.interactable = true;
+				speedButton.interactable = true;
+				capacityButton.interactable = true;
+
 				_canBoatButton = false;
-			}
-
-			if (_canSpeedButton)
-			{
-				bool speedLevelFar = Mathf.Abs(speedLevel - boatLevel) >= 3 || Mathf.Abs(speedLevel - capacityLevel) >= 3;
-				speedButton.interactable = !speedLevelFar;
 				_canSpeedButton = false;
-			}
-
-			if (_canCapacityButton)
-			{
-				bool capacityLevelFar = Mathf.Abs(capacityLevel - boatLevel) >= 3 || Mathf.Abs(capacityLevel - speedLevel) >= 3;
-				capacityButton.interactable = !capacityLevelFar;
 				_canCapacityButton = false;
 			}
-
-
 		}
 
 		private void Start()

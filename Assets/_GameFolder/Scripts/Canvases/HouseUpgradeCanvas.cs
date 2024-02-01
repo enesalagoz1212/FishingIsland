@@ -23,6 +23,10 @@ namespace FishingIsland.Canvases
 		public TextMeshProUGUI speedLevelText;
 		public TextMeshProUGUI capacityLevelText;
 
+		private bool _canFishWorkerButton = true;
+		private bool _canSpeedButton = true;
+		private bool _canCapacityButton = true;
+
 		public void Initialize()
 		{
 			houseCloseButton.onClick.AddListener(OnCloseButtonClick);
@@ -43,6 +47,16 @@ namespace FishingIsland.Canvases
 			HouseUpgradeUpdateCapacityLevelText(HouseUpgradeManager.Instance.GetCapacityLevel());
 		}
 
+		private void OnEnable()
+		{
+			GameManager.OnButtonClickedHouseUpgrade += OnButtonClickedHouseUpgradeAction;
+		}
+
+		private void OnDisable()
+		{
+			GameManager.OnButtonClickedHouseUpgrade -= OnButtonClickedHouseUpgradeAction;
+
+		}
 		private void Start()
 		{
 			_houseUpgrade = HouseUpgradeManager.Instance.houseUpgrade;
@@ -50,6 +64,40 @@ namespace FishingIsland.Canvases
 			UpdateButtonInteractivitySpeedButton();
 			UpdateButtonInteractivityCapacityButton();
 		}
+
+		private void OnButtonClickedHouseUpgradeAction()
+		{
+			int fishWorkerLevel = _houseUpgrade.houseUpgradeData.fishWorkerLevel;
+			int speedLevel = _houseUpgrade.houseUpgradeData.speedLevel;
+			int capacityLevel = _houseUpgrade.houseUpgradeData.capacityLevel;
+
+			if (fishWorkerLevel == 10 && _canFishWorkerButton)
+			{
+				fishWorkerButton.interactable = false;
+			}
+
+			if (speedLevel == 10 && _canSpeedButton)
+			{
+				speedButton.interactable = false;
+			}
+
+			if (capacityLevel == 10 && _canCapacityButton)
+			{
+				capacityButton.interactable = false;
+			}
+
+			if (fishWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			{
+				fishWorkerButton.interactable = true;
+				speedButton.interactable = true;
+				capacityButton.interactable = true;
+
+				_canFishWorkerButton = false;
+				_canSpeedButton = false;
+				_canCapacityButton = false;
+			}
+		}
+
 		public void OnCloseButtonClick()
 		{
 			gameObject.SetActive(false);
@@ -60,18 +108,21 @@ namespace FishingIsland.Canvases
 		{
 			HouseUpgradeManager.Instance.UpgradeFishWorkerLevel();
 			UpdateButtonInteractivityFishWorkerButton();
+			GameManager.OnButtonClickedHouseUpgrade?.Invoke();
 		}
 
 		public void OnSpeedButtonClick()
 		{
 			HouseUpgradeManager.Instance.UpgradeSpeedLevel();
 			UpdateButtonInteractivitySpeedButton();
+			GameManager.OnButtonClickedHouseUpgrade?.Invoke();
 		}
 
 		public void OnCapacityButtonClick()
 		{
 			HouseUpgradeManager.Instance.UpgradeCapacityLevel();
 			UpdateButtonInteractivityCapacityButton();
+			GameManager.OnButtonClickedHouseUpgrade?.Invoke();
 		}
 
 		private void HouseUpgradeUpdateFishWorkerLevelText(int newFishWorkerLevel)

@@ -24,6 +24,9 @@ namespace FishingIsland.Canvases
 		public TextMeshProUGUI speedLevelText;
 		public TextMeshProUGUI capacityLevelText;
 
+		private bool _canDockWorkerButton = true;
+		private bool _canSpeedButton = true;
+		private bool _canCapacityButton = true;
 		public void Initialize()
 		{
 			shackCloseButton.onClick.AddListener(OnCloseButtonClick);
@@ -44,12 +47,55 @@ namespace FishingIsland.Canvases
 			ShackUpgradeUpdateCapacityLevelText(ShackUpgradeManager.Instance.GetCapacityLevel());
 		}
 
+		private void OnEnable()
+		{
+			GameManager.OnButtonClickedShackUpgrade += OnButtonClickedShackUpgradeAction;
+		}
+
+		private void OnDisable()
+		{
+			GameManager.OnButtonClickedShackUpgrade -= OnButtonClickedShackUpgradeAction;
+			
+		}
 		private void Start()
 		{
 			_shackUpgrade = ShackUpgradeManager.Instance.shackUpgrade;
 			UpdateButtonInteractivityDockWorkerButton();
 			UpdateButtonInteractivitySpeedButton();
 			UpdateButtonInteractivityCapacityButton();
+		}
+
+		private void OnButtonClickedShackUpgradeAction()
+		{
+			int dockWorkerLevel = _shackUpgrade.shackUpgradeData.dockWorkerLevel;
+			int speedLevel = _shackUpgrade.shackUpgradeData.speedLevel;
+			int capacityLevel = _shackUpgrade.shackUpgradeData.capacityLevel;
+
+			if (dockWorkerLevel == 10 && _canDockWorkerButton)
+			{
+				dockWorkerButton.interactable = false;
+			}
+
+			if (speedLevel == 10 && _canSpeedButton)
+			{
+				speedButton.interactable = false;
+			}
+
+			if (capacityLevel == 10 && _canCapacityButton)
+			{
+				capacityButton.interactable = false;
+			}
+
+			if (dockWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			{
+				dockWorkerButton.interactable = true;
+				speedButton.interactable = true;
+				capacityButton.interactable = true;
+
+				_canDockWorkerButton = false;
+				_canSpeedButton = false;
+				_canCapacityButton = false;
+			}
 		}
 
 		public void OnCloseButtonClick()
@@ -62,18 +108,21 @@ namespace FishingIsland.Canvases
 		{
 			ShackUpgradeManager.Instance.UpgradeDockWorkerLevel();
 			UpdateButtonInteractivityDockWorkerButton();
+			GameManager.OnButtonClickedShackUpgrade?.Invoke();
 		}
 
 		public void OnSpeedButtonClick()
 		{
 			ShackUpgradeManager.Instance.UpgradeSpeedLevel();
 			UpdateButtonInteractivitySpeedButton();
+			GameManager.OnButtonClickedShackUpgrade?.Invoke();
 		}
 
 		public void OnCapacityButtonClick()
 		{
 			ShackUpgradeManager.Instance.UpgradeCapacityLevel();
 			UpdateButtonInteractivityCapacityButton();
+			GameManager.OnButtonClickedShackUpgrade?.Invoke();
 		}
 
 		private void ShackUpgradeUpdateDockWorkerLevelText(int newDockWorkerLevel)

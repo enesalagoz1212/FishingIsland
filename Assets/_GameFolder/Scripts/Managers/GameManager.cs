@@ -28,6 +28,8 @@ namespace FishingIsland.Managers
 		public static Action OnFishCollectionAndTransfer;
 		public static Action OnCloseButton;
 		public static Action OnButtonClickedDockUpgrade;
+		public static Action OnButtonClickedShackUpgrade;
+		public static Action OnButtonClickedHouseUpgrade;
 
 
 		[SerializeField] private UiManager uiManager;
