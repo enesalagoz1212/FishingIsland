@@ -18,6 +18,8 @@ namespace FishingIsland.Controllers
 		private Sequence _houseUpAnimation;
 
 		public Image houseUpImage;
+		public GameObject house;
+		public GameObject newHouse;
 
 		public void Initialize(UpgradeManager upgradeManager)
 		{
@@ -27,6 +29,7 @@ namespace FishingIsland.Controllers
 		private void Start()
 		{
 			_initialHouseUpPosition = houseUpImage.rectTransform.localPosition;
+			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
 		}
 
 		void Update()
@@ -45,11 +48,25 @@ namespace FishingIsland.Controllers
 		private void OnEnable()
 		{
 			GameManager.OnCloseButton += OnCloseButtonAction;
+			GameManager.OnButtonClickedHouseUpgrade += OnButtonClickedHouseUpgradeAction;
 		}
 
 		private void OnDisable()
 		{
 			GameManager.OnCloseButton -= OnCloseButtonAction;
+			GameManager.OnButtonClickedHouseUpgrade -= OnButtonClickedHouseUpgradeAction;
+		}
+
+		private void OnButtonClickedHouseUpgradeAction()
+		{
+			int fishWorkerLevel = _houseUpgrade.houseUpgradeData.fishWorkerLevel;
+			int speedLevel = _houseUpgrade.houseUpgradeData.speedLevel;
+			int capacityLevel = _houseUpgrade.houseUpgradeData.capacityLevel;
+
+			if (fishWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			{
+				ActivateNewHouse();
+			}
 		}
 
 		private void OnCloseButtonAction()
@@ -93,6 +110,12 @@ namespace FishingIsland.Controllers
 		public void ResetAnimation()
 		{
 			_hasAnimationPlayed = false;
+		}
+
+		private void ActivateNewHouse()
+		{
+			house.SetActive(false);
+			newHouse.SetActive(true);
 		}
 	}
 }

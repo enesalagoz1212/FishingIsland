@@ -20,7 +20,7 @@ namespace FishingIsland.Controllers
 	public class FishWorkerController : BaseCharacterController
 	{
 		public FishWorkerState FishWorkerState { get; private set; }
-		private HouseUpgrade houseUpgrade;
+		private HouseUpgrade _houseUpgrade;
 
 		private Vector3 _initialFishWorkerDownPosition;
 		private int _fishCapacity;
@@ -34,6 +34,8 @@ namespace FishingIsland.Controllers
 		private Sequence _fishWorkerDownAnimation;
 
 		public GameObject fishWorkerFishPanel;
+		public GameObject fishWorker;
+		public GameObject newFishWorker;
 		public TextMeshProUGUI totalMoneyText;
 		public TextMeshProUGUI fishWorkerFishText;
 		public Image fishWorkerDownOkImage;
@@ -43,11 +45,23 @@ namespace FishingIsland.Controllers
 		public override void Initialize(string name, float speed, int initialCapacity)
 		{
 			base.Initialize(name, speed, initialCapacity);
+			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
 		}
 
+		private void OnEnable()
+		{
+			GameManager.OnButtonClickedHouseUpgrade += OnButtonClickedHouseUpgradeAction;
+		}
+
+		private void OnDisable()
+		{
+			GameManager.OnButtonClickedHouseUpgrade -= OnButtonClickedHouseUpgradeAction;
+			
+		}
 		public override void Start()
 		{
 			ChangeState(FishWorkerState.Idle);
+			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
 		}
 
 		private void Update()
@@ -59,6 +73,18 @@ namespace FishingIsland.Controllers
 			}
 		}
 
+
+		private void OnButtonClickedHouseUpgradeAction()
+		{
+			int fishWorkerLevel = _houseUpgrade.houseUpgradeData.fishWorkerLevel;
+			int speedLevel = _houseUpgrade.houseUpgradeData.speedLevel;
+			int capacityLevel = _houseUpgrade.houseUpgradeData.capacityLevel;
+
+			if (fishWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			{
+				ActivateNewFishWorker();
+			}
+		}
 
 		public override void WorkerMouseDown()
 		{
@@ -128,8 +154,8 @@ namespace FishingIsland.Controllers
 
 		public void OnFishTransferredToFishWorker()
 		{
-			houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
-			_fishCapacity = houseUpgrade.ReturnFishWorkerFishCapacity();
+
+			_fishCapacity = _houseUpgrade.ReturnFishWorkerFishCapacity();
 
 			_totalFishCount++;
 			UpdateFishCountText(_totalFishCount);
@@ -153,8 +179,8 @@ namespace FishingIsland.Controllers
 		{
 			if (pathList != null && pathList.Count > 0)
 			{
-				houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
-				_fishWorkerSpeed = houseUpgrade.UpdateDockUpgradeFishWorkerLevelSpeed(houseUpgrade.houseUpgradeData.fishWorkerLevel);
+				_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
+				_fishWorkerSpeed = _houseUpgrade.UpdateDockUpgradeFishWorkerLevelSpeed(_houseUpgrade.houseUpgradeData.fishWorkerLevel);
 
 				Vector3 currentPosition = transform.position;
 				Sequence pathSequence = DOTween.Sequence();
@@ -207,6 +233,13 @@ namespace FishingIsland.Controllers
 		private void UpdateTotalMoneyText()
 		{
 			totalMoneyText.text = $" {MoneyManager.Instance.GetMoney()}";
+		}
+
+		private void ActivateNewFishWorker()
+		{
+			fishWorker.SetActive(false);
+			newFishWorker.SetActive(true);
+
 		}
 	}
 }
