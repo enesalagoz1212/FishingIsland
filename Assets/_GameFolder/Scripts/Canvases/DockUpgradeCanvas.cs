@@ -45,8 +45,6 @@ namespace FishingIsland.Canvases
 			UpdateBoatLevelText(DockUpgradeManager.Instance.GetBoatLevel());
 			UpdateSpeedLevelText(DockUpgradeManager.Instance.GetSpeedLevel());
 			UpdateCapacityLevelText(DockUpgradeManager.Instance.GetCapacityLevel());
-
-
 		}
 
 		private void OnEnable()
@@ -70,27 +68,27 @@ namespace FishingIsland.Canvases
 			if (boatLevel == 10 && _canBoatButton)
 			{
 				boatButton.interactable = false;
+				_canBoatButton = false;
 			}
 
 			if (speedLevel == 10 && _canSpeedButton)
 			{
 				speedButton.interactable = false;
+				_canSpeedButton = false;
 			}
 
 			if (capacityLevel == 10 && _canCapacityButton)
 			{
 				capacityButton.interactable = false;
+
+				_canCapacityButton = false;
 			}
 
 			if (boatLevel == 10 && speedLevel == 10 && capacityLevel == 10)
 			{
 				boatButton.interactable = true;
 				speedButton.interactable = true;
-				capacityButton.interactable = true;
-
-				_canBoatButton = false;
-				_canSpeedButton = false;
-				_canCapacityButton = false;
+				capacityButton.interactable = true;				
 			}
 		}
 

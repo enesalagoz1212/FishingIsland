@@ -18,10 +18,13 @@ namespace FishingIsland.Controllers
 		private bool hasAnimationPlayed = false;
 
 		public Image dockUpImage;
+		public GameObject dock;
+		public GameObject newDock;
 
 		public void Initialize(UpgradeManager upgradeManager)
 		{
 			_upgradeManager = upgradeManager;
+			_dockUpgrade=DockUpgradeManager.Instance.GetDockUpgrade();
 		}
 
 		private void Start()
@@ -32,17 +35,37 @@ namespace FishingIsland.Controllers
 		private void OnEnable()
 		{
 			GameManager.OnCloseButton += OnCloseButtonAction;
+			GameManager.OnButtonClickedDockUpgrade += OnButtonClickedDockUpgradeAction;
 		}
 
 		private void OnDisable()
 		{
 			GameManager.OnCloseButton -= OnCloseButtonAction;
+			GameManager.OnButtonClickedDockUpgrade -= OnButtonClickedDockUpgradeAction;
+		}
+
+		private void OnButtonClickedDockUpgradeAction()
+		{
+			int boatLevel = _dockUpgrade.dockUpgradeData.boatLevel;
+			int speedLevel = _dockUpgrade.dockUpgradeData.speedLevel;
+			int capacityLevel = _dockUpgrade.dockUpgradeData.capacityLevel;
+
+			if (boatLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			{
+				ActivateNewDock();
+			}
 		}
 
 		private void OnCloseButtonAction()
 		{
 			ResetAnimation();
 			dockUpImage.gameObject.SetActive(false);
+		}
+
+		private void ActivateNewDock()
+		{
+			dock.SetActive(false);
+			newDock.SetActive(true);
 		}
 
 		private void Update()

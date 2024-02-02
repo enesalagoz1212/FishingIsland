@@ -28,6 +28,7 @@ namespace FishingIsland.Controllers
 		private int _boatFishCapacity;
 		private float currentProgress;
 		private bool _canClick = true;
+		private bool _isBoatActivated = false;
 		public int FishCount { get; private set; }
 		public GameObject boatFishPanel;
 		public Image boatDownOkImage;
@@ -35,12 +36,28 @@ namespace FishingIsland.Controllers
 		public Image circularProgressBar;
 		public TextMeshProUGUI fishCapacityText;
 		public TextMeshProUGUI boxFishText;
+		public GameObject boat;
+		public GameObject newBoat;
 
 		private Sequence _boatDownAnimation;
+
 		public void Initialize()
 		{
 			_initialPosition = transform.position;
 			ChangeState(BoatState.InThePort);
+			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
+
+		}
+
+		private void OnEnable()
+		{
+			GameManager.OnButtonClickedDockUpgrade += OnButtonClickedDockUpgradeAction;
+		}
+
+		private void OnDisable()
+		{
+			GameManager.OnButtonClickedDockUpgrade -= OnButtonClickedDockUpgradeAction;
+			
 		}
 
 		public void ChangeState(BoatState boatState)
@@ -206,6 +223,25 @@ namespace FishingIsland.Controllers
 				circularProgressBar.fillAmount = currentProgress;
 			}
 
+		}
+
+		private void ActivateNewBoat()
+		{
+			boat.SetActive(false);
+
+			newBoat.SetActive(true);
+		}
+
+		private void OnButtonClickedDockUpgradeAction()
+		{
+			int boatLevel = dockUpgrade.dockUpgradeData.boatLevel;
+			int speedLevel = dockUpgrade.dockUpgradeData.speedLevel;
+			int capacityLevel = dockUpgrade.dockUpgradeData.capacityLevel;
+
+			if (boatLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			{
+				ActivateNewBoat();
+			}
 		}
 	}
 }
