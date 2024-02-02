@@ -28,7 +28,6 @@ namespace FishingIsland.Controllers
 		private int _boatFishCapacity;
 		private float currentProgress;
 		private bool _canClick = true;
-		private bool _isBoatActivated = false;
 		public int FishCount { get; private set; }
 		public GameObject boatFishPanel;
 		public Image boatDownOkImage;
@@ -43,7 +42,6 @@ namespace FishingIsland.Controllers
 
 		public void Initialize()
 		{
-			SaveLoadManager.Instance.LoadGame();
 
 			_initialPosition = transform.position;
 			ChangeState(BoatState.InThePort);
@@ -232,7 +230,7 @@ namespace FishingIsland.Controllers
 			boat.SetActive(false);
 			newBoat.SetActive(true);
 
-			_isBoatActivated = true;
+			SaveLoadManager.Instance.saveData.activatedBoatName = "newBoat";
 			SaveLoadManager.Instance.SaveGame();
 		}
 
@@ -249,3 +247,4 @@ namespace FishingIsland.Controllers
 		}
 	}
 }
+

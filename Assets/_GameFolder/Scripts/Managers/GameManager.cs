@@ -47,6 +47,7 @@ namespace FishingIsland.Managers
 		[SerializeField] private DockController dockController;
 		[SerializeField] private ShackController shackController;
 		[SerializeField] private HouseController houseController;
+		[SerializeField] private BaseCharacterController baseCharacterController;
 
 
 		private void Awake()
@@ -79,10 +80,11 @@ namespace FishingIsland.Managers
 			dockUpgradeManager.Initialize();
 			shackUpgradeManager.Initialize();
 			houseUpgradeManager.Initialize();
-			saveLoadManager.Initialize();
+			saveLoadManager.Initialize(boatController,dockController,houseController,shackController);
 			dockController.Initialize(upgradeManager);
 			shackController.Initialize(upgradeManager);
 			houseController.Initialize(upgradeManager);
+
 
 			ChangeState(GameState.Menu);
 		}

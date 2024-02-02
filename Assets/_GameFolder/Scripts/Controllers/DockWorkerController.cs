@@ -217,6 +217,8 @@ namespace FishingIsland.Controllers
 			dockWorker.SetActive(false);
 			newDockWorker.SetActive(true);
 
+			SaveLoadManager.Instance.saveData.activatedDockWorkerName = "newDockWorker";
+			SaveLoadManager.Instance.SaveGame();
 		}
 	}
 }

@@ -66,6 +66,9 @@ namespace FishingIsland.Controllers
 		{
 			dock.SetActive(false);
 			newDock.SetActive(true);
+
+			SaveLoadManager.Instance.saveData.activatedDockName = "newDock";
+			SaveLoadManager.Instance.SaveGame();
 		}
 
 		private void Update()

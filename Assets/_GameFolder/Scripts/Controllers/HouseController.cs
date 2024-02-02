@@ -116,6 +116,9 @@ namespace FishingIsland.Controllers
 		{
 			house.SetActive(false);
 			newHouse.SetActive(true);
+
+			SaveLoadManager.Instance.saveData.activatedHouseName = "newHouse";
+			SaveLoadManager.Instance.SaveGame();
 		}
 	}
 }

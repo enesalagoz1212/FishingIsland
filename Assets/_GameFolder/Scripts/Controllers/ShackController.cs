@@ -237,6 +237,9 @@ namespace FishingIsland.Controllers
 		{
 			shack.SetActive(false);
 			newShack.SetActive(true);
+
+			SaveLoadManager.Instance.saveData.activatedShackName = "newShack";
+			SaveLoadManager.Instance.SaveGame();
 		}
 
 		public void ResetAnimation()

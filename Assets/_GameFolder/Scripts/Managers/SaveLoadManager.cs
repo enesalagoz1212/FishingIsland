@@ -21,19 +21,31 @@ namespace FishingIsland.Managers
 		public int totalFishCountFishBox;
 		public int totalFishCountShack;
 		public bool isBoatActivated;
+		public string activatedBoatName;
+		public string activatedDockName;
+		public string activatedHouseName;
+		public string activatedShackName;
+		public string activatedDockWorkerName;
+		public string activatedFishWorkerName;
 	}
 
 	public class SaveLoadManager : MonoBehaviour
 	{
 		public static SaveLoadManager Instance;
 		public SaveData saveData { get; set; }
+		private BoatController _boatController;
+		private DockController _dockController;
+		private HouseController _houseController;
+		private ShackController _shackController;
 
 		public MoneyManager moneyManager;
 		public FishBoxController fishBoxController;
 		public ShackController shackController;
 
 		private string savePath;
-		private bool _isBoatActivated;
+	
+
+
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)
@@ -56,8 +68,13 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		public void Initialize()
+		public void Initialize(BoatController boatController,DockController dockController,HouseController houseController,ShackController shackController)
 		{
+			_shackController = shackController;
+			_houseController = houseController;
+			_dockController = dockController;
+			_boatController = boatController;
+
 			LoadGame();
 
 			DockUpgradeData savedDataDock = LoadDockUpgradeData();
@@ -81,7 +98,6 @@ namespace FishingIsland.Managers
 			saveData.shackUpgradeData = ShackUpgradeManager.Instance.shackUpgradeData;
 			saveData.houseUpgradeData = HouseUpgradeManager.Instance.houseUpgradeData;
 
-			saveData.isBoatActivated = _isBoatActivated;
 
 			string jsonData = JsonUtility.ToJson(saveData);
 			File.WriteAllText(savePath, jsonData);
@@ -100,7 +116,6 @@ namespace FishingIsland.Managers
 				int loadedFishCountShack = saveData.totalFishCountShack;
 				ShackController.Instance.SetTotalFishCount(loadedFishCountShack);
 
-				_isBoatActivated = saveData.isBoatActivated;
 
 				if (MoneyManager.Instance != null)
 				{
@@ -112,6 +127,30 @@ namespace FishingIsland.Managers
 					Debug.LogError("MoneyManager instance is missing!");
 				}
 
+				if (!string.IsNullOrEmpty(saveData.activatedBoatName) && saveData.activatedBoatName == "newBoat")
+				{
+					_boatController.newBoat.SetActive(true);
+					_boatController.boat.SetActive(false);
+				}
+
+				if (!string.IsNullOrEmpty(saveData.activatedDockName) && saveData.activatedDockName == "newDock")
+				{
+					_dockController.newDock.SetActive(true);
+					_dockController.dock.SetActive(false);
+				}
+
+				if (!string.IsNullOrEmpty(saveData.activatedHouseName) && saveData.activatedHouseName == "newHouse")
+				{
+					_houseController.newHouse.SetActive(true);
+					_houseController.house.SetActive(false);
+				}
+
+
+				if (!string.IsNullOrEmpty(saveData.activatedShackName) && saveData.activatedShackName == "newShack")
+				{
+					_shackController.newShack.SetActive(true);
+					_shackController.shack.SetActive(false);
+				}
 
 			}
 			else

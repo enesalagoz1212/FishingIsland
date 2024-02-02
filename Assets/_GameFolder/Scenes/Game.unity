@@ -3350,6 +3350,7 @@ Transform:
   - {fileID: 1459691916}
   - {fileID: 1630697978}
   - {fileID: 120738297}
+  - {fileID: 600893674}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3380,6 +3381,7 @@ MonoBehaviour:
   dockController: {fileID: 1586275669}
   shackController: {fileID: 200812009}
   houseController: {fileID: 1464561590}
+  baseCharacterController: {fileID: 600893673}
 --- !u!1 &300444325
 GameObject:
   m_ObjectHideFlags: 0
@@ -6275,6 +6277,50 @@ Transform:
   - {fileID: 1478247606}
   m_Father: {fileID: 1586275668}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &600893672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 600893674}
+  - component: {fileID: 600893673}
+  m_Layer: 0
+  m_Name: BaseCharacterController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &600893673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600893672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e096a55640e979a439b81c619d10fe75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &600893674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600893672}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 292130062}
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &633642704
 GameObject:
