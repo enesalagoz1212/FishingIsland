@@ -21,7 +21,7 @@ namespace FishingIsland.Controllers
 	public class DockWorkerController : BaseCharacterController
 	{
 		public DockWorkerState DockWorkerState { get; private set; }
-		private ShackUpgrade shackUpgrade;
+		private ShackUpgrade _shackUpgrade;
 
 		private Vector3 _initialPosition;
 		private Vector3 _targetPosition;
@@ -37,6 +37,8 @@ namespace FishingIsland.Controllers
 		private Sequence _dockWorkerDownAnimation;
 
 		public GameObject dockWorkerFishPanel;
+		public GameObject dockWorker;
+		public GameObject newDockWorker;
 		public TextMeshProUGUI dockWorkerFishCountText;
 		public Image dockWorkerDownOkImage;
 		public float speed;
@@ -52,11 +54,22 @@ namespace FishingIsland.Controllers
 			capacity = initialCapacity;
 		}
 
+		private void OnEnable()
+		{
+			GameManager.OnButtonClickedShackUpgrade += OnButtonClickedShackUpgradeAction;
+		}
+
+		private void OnDisable()
+		{
+			
+			GameManager.OnButtonClickedShackUpgrade -= OnButtonClickedShackUpgradeAction;
+		}
 		public override void Start()
 		{
 			_initialPosition = transform.position;
 			_targetPosition = LevelManager.Instance.dockWorkerGoesFishing[0].position;
 			ChangeState(DockWorkerState.Idle);
+			_shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
 		}
 
 		private void Update()
@@ -65,6 +78,18 @@ namespace FishingIsland.Controllers
 			{
 				AnimateDockWorkerDown();
 				hasAnimationPlayed = true;
+			}
+		}
+
+		private void OnButtonClickedShackUpgradeAction()
+		{
+			int dockWorkerLevel = _shackUpgrade.shackUpgradeData.dockWorkerLevel;
+			int speedLevel = _shackUpgrade.shackUpgradeData.speedLevel;
+			int capacityLevel = _shackUpgrade.shackUpgradeData.capacityLevel;
+
+			if (dockWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			{
+				ActivateNewDockWorker();
 			}
 		}
 
@@ -141,8 +166,8 @@ namespace FishingIsland.Controllers
 
 		public void MoveToPosition(Vector3 targetPosition, float duration, Action onComplete = null)
 		{
-			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-			float updatedDockWorkerSpeed = shackUpgrade.UpdateShackUpgradeDockWorkerLevelSpeed(shackUpgrade.shackUpgradeData.dockWorkerLevel);
+			_shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+			float updatedDockWorkerSpeed = _shackUpgrade.UpdateShackUpgradeDockWorkerLevelSpeed(_shackUpgrade.shackUpgradeData.dockWorkerLevel);
 
 			transform.DOMove(targetPosition, duration * updatedDockWorkerSpeed).OnComplete(() =>
 			{
@@ -155,8 +180,8 @@ namespace FishingIsland.Controllers
 			_collectedFishCount++;
 			UpdateFishCountText(_collectedFishCount);
 
-			shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
-			int maxCapacity = shackUpgrade.ReturnDockWorkerFishCapacity();
+			_shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+			int maxCapacity = _shackUpgrade.ReturnDockWorkerFishCapacity();
 
 			var currentProgress = (float)_collectedFishCount / maxCapacity;
 
@@ -184,6 +209,14 @@ namespace FishingIsland.Controllers
 		private void UpdateFishCountText(int collectedFishCount)
 		{
 			dockWorkerFishCountText.text = $" {collectedFishCount}";
+		}
+
+
+		private void ActivateNewDockWorker()
+		{
+			dockWorker.SetActive(false);
+			newDockWorker.SetActive(true);
+
 		}
 	}
 }

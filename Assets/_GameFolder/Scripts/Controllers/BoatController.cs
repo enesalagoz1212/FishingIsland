@@ -43,6 +43,8 @@ namespace FishingIsland.Controllers
 
 		public void Initialize()
 		{
+			SaveLoadManager.Instance.LoadGame();
+
 			_initialPosition = transform.position;
 			ChangeState(BoatState.InThePort);
 			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
@@ -228,8 +230,10 @@ namespace FishingIsland.Controllers
 		private void ActivateNewBoat()
 		{
 			boat.SetActive(false);
-
 			newBoat.SetActive(true);
+
+			_isBoatActivated = true;
+			SaveLoadManager.Instance.SaveGame();
 		}
 
 		private void OnButtonClickedDockUpgradeAction()

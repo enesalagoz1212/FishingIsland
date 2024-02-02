@@ -20,6 +20,7 @@ namespace FishingIsland.Managers
 		public float money;
 		public int totalFishCountFishBox;
 		public int totalFishCountShack;
+		public bool isBoatActivated;
 	}
 
 	public class SaveLoadManager : MonoBehaviour
@@ -32,7 +33,7 @@ namespace FishingIsland.Managers
 		public ShackController shackController;
 
 		private string savePath;
-
+		private bool _isBoatActivated;
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)
@@ -80,6 +81,8 @@ namespace FishingIsland.Managers
 			saveData.shackUpgradeData = ShackUpgradeManager.Instance.shackUpgradeData;
 			saveData.houseUpgradeData = HouseUpgradeManager.Instance.houseUpgradeData;
 
+			saveData.isBoatActivated = _isBoatActivated;
+
 			string jsonData = JsonUtility.ToJson(saveData);
 			File.WriteAllText(savePath, jsonData);
 		}
@@ -97,6 +100,8 @@ namespace FishingIsland.Managers
 				int loadedFishCountShack = saveData.totalFishCountShack;
 				ShackController.Instance.SetTotalFishCount(loadedFishCountShack);
 
+				_isBoatActivated = saveData.isBoatActivated;
+
 				if (MoneyManager.Instance != null)
 				{
 					MoneyManager.Instance.money = saveData.money;
@@ -106,6 +111,7 @@ namespace FishingIsland.Managers
 				{
 					Debug.LogError("MoneyManager instance is missing!");
 				}
+
 
 			}
 			else

@@ -29,6 +29,8 @@ namespace FishingIsland.Controllers
 
 		public TextMeshProUGUI shackFishCountText;
 		public Image shackUpImage;
+		public GameObject shack;
+		public GameObject newShack;
 		public bool HasFishShack => _shackFishCount > 0;
 		public bool IsFishCollectionCompleted => _isFishCollectionCompletedShack;
 		public int startingFishCount;
@@ -56,6 +58,7 @@ namespace FishingIsland.Controllers
 		private void Start()
 		{
 			_initialShackUpPosition = shackUpImage.rectTransform.localPosition;
+			_shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
 		}
 
 		private void OnEnable()
@@ -63,6 +66,7 @@ namespace FishingIsland.Controllers
 			OnFishWorkerArrivedBox += OnFishWorkerArrivedBoxAction;
 			OnDockWorkerArrivedShack += OnFishWorkerArrivedShackAction;
 			GameManager.OnCloseButton += OnCloseButtonAction;
+			GameManager.OnButtonClickedShackUpgrade += OnButtonClickedShackUpgradeAction;
 		}
 
 		private void OnDisable()
@@ -70,6 +74,7 @@ namespace FishingIsland.Controllers
 			OnFishWorkerArrivedBox -= OnFishWorkerArrivedBoxAction;
 			OnDockWorkerArrivedShack -= OnFishWorkerArrivedShackAction;
 			GameManager.OnCloseButton -= OnCloseButtonAction;
+			GameManager.OnButtonClickedShackUpgrade -= OnButtonClickedShackUpgradeAction;
 		}
 
 		private void Update()
@@ -108,6 +113,18 @@ namespace FishingIsland.Controllers
 			ResetAnimation();
 
 			shackUpImage.gameObject.SetActive(false);
+		}
+
+		private void OnButtonClickedShackUpgradeAction()
+		{
+			int dockWorkerLevel = _shackUpgrade.shackUpgradeData.dockWorkerLevel;
+			int speedLevel = _shackUpgrade.shackUpgradeData.speedLevel;
+			int capacityLevel = _shackUpgrade.shackUpgradeData.capacityLevel;
+
+			if (dockWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			{
+				ActivateNewShack();
+			}
 		}
 
 		private IEnumerator StartFishTransferFromFishWorker(FishWorkerController fishWorkerController)
@@ -216,6 +233,11 @@ namespace FishingIsland.Controllers
 			shackUpImage.rectTransform.anchoredPosition = _initialShackUpPosition;
 		}
 
+		private void ActivateNewShack()
+		{
+			shack.SetActive(false);
+			newShack.SetActive(true);
+		}
 
 		public void ResetAnimation()
 		{
