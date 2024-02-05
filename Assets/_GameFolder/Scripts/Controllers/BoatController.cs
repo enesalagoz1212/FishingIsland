@@ -238,7 +238,8 @@ namespace FishingIsland.Controllers
 
 			if (boatLevel == 10 && speedLevel == 10 && capacityLevel == 10)
 			{
-
+				Destroy(boat);
+				InstantiateBoat(boatPrefabs[1]);
 			}
 		}
 

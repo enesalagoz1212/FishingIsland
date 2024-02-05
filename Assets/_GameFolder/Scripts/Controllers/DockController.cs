@@ -18,18 +18,23 @@ namespace FishingIsland.Controllers
 		private bool hasAnimationPlayed = false;
 
 		public Image dockUpImage;
-		public GameObject dock;
-		public GameObject newDock;
+		public Image dockLevelPanel;
+
+		private GameObject dock;
+		private List<GameObject> dockPrefabs;
 
 		public void Initialize(UpgradeManager upgradeManager)
 		{
 			_upgradeManager = upgradeManager;
 			_dockUpgrade=DockUpgradeManager.Instance.GetDockUpgrade();
+			dockPrefabs = _dockUpgrade.GetDockGameObjects();
 		}
 
 		private void Start()
 		{
 			_initialDockUpPosition = dockUpImage.rectTransform.localPosition;
+			InstantiateDock(dockPrefabs[0]);
+			dockLevelPanel.gameObject.SetActive(true);
 		}
 
 		private void OnEnable()
@@ -52,7 +57,8 @@ namespace FishingIsland.Controllers
 
 			if (boatLevel == 10 && speedLevel == 10 && capacityLevel == 10)
 			{
-				ActivateNewDock();
+				Destroy(dock);
+				InstantiateDock(dockPrefabs[1]);
 			}
 		}
 
@@ -60,15 +66,6 @@ namespace FishingIsland.Controllers
 		{
 			ResetAnimation();
 			dockUpImage.gameObject.SetActive(false);
-		}
-
-		private void ActivateNewDock()
-		{
-			dock.SetActive(false);
-			newDock.SetActive(true);
-
-			SaveLoadManager.Instance.saveData.activatedDockName = "newDock";
-			SaveLoadManager.Instance.SaveGame();
 		}
 
 		private void Update()
@@ -120,6 +117,16 @@ namespace FishingIsland.Controllers
 		public void ResetAnimation()
 		{
 			hasAnimationPlayed = false;
+		}
+
+		private void InstantiateDock(GameObject dockPrefab)
+		{
+			if (dock != null)
+			{
+				Destroy(dock);
+			}
+
+			dock = Instantiate(dockPrefab, transform.position, Quaternion.identity, transform);
 		}
 	}
 }

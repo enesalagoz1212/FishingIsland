@@ -26,5 +26,5 @@ MonoBehaviour:
   - {fileID: 9090283018358252924, guid: 0c97ea1fd21f20d4ab489809fe83b8c8, type: 3}
   - {fileID: 7406610319848325737, guid: 2751cd3ef605de148a3706b0280c51a2, type: 3}
   dockGameObejct:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8834844809177125961, guid: 0cf47e9b415e6db45a992eb95f94572f, type: 3}
+  - {fileID: 5810876391918851988, guid: 9b80c15c8e9ac6344ab09c1d74ce7f25, type: 3}

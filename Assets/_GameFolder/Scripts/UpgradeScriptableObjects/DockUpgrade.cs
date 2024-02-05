@@ -90,6 +90,11 @@ namespace FishingIsland.UpgradeScriptableObjects
 			return boatGameObejct;
 		}
 
+		public List<GameObject> GetDockGameObjects()
+		{
+			return dockGameObejct;
+		}
+
 		public void ResetGameDockUpgrade()
 		{
 			dockUpgradeData.boatLevel = 1;
