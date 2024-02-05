@@ -127,13 +127,6 @@ namespace FishingIsland.Managers
 					Debug.LogError("MoneyManager instance is missing!");
 				}
 
-
-				if (!string.IsNullOrEmpty(saveData.activatedHouseName) && saveData.activatedHouseName == "newHouse")
-				{
-					_houseController.newHouse.SetActive(true);
-					_houseController.house.SetActive(false);
-				}
-
 			}
 			else
 			{

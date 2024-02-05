@@ -30,12 +30,13 @@ namespace FishingIsland.Controllers
 		private bool hasAnimationPlayed = false;
 		private float _fishWorkerSpeed;
 
+		private GameObject fishWorker;
+		private List<GameObject> fishWorkerPrefabs;
 
 		private Sequence _fishWorkerDownAnimation;
 
 		public GameObject fishWorkerFishPanel;
-		public GameObject fishWorker;
-		public GameObject newFishWorker;
+
 		public TextMeshProUGUI totalMoneyText;
 		public TextMeshProUGUI fishWorkerFishText;
 		public Image fishWorkerDownOkImage;
@@ -45,7 +46,6 @@ namespace FishingIsland.Controllers
 		public override void Initialize(string name, float speed, int initialCapacity)
 		{
 			base.Initialize(name, speed, initialCapacity);
-			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
 		}
 
 		private void OnEnable()
@@ -56,12 +56,14 @@ namespace FishingIsland.Controllers
 		private void OnDisable()
 		{
 			GameManager.OnButtonClickedHouseUpgrade -= OnButtonClickedHouseUpgradeAction;
-			
+
 		}
 		public override void Start()
 		{
 			ChangeState(FishWorkerState.Idle);
 			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
+			fishWorkerPrefabs = _houseUpgrade.GetFishWorkerGameObjects();
+			Instantiate(fishWorkerPrefabs[0]);
 		}
 
 		private void Update()
@@ -74,6 +76,16 @@ namespace FishingIsland.Controllers
 		}
 
 
+		private void Instantiate(GameObject fishWorkerPrefab)
+		{
+			if (fishWorker != null)
+			{
+				Destroy(fishWorker);
+			}
+
+			fishWorker = Instantiate(fishWorkerPrefab, transform.position, Quaternion.identity, transform);
+		}
+
 		private void OnButtonClickedHouseUpgradeAction()
 		{
 			int fishWorkerLevel = _houseUpgrade.houseUpgradeData.fishWorkerLevel;
@@ -82,7 +94,8 @@ namespace FishingIsland.Controllers
 
 			if (fishWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
 			{
-				ActivateNewFishWorker();
+				Destroy(fishWorker);
+				Instantiate(fishWorkerPrefabs[1]);
 			}
 		}
 
@@ -233,13 +246,6 @@ namespace FishingIsland.Controllers
 		private void UpdateTotalMoneyText()
 		{
 			totalMoneyText.text = $" {MoneyManager.Instance.GetMoney()}";
-		}
-
-		private void ActivateNewFishWorker()
-		{
-			fishWorker.SetActive(false);
-			newFishWorker.SetActive(true);
-
 		}
 	}
 }

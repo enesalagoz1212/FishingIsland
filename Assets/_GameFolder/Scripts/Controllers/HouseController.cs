@@ -18,18 +18,25 @@ namespace FishingIsland.Controllers
 		private Sequence _houseUpAnimation;
 
 		public Image houseUpImage;
-		public GameObject house;
-		public GameObject newHouse;
+		public Image houseLevelPanel;
+
+		private GameObject house;
+		private List<GameObject> housePrefabs;
 
 		public void Initialize(UpgradeManager upgradeManager)
 		{
 			_upgradeManager = upgradeManager;
+			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
+			housePrefabs = _houseUpgrade.GetHouseGameObjects();
+
+			Instantiate(housePrefabs[0]);
 		}
 
 		private void Start()
 		{
 			_initialHouseUpPosition = houseUpImage.rectTransform.localPosition;
-			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
+			houseLevelPanel.gameObject.SetActive(true);
+			
 		}
 
 		void Update()
@@ -57,6 +64,16 @@ namespace FishingIsland.Controllers
 			GameManager.OnButtonClickedHouseUpgrade -= OnButtonClickedHouseUpgradeAction;
 		}
 
+		private void Instantiate(GameObject housePrefab)
+		{
+			if (house!=null)
+			{
+				Destroy(house);
+			}
+
+			house = Instantiate(housePrefab, transform.position, Quaternion.identity, transform);
+		}
+
 		private void OnButtonClickedHouseUpgradeAction()
 		{
 			int fishWorkerLevel = _houseUpgrade.houseUpgradeData.fishWorkerLevel;
@@ -65,7 +82,7 @@ namespace FishingIsland.Controllers
 
 			if (fishWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
 			{
-				ActivateNewHouse();
+				Instantiate(housePrefabs[1]);
 			}
 		}
 
@@ -110,15 +127,6 @@ namespace FishingIsland.Controllers
 		public void ResetAnimation()
 		{
 			_hasAnimationPlayed = false;
-		}
-
-		private void ActivateNewHouse()
-		{
-			house.SetActive(false);
-			newHouse.SetActive(true);
-
-			SaveLoadManager.Instance.saveData.activatedHouseName = "newHouse";
-			SaveLoadManager.Instance.SaveGame();
 		}
 	}
 }
