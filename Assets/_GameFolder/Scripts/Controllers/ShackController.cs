@@ -25,12 +25,16 @@ namespace FishingIsland.Controllers
 		private bool _isFishCollectionCompletedShack = false;
 		private bool _hasAnimationPlayed = false;
 
+		private GameObject shack;
+		private List<GameObject> shackPrefabs;
+
 		private Sequence _shackUpAnimation;
 
 		public TextMeshProUGUI shackFishCountText;
 		public Image shackUpImage;
-		public GameObject shack;
-		public GameObject newShack;
+		public Image levelPanel;
+		public Image shackFishPanel;
+		
 		public bool HasFishShack => _shackFishCount > 0;
 		public bool IsFishCollectionCompleted => _isFishCollectionCompletedShack;
 		public int startingFishCount;
@@ -40,7 +44,10 @@ namespace FishingIsland.Controllers
 
 		public void Initialize(UpgradeManager upgradeManager)
 		{
+			_shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
 			_upgradeManager = upgradeManager;
+			shackPrefabs = _shackUpgrade.GetShackGameObjects();
+			Instantiate(shackPrefabs[0]);
 		}
 
 		private void Awake()
@@ -58,7 +65,8 @@ namespace FishingIsland.Controllers
 		private void Start()
 		{
 			_initialShackUpPosition = shackUpImage.rectTransform.localPosition;
-			_shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+			shackFishPanel.gameObject.SetActive(true);
+			levelPanel.gameObject.SetActive(true);
 		}
 
 		private void OnEnable()
@@ -123,8 +131,19 @@ namespace FishingIsland.Controllers
 
 			if (dockWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
 			{
-				ActivateNewShack();
+				Destroy(shack);
+				Instantiate(shackPrefabs[1]);
 			}
+		}
+
+		private void Instantiate(GameObject shackPrefab)
+		{
+			if (shack!=null)
+			{
+				Destroy(shack);
+			}
+
+			shack = Instantiate(shackPrefab, transform.position, Quaternion.identity, transform);
 		}
 
 		private IEnumerator StartFishTransferFromFishWorker(FishWorkerController fishWorkerController)
@@ -231,15 +250,6 @@ namespace FishingIsland.Controllers
 				_shackUpAnimation.Kill();
 			}
 			shackUpImage.rectTransform.anchoredPosition = _initialShackUpPosition;
-		}
-
-		private void ActivateNewShack()
-		{
-			shack.SetActive(false);
-			newShack.SetActive(true);
-
-			SaveLoadManager.Instance.saveData.activatedShackName = "newShack";
-			SaveLoadManager.Instance.SaveGame();
 		}
 
 		public void ResetAnimation()

@@ -134,13 +134,6 @@ namespace FishingIsland.Managers
 					_houseController.house.SetActive(false);
 				}
 
-
-				if (!string.IsNullOrEmpty(saveData.activatedShackName) && saveData.activatedShackName == "newShack")
-				{
-					_shackController.newShack.SetActive(true);
-					_shackController.shack.SetActive(false);
-				}
-
 			}
 			else
 			{

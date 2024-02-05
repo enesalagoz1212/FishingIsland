@@ -31,14 +31,15 @@ namespace FishingIsland.Controllers
 		private bool _isBusy = false;
 		private bool hasAnimationPlayed = false;
 
+		private GameObject dockWorker;
+		private List<GameObject> dockWorkerPrefabs;
+
 		public Image dockWorkerBarImage;
 		public Image circularProgressBar;
 
 		private Sequence _dockWorkerDownAnimation;
 
 		public GameObject dockWorkerFishPanel;
-		public GameObject dockWorker;
-		public GameObject newDockWorker;
 		public TextMeshProUGUI dockWorkerFishCountText;
 		public Image dockWorkerDownOkImage;
 		public float speed;
@@ -70,6 +71,9 @@ namespace FishingIsland.Controllers
 			_targetPosition = LevelManager.Instance.dockWorkerGoesFishing[0].position;
 			ChangeState(DockWorkerState.Idle);
 			_shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
+			dockWorkerPrefabs = _shackUpgrade.GetDockWorkerGameObjects();
+
+			Instantiate(dockWorkerPrefabs[0]);
 		}
 
 		private void Update()
@@ -81,6 +85,15 @@ namespace FishingIsland.Controllers
 			}
 		}
 
+		private void Instantiate(GameObject dockWorkerPrefab)
+		{
+			if (dockWorker!=null)
+			{
+				Destroy(dockWorker);
+			}
+
+			dockWorker = Instantiate(dockWorkerPrefab, transform.position, Quaternion.identity, transform);
+		}
 		private void OnButtonClickedShackUpgradeAction()
 		{
 			int dockWorkerLevel = _shackUpgrade.shackUpgradeData.dockWorkerLevel;
@@ -89,7 +102,8 @@ namespace FishingIsland.Controllers
 
 			if (dockWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
 			{
-				ActivateNewDockWorker();
+				Destroy(dockWorker);
+				Instantiate(dockWorkerPrefabs[1]);
 			}
 		}
 
@@ -211,15 +225,6 @@ namespace FishingIsland.Controllers
 			dockWorkerFishCountText.text = $" {collectedFishCount}";
 		}
 
-
-		private void ActivateNewDockWorker()
-		{
-			dockWorker.SetActive(false);
-			newDockWorker.SetActive(true);
-
-			SaveLoadManager.Instance.saveData.activatedDockWorkerName = "newDockWorker";
-			SaveLoadManager.Instance.SaveGame();
-		}
 	}
 }
 
