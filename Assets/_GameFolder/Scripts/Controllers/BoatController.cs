@@ -51,8 +51,7 @@ namespace FishingIsland.Controllers
 
 		private void Start()
 		{
-			
-			//GameManager.OnButtonClickedDockUpgrade?.Invoke();
+
 		}
 
 		private void OnEnable()

@@ -86,7 +86,7 @@ namespace FishingIsland.Managers
 			houseController.Initialize(upgradeManager);
 
 			OnButtonClickedDockUpgrade?.Invoke();
-			//OnButtonClickedShackUpgrade?.Invoke();
+
 			ChangeState(GameState.Menu);
 		}
 

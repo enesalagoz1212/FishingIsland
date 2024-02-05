@@ -219,11 +219,6 @@ namespace FishingIsland.Controllers
 			MoveOnPath(LevelManager.Instance.fishWorkerSellPath, () => StartCoroutine(SellFish()));
 		}
 
-		private void UpdateFishWorkerSpeed(float newSpeed)
-		{
-			_fishWorkerSpeed = newSpeed;
-		}
-
 		private void ReturnToInitialPoint()
 		{
 			MoveOnPath(LevelManager.Instance.fishWorkerReturnPath, () => ChangeState(FishWorkerState.Idle));

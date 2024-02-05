@@ -21,6 +21,7 @@ namespace FishingIsland.Controllers
 		private bool _isFishCollectionCompletedBox = false;
 
 		public TextMeshProUGUI boxFishText;
+		public Image fishBoxPanel;
 	
 		public bool IsFishCollectionCompleted => _isFishCollectionCompletedBox;
 		public bool HasFishBox => _totalFishCount > 0;
@@ -41,7 +42,7 @@ namespace FishingIsland.Controllers
 		}
 		public void Initialize()
 		{
-
+			fishBoxPanel.gameObject.SetActive(true);
 		}
 
 		private void OnEnable()

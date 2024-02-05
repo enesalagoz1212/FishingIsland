@@ -74,27 +74,26 @@ namespace FishingIsland.Canvases
 			if (dockWorkerLevel == 10 && _canDockWorkerButton)
 			{
 				dockWorkerButton.interactable = false;
+				_canDockWorkerButton = false;
 			}
 
 			if (speedLevel == 10 && _canSpeedButton)
 			{
 				speedButton.interactable = false;
+				_canSpeedButton = false;
 			}
 
 			if (capacityLevel == 10 && _canCapacityButton)
 			{
 				capacityButton.interactable = false;
+				_canCapacityButton = false;
 			}
 
-			if (dockWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			if (dockWorkerLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
 			{
 				dockWorkerButton.interactable = true;
 				speedButton.interactable = true;
-				capacityButton.interactable = true;
-
-				_canDockWorkerButton = false;
-				_canSpeedButton = false;
-				_canCapacityButton = false;
+				capacityButton.interactable = true;				
 			}
 		}
 

@@ -84,7 +84,7 @@ namespace FishingIsland.Canvases
 				_canCapacityButton = false;
 			}
 
-			if (boatLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			if (boatLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
 			{
 				boatButton.interactable = true;
 				speedButton.interactable = true;
