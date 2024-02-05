@@ -35,18 +35,23 @@ namespace FishingIsland.Controllers
 		public Image circularProgressBar;
 		public TextMeshProUGUI fishCapacityText;
 		public TextMeshProUGUI boxFishText;
-		public GameObject boat;
-		public GameObject newBoat;
 
+		private GameObject boat;
+		private List<GameObject> boatPrefabs;
 		private Sequence _boatDownAnimation;
 
 		public void Initialize()
 		{
-
 			_initialPosition = transform.position;
-			ChangeState(BoatState.InThePort);
 			dockUpgrade = DockUpgradeManager.Instance.GetDockUpgrade();
+			boatPrefabs = dockUpgrade.GetBoatGameObjects();
 
+			ChangeState(BoatState.InThePort);
+		}
+
+		private void Start()
+		{
+			InstantiateBoat(boatPrefabs[0]);
 		}
 
 		private void OnEnable()
@@ -57,7 +62,7 @@ namespace FishingIsland.Controllers
 		private void OnDisable()
 		{
 			GameManager.OnButtonClickedDockUpgrade -= OnButtonClickedDockUpgradeAction;
-			
+
 		}
 
 		public void ChangeState(BoatState boatState)
@@ -225,15 +230,6 @@ namespace FishingIsland.Controllers
 
 		}
 
-		private void ActivateNewBoat()
-		{
-			boat.SetActive(false);
-			newBoat.SetActive(true);
-
-			SaveLoadManager.Instance.saveData.activatedBoatName = "newBoat";
-			SaveLoadManager.Instance.SaveGame();
-		}
-
 		private void OnButtonClickedDockUpgradeAction()
 		{
 			int boatLevel = dockUpgrade.dockUpgradeData.boatLevel;
@@ -242,8 +238,18 @@ namespace FishingIsland.Controllers
 
 			if (boatLevel == 10 && speedLevel == 10 && capacityLevel == 10)
 			{
-				ActivateNewBoat();
+
 			}
+		}
+
+		private void InstantiateBoat(GameObject boatPrefab)
+		{
+			if (boat != null)
+			{
+				Destroy(boat);
+			}
+
+			boat = Instantiate(boatPrefab, transform.position, Quaternion.identity, transform);
 		}
 	}
 }

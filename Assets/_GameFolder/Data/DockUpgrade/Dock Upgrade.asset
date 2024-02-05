@@ -22,3 +22,9 @@ MonoBehaviour:
   boatLevelIncreasePerLevel: 0.3
   initialBoatLevel: 7
   maxLevelDock: 20
+  boatGameObejct:
+  - {fileID: 9090283018358252924, guid: 0c97ea1fd21f20d4ab489809fe83b8c8, type: 3}
+  - {fileID: 7406610319848325737, guid: 2751cd3ef605de148a3706b0280c51a2, type: 3}
+  dockGameObejct:
+  - {fileID: 0}
+  - {fileID: 0}

@@ -127,11 +127,11 @@ namespace FishingIsland.Managers
 					Debug.LogError("MoneyManager instance is missing!");
 				}
 
-				if (!string.IsNullOrEmpty(saveData.activatedBoatName) && saveData.activatedBoatName == "newBoat")
-				{
-					_boatController.newBoat.SetActive(true);
-					_boatController.boat.SetActive(false);
-				}
+				//if (!string.IsNullOrEmpty(saveData.activatedBoatName) && saveData.activatedBoatName == "newBoat")
+				//{
+				//	_boatController.newBoat.SetActive(true);
+				//	_boatController.boat.SetActive(false);
+				//}
 
 				if (!string.IsNullOrEmpty(saveData.activatedDockName) && saveData.activatedDockName == "newDock")
 				{

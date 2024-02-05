@@ -13,6 +13,7 @@ namespace FishingIsland.UpgradeScriptableObjects
 		public int speedLevel;
 		public int capacityLevel;
 
+
 		public DockUpgradeData(int levelBoat, int levelSpeed, int levelCapacity)
 		{
 			boatLevel = levelBoat;
@@ -42,6 +43,9 @@ namespace FishingIsland.UpgradeScriptableObjects
 		[SerializeField] private float initialBoatLevel;
 
 		[SerializeField] private int maxLevelDock;
+
+		[SerializeField] private List<GameObject> boatGameObejct;
+		[SerializeField] private List<GameObject> dockGameObejct;
 
 		public int ReturnBoatFishCapacity() 
 		{
@@ -79,6 +83,11 @@ namespace FishingIsland.UpgradeScriptableObjects
 		public int MaxLevelDock() 
 		{
 			return maxLevelDock;
+		}
+
+		public List<GameObject> GetBoatGameObjects()
+		{
+			return boatGameObejct;
 		}
 
 		public void ResetGameDockUpgrade()
