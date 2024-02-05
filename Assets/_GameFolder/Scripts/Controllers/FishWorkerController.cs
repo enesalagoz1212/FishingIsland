@@ -60,10 +60,11 @@ namespace FishingIsland.Controllers
 		}
 		public override void Start()
 		{
-			ChangeState(FishWorkerState.Idle);
 			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
 			fishWorkerPrefabs = _houseUpgrade.GetFishWorkerGameObjects();
 			Instantiate(fishWorkerPrefabs[0]);
+			ChangeState(FishWorkerState.Idle);
+			GameManager.OnButtonClickedHouseUpgrade?.Invoke();
 		}
 
 		private void Update()
@@ -92,7 +93,7 @@ namespace FishingIsland.Controllers
 			int speedLevel = _houseUpgrade.houseUpgradeData.speedLevel;
 			int capacityLevel = _houseUpgrade.houseUpgradeData.capacityLevel;
 
-			if (fishWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			if (fishWorkerLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
 			{
 				Destroy(fishWorker);
 				Instantiate(fishWorkerPrefabs[1]);

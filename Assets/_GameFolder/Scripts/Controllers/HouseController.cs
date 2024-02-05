@@ -80,7 +80,7 @@ namespace FishingIsland.Controllers
 			int speedLevel = _houseUpgrade.houseUpgradeData.speedLevel;
 			int capacityLevel = _houseUpgrade.houseUpgradeData.capacityLevel;
 
-			if (fishWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			if (fishWorkerLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
 			{
 				Instantiate(housePrefabs[1]);
 			}

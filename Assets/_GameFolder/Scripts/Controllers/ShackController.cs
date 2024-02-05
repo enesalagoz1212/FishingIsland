@@ -129,7 +129,7 @@ namespace FishingIsland.Controllers
 			int speedLevel = _shackUpgrade.shackUpgradeData.speedLevel;
 			int capacityLevel = _shackUpgrade.shackUpgradeData.capacityLevel;
 
-			if (dockWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			if (dockWorkerLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
 			{
 				Destroy(shack);
 				Instantiate(shackPrefabs[1]);

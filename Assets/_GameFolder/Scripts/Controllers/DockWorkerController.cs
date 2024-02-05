@@ -53,6 +53,7 @@ namespace FishingIsland.Controllers
 			characterName = name;
 			speed = initialSpeed;
 			capacity = initialCapacity;
+
 		}
 
 		private void OnEnable()
@@ -62,18 +63,19 @@ namespace FishingIsland.Controllers
 
 		private void OnDisable()
 		{
-			
+
 			GameManager.OnButtonClickedShackUpgrade -= OnButtonClickedShackUpgradeAction;
 		}
 		public override void Start()
 		{
 			_initialPosition = transform.position;
 			_targetPosition = LevelManager.Instance.dockWorkerGoesFishing[0].position;
-			ChangeState(DockWorkerState.Idle);
 			_shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
 			dockWorkerPrefabs = _shackUpgrade.GetDockWorkerGameObjects();
 
 			Instantiate(dockWorkerPrefabs[0]);
+			GameManager.OnButtonClickedShackUpgrade?.Invoke();
+			ChangeState(DockWorkerState.Idle);
 		}
 
 		private void Update()
@@ -87,7 +89,7 @@ namespace FishingIsland.Controllers
 
 		private void Instantiate(GameObject dockWorkerPrefab)
 		{
-			if (dockWorker!=null)
+			if (dockWorker != null)
 			{
 				Destroy(dockWorker);
 			}
@@ -100,7 +102,7 @@ namespace FishingIsland.Controllers
 			int speedLevel = _shackUpgrade.shackUpgradeData.speedLevel;
 			int capacityLevel = _shackUpgrade.shackUpgradeData.capacityLevel;
 
-			if (dockWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			if (dockWorkerLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
 			{
 				Destroy(dockWorker);
 				Instantiate(dockWorkerPrefabs[1]);
@@ -162,10 +164,10 @@ namespace FishingIsland.Controllers
 					});
 					break;
 				case DockWorkerState.CollectingFish:
-					dockWorkerBarImage.gameObject.SetActive(true);				
-					dockWorkerFishPanel.gameObject.SetActive(true);					
+					dockWorkerBarImage.gameObject.SetActive(true);
+					dockWorkerFishPanel.gameObject.SetActive(true);
 					FishBoxController.OnDockWorkerArrivedBox?.Invoke(this);
-					
+
 					break;
 				case DockWorkerState.ReturningFromCollectingFish:
 					dockWorkerBarImage.gameObject.SetActive(false);
@@ -201,7 +203,7 @@ namespace FishingIsland.Controllers
 
 			circularProgressBar.fillAmount = currentProgress;
 
-		
+
 		}
 
 		public void OnFishCollectionCompleted()

@@ -28,12 +28,12 @@ namespace FishingIsland.Controllers
 			_upgradeManager = upgradeManager;
 			_dockUpgrade=DockUpgradeManager.Instance.GetDockUpgrade();
 			dockPrefabs = _dockUpgrade.GetDockGameObjects();
+			InstantiateDock(dockPrefabs[0]);
 		}
 
 		private void Start()
 		{
-			_initialDockUpPosition = dockUpImage.rectTransform.localPosition;
-			InstantiateDock(dockPrefabs[0]);
+			_initialDockUpPosition = dockUpImage.rectTransform.localPosition;			
 			dockLevelPanel.gameObject.SetActive(true);
 		}
 
@@ -55,7 +55,7 @@ namespace FishingIsland.Controllers
 			int speedLevel = _dockUpgrade.dockUpgradeData.speedLevel;
 			int capacityLevel = _dockUpgrade.dockUpgradeData.capacityLevel;
 
-			if (boatLevel == 10 && speedLevel == 10 && capacityLevel == 10)
+			if (boatLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
 			{
 				Destroy(dock);
 				InstantiateDock(dockPrefabs[1]);
