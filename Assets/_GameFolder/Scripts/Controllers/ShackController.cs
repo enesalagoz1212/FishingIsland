@@ -32,7 +32,7 @@ namespace FishingIsland.Controllers
 
 		public TextMeshProUGUI shackFishCountText;
 		public Image shackUpImage;
-		public Image levelPanel;
+		//public Image levelPanel;
 		public Image shackFishPanel;
 		
 		public bool HasFishShack => _shackFishCount > 0;
@@ -66,7 +66,7 @@ namespace FishingIsland.Controllers
 		{
 			_initialShackUpPosition = shackUpImage.rectTransform.localPosition;
 			shackFishPanel.gameObject.SetActive(true);
-			levelPanel.gameObject.SetActive(true);
+			//levelPanel.gameObject.SetActive(true);
 		}
 
 		private void OnEnable()

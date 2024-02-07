@@ -18,7 +18,7 @@ namespace FishingIsland.Controllers
 		private Sequence _houseUpAnimation;
 
 		public Image houseUpImage;
-		public Image houseLevelPanel;
+		//public Image houseLevelPanel;
 
 		private GameObject house;
 		private List<GameObject> housePrefabs;
@@ -35,8 +35,7 @@ namespace FishingIsland.Controllers
 		private void Start()
 		{
 			_initialHouseUpPosition = houseUpImage.rectTransform.localPosition;
-			houseLevelPanel.gameObject.SetActive(true);
-			
+			//houseLevelPanel.gameObject.SetActive(true);		
 		}
 
 		void Update()

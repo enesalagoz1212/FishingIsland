@@ -75,7 +75,7 @@ namespace FishingIsland.Managers
 			boatController.Initialize();
 			fishBoxController.Initialize();
 			upgradeManager.Initialize(this);
-			levelManager.Initialize();
+			levelManager.Initialize(dockUpgradeManager,shackUpgradeManager,houseUpgradeManager);
 			moneyManager.Initialize();
 			dockUpgradeManager.Initialize();
 			shackUpgradeManager.Initialize();

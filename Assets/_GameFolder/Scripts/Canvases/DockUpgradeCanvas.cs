@@ -50,17 +50,19 @@ namespace FishingIsland.Canvases
 		private void OnEnable()
 		{
 			GameManager.OnButtonClickedDockUpgrade += OnButtonClickedDockUpgradeAction;
+			GameManager.OnGameReset += OnGameResetAction;
 		}
 
 		private void OnDisable()
 		{
 
 			GameManager.OnButtonClickedDockUpgrade -= OnButtonClickedDockUpgradeAction;
+			GameManager.OnGameReset -= OnGameResetAction;
 		}
 
 		private void OnButtonClickedDockUpgradeAction()
 		{
-			Debug.Log("Action oldu");
+			Debug.Log("Action");
 			int boatLevel = _dockUpgrade.dockUpgradeData.boatLevel;
 			int speedLevel = _dockUpgrade.dockUpgradeData.speedLevel;
 			int capacityLevel = _dockUpgrade.dockUpgradeData.capacityLevel;
@@ -84,11 +86,11 @@ namespace FishingIsland.Canvases
 				_canCapacityButton = false;
 			}
 
-			if (boatLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
+			if (boatLevel == 10 && speedLevel == 10 && capacityLevel == 10)
 			{
 				boatButton.interactable = true;
 				speedButton.interactable = true;
-				capacityButton.interactable = true;				
+				capacityButton.interactable = true;
 			}
 		}
 
@@ -166,6 +168,13 @@ namespace FishingIsland.Canvases
 
 			bool canUpgradeCapacity = _dockUpgrade.dockUpgradeData.capacityLevel < maxLevelCapacity;
 			capacityButton.interactable = canUpgradeCapacity;
+		}
+
+		private void OnGameResetAction()
+		{
+			boatButton.interactable = true;
+			speedButton.interactable = true;
+			capacityButton.interactable = true;
 		}
 	}
 }

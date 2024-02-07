@@ -18,7 +18,7 @@ namespace FishingIsland.Controllers
 		private bool hasAnimationPlayed = false;
 
 		public Image dockUpImage;
-		public Image dockLevelPanel;
+	//	public Image dockLevelPanel;
 
 		private GameObject dock;
 		private List<GameObject> dockPrefabs;
@@ -34,7 +34,7 @@ namespace FishingIsland.Controllers
 		private void Start()
 		{
 			_initialDockUpPosition = dockUpImage.rectTransform.localPosition;			
-			dockLevelPanel.gameObject.SetActive(true);
+			//dockLevelPanel.gameObject.SetActive(true);
 		}
 
 		private void OnEnable()

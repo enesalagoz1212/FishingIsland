@@ -14,6 +14,7 @@ namespace FishingIsland.Managers
 		[SerializeField] private DockUpgradeCanvas dockUpgradeCanvas;
 		[SerializeField] private ShackUpgradeCanvas shackUpgradeCanvas;
 
+
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)

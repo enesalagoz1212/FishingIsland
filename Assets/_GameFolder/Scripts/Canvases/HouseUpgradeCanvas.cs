@@ -50,11 +50,13 @@ namespace FishingIsland.Canvases
 		private void OnEnable()
 		{
 			GameManager.OnButtonClickedHouseUpgrade += OnButtonClickedHouseUpgradeAction;
+			GameManager.OnGameReset += OnGameResetAction;
 		}
 
 		private void OnDisable()
 		{
 			GameManager.OnButtonClickedHouseUpgrade -= OnButtonClickedHouseUpgradeAction;
+			GameManager.OnGameReset -= OnGameResetAction;
 
 		}
 		private void Start()
@@ -89,7 +91,7 @@ namespace FishingIsland.Canvases
 				_canCapacityButton = false;
 			}
 
-			if (fishWorkerLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
+			if (fishWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
 			{
 				fishWorkerButton.interactable = true;
 				speedButton.interactable = true;
@@ -161,6 +163,13 @@ namespace FishingIsland.Canvases
 
 			bool canUpgradeCapacity = _houseUpgrade.houseUpgradeData.capacityLevel < maxLevelCapacity;
 			capacityButton.interactable = canUpgradeCapacity;
+		}
+
+		private void OnGameResetAction()
+		{
+			fishWorkerButton.interactable = true;
+			speedButton.interactable = true;
+			capacityButton.interactable = true;
 		}
 	}
 }

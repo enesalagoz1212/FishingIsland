@@ -12,6 +12,7 @@ namespace FishingIsland.Managers
 		[SerializeField] private MenuCanvas menuCanvas;
 		[SerializeField] private GameCanvas gameCanvas;
 		[SerializeField] private InputCanvas inputCanvas;
+		[SerializeField] private EndCanvas endCanvas;
 
 		private void Awake()
 		{
@@ -29,6 +30,7 @@ namespace FishingIsland.Managers
 		{
 			menuCanvas.Initialize(gameManager);
 			inputCanvas.Initialize(inputManager);
+			endCanvas.Initialize();
 		}
 	}
 }

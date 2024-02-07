@@ -50,11 +50,13 @@ namespace FishingIsland.Canvases
 		private void OnEnable()
 		{
 			GameManager.OnButtonClickedShackUpgrade += OnButtonClickedShackUpgradeAction;
+			GameManager.OnGameReset += OnGameResetAction;
 		}
 
 		private void OnDisable()
 		{
 			GameManager.OnButtonClickedShackUpgrade -= OnButtonClickedShackUpgradeAction;
+			GameManager.OnGameReset -= OnGameResetAction;
 			
 		}
 		private void Start()
@@ -89,7 +91,7 @@ namespace FishingIsland.Canvases
 				_canCapacityButton = false;
 			}
 
-			if (dockWorkerLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
+			if (dockWorkerLevel == 10 && speedLevel == 10 && capacityLevel == 10)
 			{
 				dockWorkerButton.interactable = true;
 				speedButton.interactable = true;
@@ -161,6 +163,13 @@ namespace FishingIsland.Canvases
 
 			bool canUpgradeCapacity = _shackUpgrade.shackUpgradeData.capacityLevel < maxLevelCapacity;
 			capacityButton.interactable = canUpgradeCapacity;
+		}
+
+		private void OnGameResetAction()
+		{
+			dockWorkerButton.interactable = true;
+			speedButton.interactable = true;
+			capacityButton.interactable = true;
 		}
 	}
 }

@@ -35,6 +35,15 @@ namespace FishingIsland.Managers
 			CapacityLevelIncreaseMoneyText(_capacityUpgradeCost);
 		}
 
+		private void OnEnable()
+		{
+			GameManager.OnGameReset += OnGameResetAction;
+		}
+
+		private void OnDisable()
+		{
+			GameManager.OnGameReset -= OnGameResetAction;
+		}
 		private void Awake()
 		{
 			if (Instance != null && Instance != this)
@@ -160,6 +169,11 @@ namespace FishingIsland.Managers
 		public HouseUpgrade GetHouseUpgrade()
 		{
 			return houseUpgrade;
+		}
+
+		private void OnGameResetAction()
+		{
+			ResetGame();
 		}
 
 		public void ResetGame()

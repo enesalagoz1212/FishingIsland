@@ -48,6 +48,16 @@ namespace FishingIsland.Managers
 			}
 		}
 
+		private void OnEnable()
+		{
+			GameManager.OnGameReset += OnGameResetAction;
+		}
+		private void OnDisable()
+		{
+			GameManager.OnGameReset -= OnGameResetAction;
+		}
+
+
 
 		public void UpdateUpgradeCosts()
 		{
@@ -168,6 +178,11 @@ namespace FishingIsland.Managers
 		public void CapacityLevelIncreaseMoneyText(int moneyText)
 		{
 			capacityLevelIncreaseMoneyAmountText.text = $" {moneyText}";
+		}
+
+		private void OnGameResetAction()
+		{
+			ResetGame();
 		}
 
 		public void ResetGame()
