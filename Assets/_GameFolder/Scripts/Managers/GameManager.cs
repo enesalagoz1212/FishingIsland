@@ -48,6 +48,7 @@ namespace FishingIsland.Managers
 		[SerializeField] private ShackController shackController;
 		[SerializeField] private HouseController houseController;
 		[SerializeField] private BaseCharacterController baseCharacterController;
+		[SerializeField] private SoundManager soundManager;
 
 
 		private void Awake()
@@ -84,6 +85,7 @@ namespace FishingIsland.Managers
 			dockController.Initialize(upgradeManager);
 			shackController.Initialize(upgradeManager);
 			houseController.Initialize(upgradeManager);
+			soundManager.Initialize();
 
 			OnButtonClickedDockUpgrade?.Invoke();
 

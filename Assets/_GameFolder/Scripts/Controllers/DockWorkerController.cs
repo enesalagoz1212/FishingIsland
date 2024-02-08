@@ -151,12 +151,14 @@ namespace FishingIsland.Controllers
 			switch (DockWorkerState)
 			{
 				case DockWorkerState.Idle:
+					SoundManager.Instance.PlayDockWorkerStateSound(DockWorkerState.Idle);
 					hasAnimationPlayed = false;
 					_collectedFishCount = 0;
 					_isBusy = false;
 					dockWorkerFishPanel.gameObject.SetActive(false);
 					break;
 				case DockWorkerState.GoToCollectFish:
+					SoundManager.Instance.PlayDockWorkerStateSound(DockWorkerState.GoToCollectFish);
 					dockWorkerDownOkImage.gameObject.SetActive(false);
 					MoveToPosition(_targetPosition, 1, () =>
 					{
@@ -164,12 +166,14 @@ namespace FishingIsland.Controllers
 					});
 					break;
 				case DockWorkerState.CollectingFish:
+					SoundManager.Instance.PlayDockWorkerStateSound(DockWorkerState.CollectingFish);
 					dockWorkerBarImage.gameObject.SetActive(true);
 					dockWorkerFishPanel.gameObject.SetActive(true);
 					FishBoxController.OnDockWorkerArrivedBox?.Invoke(this);
 
 					break;
 				case DockWorkerState.ReturningFromCollectingFish:
+					SoundManager.Instance.PlayDockWorkerStateSound(DockWorkerState.ReturningFromCollectingFish);
 					dockWorkerBarImage.gameObject.SetActive(false);
 					circularProgressBar.fillAmount = 0f;
 					MoveToPosition(_initialPosition, 1, () =>

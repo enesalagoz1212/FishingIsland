@@ -71,12 +71,14 @@ namespace FishingIsland.Controllers
 			switch (BoatState)
 			{
 				case BoatState.InThePort:
+					SoundManager.Instance.PlayBoatStateSound(BoatState.InThePort);
 					AnimateBoatDown();
 					transform.position = _initialPosition;
 					boatFishPanel.gameObject.SetActive(false);
 					_canClick = true;
 					break;
 				case BoatState.GoingFishing:
+					SoundManager.Instance.PlayBoatStateSound(BoatState.GoingFishing);
 					Transform randomSpawnPoint = LevelManager.Instance.GetRandomBoatSpawnPoint();
 					if (randomSpawnPoint != null)
 					{
@@ -87,10 +89,12 @@ namespace FishingIsland.Controllers
 					}
 					break;
 				case BoatState.Fishing:
+					SoundManager.Instance.PlayBoatStateSound(BoatState.Fishing);
 					boatBarImage.gameObject.SetActive(true);
 					UpdateCollectTheFishText();
 					break;
 				case BoatState.ReturningToPort:
+					SoundManager.Instance.PlayBoatStateSound(BoatState.ReturningToPort);
 					boatBarImage.gameObject.SetActive(false);
 					circularProgressBar.fillAmount = 0f;
 					MoveToPosition(_initialPosition, 1f, () =>

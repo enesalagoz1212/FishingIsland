@@ -17,6 +17,7 @@ namespace FishingIsland.Controllers
 		GoingToSellFish,
 		ReturnsFromSellingFish,
 	}
+
 	public class FishWorkerController : BaseCharacterController
 	{
 		public FishWorkerState FishWorkerState { get; private set; }
@@ -116,23 +117,27 @@ namespace FishingIsland.Controllers
 			switch (FishWorkerState)
 			{
 				case FishWorkerState.Idle:
+					SoundManager.Instance.PlayFishWorkerStateSound(FishWorkerState.Idle);
 					hasAnimationPlayed = false;
 					_totalFishCount = 0;
 					fishWorkerFishPanel.gameObject.SetActive(false);
 					_isSellingFish = false;
 					break;
 				case FishWorkerState.CollectingFish:
+					SoundManager.Instance.PlayFishWorkerStateSound(FishWorkerState.CollectingFish);
 					fishWorkerDownOkImage.gameObject.SetActive(false);
 					fishWorkerBarImage.gameObject.SetActive(true);
 					fishWorkerFishPanel.gameObject.SetActive(true);
 					ShackController.OnFishWorkerArrivedBox?.Invoke(this);
 					break;
 				case FishWorkerState.GoingToSellFish:
+					SoundManager.Instance.PlayFishWorkerStateSound(FishWorkerState.GoingToSellFish);
 					fishWorkerBarImage.gameObject.SetActive(false);
 					circularProgressBar.fillAmount = 0f;
 					GoToSellFish();
 					break;
 				case FishWorkerState.ReturnsFromSellingFish:
+					SoundManager.Instance.PlayFishWorkerStateSound(FishWorkerState.ReturnsFromSellingFish);
 					ReturnToInitialPoint();
 					break;
 			}
