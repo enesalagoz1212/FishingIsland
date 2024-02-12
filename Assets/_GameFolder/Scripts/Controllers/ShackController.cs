@@ -143,7 +143,7 @@ namespace FishingIsland.Controllers
 				Destroy(shack);
 			}
 
-			shack = Instantiate(shackPrefab, transform.position, Quaternion.identity, transform);
+			shack = Instantiate(shackPrefab, transform.position, Quaternion.Euler(0,90,0), transform);
 		}
 
 		private IEnumerator StartFishTransferFromFishWorker(FishWorkerController fishWorkerController)

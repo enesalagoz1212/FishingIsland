@@ -10,11 +10,12 @@ namespace FishingIsland.Managers
 	[System.Serializable]
 	public class StateSoundSetBoat
 	{
-		public AudioClip idleSoundBoat;
-		public AudioClip collectFishSoundBoat;
-		public AudioClip goToSellFishSoundBoat;
-		public AudioClip returnFromSellingFishSoundBoat;		
+		public AudioClip inThePortSoundBoat;
+		public AudioClip goingFishingSoundBoat;
+		public AudioClip fishingSoundBoat;
+		public AudioClip returningToPortSoundBoat;		
 	}
+
 
 	[System.Serializable]
 	public class StateSoundSetDockWorker
@@ -40,6 +41,8 @@ namespace FishingIsland.Managers
 		public static SoundManager Instance { get; private set; }
 		public AudioSource audioSource;
 
+		public AudioClip backgroundMusicClip;
+
 		public StateSoundSetBoat boatSounds;
 		public StateSoundSetDockWorker dockWorkerSounds;
 		public StateSoundSetFishWorker fishWorkerSounds;
@@ -48,6 +51,7 @@ namespace FishingIsland.Managers
 		public void Initialize()
 		{
 			audioSource = GetComponent<AudioSource>();
+			PlayBackgroundMusic(backgroundMusicClip);
 		}
 
 		private void Awake()
@@ -63,8 +67,17 @@ namespace FishingIsland.Managers
 			}
 		}
 
+		private void StopSound()
+		{
+			if (audioSource.isPlaying)
+			{
+				audioSource.Stop();
+			}
+		}
 		public void PlayBoatStateSound(BoatState state)
 		{
+			StopSound();
+
 			PlaySound(GetBoatSoundForState(state));
 		}
 
@@ -83,13 +96,13 @@ namespace FishingIsland.Managers
 			switch (state)
 			{
 				case BoatState.InThePort:
-					return boatSounds.idleSoundBoat;
+					return boatSounds.inThePortSoundBoat;
 				case BoatState.GoingFishing:
-					return boatSounds.collectFishSoundBoat;
+					return boatSounds.goingFishingSoundBoat;
 				case BoatState.Fishing:
-					return boatSounds.goToSellFishSoundBoat;
+					return boatSounds.fishingSoundBoat;
 				case BoatState.ReturningToPort:
-					return boatSounds.returnFromSellingFishSoundBoat;
+					return boatSounds.returningToPortSoundBoat;
 				default:
 					return null;
 			}
@@ -136,6 +149,13 @@ namespace FishingIsland.Managers
 			{
 				audioSource.PlayOneShot(clip);
 			}
+		}
+
+		public void PlayBackgroundMusic(AudioClip backgroundMusic)
+		{
+			audioSource.clip = backgroundMusic;
+			audioSource.loop = true;
+			audioSource.Play();
 		}
 	}
 }

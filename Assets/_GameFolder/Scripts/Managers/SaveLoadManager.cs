@@ -21,18 +21,15 @@ namespace FishingIsland.Managers
 		public int totalFishCountFishBox;
 		public int totalFishCountShack;
 		public bool isBoatActivated;
-		public string activatedBoatName;
-		public string activatedDockName;
-		public string activatedHouseName;
-		public string activatedShackName;
-		public string activatedDockWorkerName;
-		public string activatedFishWorkerName;
+		public int currentLevelIndex;
+
 	}
 
 	public class SaveLoadManager : MonoBehaviour
 	{
 		public static SaveLoadManager Instance;
 		public SaveData saveData { get; set; }
+
 		private BoatController _boatController;
 		private DockController _dockController;
 		private HouseController _houseController;
@@ -41,9 +38,10 @@ namespace FishingIsland.Managers
 		public MoneyManager moneyManager;
 		public FishBoxController fishBoxController;
 		public ShackController shackController;
+		public LevelManager levelManager;
 
 		private string savePath;
-	
+
 
 
 		private void Awake()
@@ -77,7 +75,7 @@ namespace FishingIsland.Managers
 
 			LoadGame();
 
-			DockUpgradeData savedDataDock = LoadDockUpgradeData();
+			DockUpgradeData savedDataDock = LoadDockUpgradeData(); 
 			DockUpgradeManager.Instance.dockUpgradeData = savedDataDock;
 			DockUpgradeManager.Instance.UpdateUpgradeCosts();
 
@@ -89,6 +87,12 @@ namespace FishingIsland.Managers
 			HouseUpgradeManager.Instance.houseUpgradeData = savedDataHouse;
 			HouseUpgradeManager.Instance.UpdateUpgradeCosts();
 		}
+
+		public int CurrentLevel()
+		{
+			return saveData.currentLevelIndex;
+		}
+
 		public void SaveGame()
 		{
 			saveData.money = MoneyManager.Instance.money;
@@ -97,6 +101,8 @@ namespace FishingIsland.Managers
 			saveData.dockUpgradeData = DockUpgradeManager.Instance.dockUpgradeData;
 			saveData.shackUpgradeData = ShackUpgradeManager.Instance.shackUpgradeData;
 			saveData.houseUpgradeData = HouseUpgradeManager.Instance.houseUpgradeData;
+			saveData.currentLevelIndex = LevelManager.Instance.GetCurrentLevelIndex();
+
 
 
 			string jsonData = JsonUtility.ToJson(saveData);
@@ -143,6 +149,9 @@ namespace FishingIsland.Managers
 			SaveGame();
 		}
 
+
+
+
 		public void SaveDockUpgradeData(DockUpgradeData dockUpgradeData)
 		{
 			saveData.dockUpgradeData = dockUpgradeData;
@@ -150,8 +159,8 @@ namespace FishingIsland.Managers
 			string jsonData = JsonUtility.ToJson(saveData);
 			File.WriteAllText(savePath, jsonData);
 		}
-
 		public DockUpgradeData LoadDockUpgradeData()
+
 		{
 			if (File.Exists(savePath))
 			{
@@ -209,6 +218,19 @@ namespace FishingIsland.Managers
 			}
 		}
 
+		public int LoadCurrentLevelIndex()
+		{
+			if (File.Exists(savePath))
+			{
+				string jsonData = File.ReadAllText(savePath);
+				SaveData loadedData = JsonUtility.FromJson<SaveData>(jsonData);
+				return loadedData.currentLevelIndex;
+			}
+			else
+			{
+				return 0;
+			}
+		}
 		public void ResetGame()
 		{
 			saveData = new SaveData();

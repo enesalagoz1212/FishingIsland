@@ -51,6 +51,7 @@ namespace FishingIsland.Managers
 		[SerializeField] private SoundManager soundManager;
 
 
+
 		private void Awake()
 		{
 			if ( Instance !=null && Instance!=this)
@@ -76,7 +77,7 @@ namespace FishingIsland.Managers
 			boatController.Initialize();
 			fishBoxController.Initialize();
 			upgradeManager.Initialize(this);
-			levelManager.Initialize(dockUpgradeManager,shackUpgradeManager,houseUpgradeManager);
+			levelManager.Initialize(dockUpgradeManager,shackUpgradeManager,houseUpgradeManager,saveLoadManager);
 			moneyManager.Initialize();
 			dockUpgradeManager.Initialize();
 			shackUpgradeManager.Initialize();

@@ -254,7 +254,7 @@ namespace FishingIsland.Controllers
 				Destroy(boat);
 			}
 
-			boat = Instantiate(boatPrefab, transform.position, Quaternion.identity, transform);
+			boat = Instantiate(boatPrefab, transform.position, Quaternion.Euler(0, 90, 0), transform);
 		}
 	}
 }

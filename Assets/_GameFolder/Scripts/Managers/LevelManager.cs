@@ -9,6 +9,7 @@ namespace FishingIsland.Managers
 	{
 		public static LevelManager Instance { get; private set; }
 
+		private SaveLoadManager _saveLoadManager;
 		private DockUpgradeManager _dockUpgradeManager;
 		private ShackUpgradeManager _shackUpgradeManager;
 		private HouseUpgradeManager _houseUpgradeManager;
@@ -53,18 +54,22 @@ namespace FishingIsland.Managers
 			else
 			{
 				Instance = this;
+			
 			}
 		}
 
-		public void Initialize(DockUpgradeManager dockUpgradeManager, ShackUpgradeManager shackUpgradeManager, HouseUpgradeManager houseUpgradeManager)
+		public void Initialize(DockUpgradeManager dockUpgradeManager, ShackUpgradeManager shackUpgradeManager, HouseUpgradeManager houseUpgradeManager ,SaveLoadManager saveLoadManager)
 		{
+			_currentLevelIndex = SaveLoadManager.Instance.LoadCurrentLevelIndex();
 			StartLevelSequence();
-
 			_dockUpgradeManager = dockUpgradeManager;
 			_shackUpgradeManager = shackUpgradeManager;
 			_houseUpgradeManager = houseUpgradeManager;
 		}
-
+		private void Start()
+		{
+			
+		}
 		public Transform GetRandomBoatSpawnPoint()
 		{
 			if (boatSpawnPoints.Count == 0)
@@ -79,7 +84,7 @@ namespace FishingIsland.Managers
 
 		private void StartLevelSequence()
 		{
-			if (_currentLevelIndex <= levelGameObjects.Count)
+			if (_currentLevelIndex < levelGameObjects.Count)
 			{
 				levelGameObjects[_currentLevelIndex].SetActive(true);
 			}
@@ -130,6 +135,16 @@ namespace FishingIsland.Managers
 			{
 				GameManager.OnGameLevelCompleted?.Invoke(true);
 			}
+		}
+
+		public int GetCurrentLevelIndex()
+		{
+			return _currentLevelIndex;
+		}
+
+		public void SetCurrentLevelIndex(int index)
+		{
+			_currentLevelIndex = index;
 		}
 	}
 }

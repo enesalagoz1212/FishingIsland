@@ -23,7 +23,7 @@ MonoBehaviour:
   initialDockWorkerLevel: 7
   maxLevelShack: 20
   shackGameObejct:
-  - {fileID: 5840013357536530539, guid: 2aa5971c55c583440942b86c115e0755, type: 3}
+  - {fileID: 3108085623975464314, guid: c6615daa70a969c4298675f4cce7d1c9, type: 3}
   - {fileID: 1929310762350667951, guid: b41bb36b4d5eeaf45848c10999e7c9b8, type: 3}
   dockWorkerGameObejct:
   - {fileID: 7173126154287363673, guid: 5a2962c61e3afca439f4d713aa2e93fe, type: 3}
