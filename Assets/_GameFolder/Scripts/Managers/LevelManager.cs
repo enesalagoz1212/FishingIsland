@@ -60,7 +60,7 @@ namespace FishingIsland.Managers
 
 		public void Initialize(DockUpgradeManager dockUpgradeManager, ShackUpgradeManager shackUpgradeManager, HouseUpgradeManager houseUpgradeManager ,SaveLoadManager saveLoadManager)
 		{
-			_currentLevelIndex = SaveLoadManager.Instance.LoadCurrentLevelIndex();
+			//_currentLevelIndex = SaveLoadManager.Instance.LoadCurrentLevelIndex();
 			StartLevelSequence();
 			_dockUpgradeManager = dockUpgradeManager;
 			_shackUpgradeManager = shackUpgradeManager;

@@ -65,12 +65,12 @@ namespace FishingIsland.Controllers
 
 		private void Instantiate(GameObject housePrefab)
 		{
-			if (house!=null)
+			if (house != null)
 			{
 				Destroy(house);
 			}
 
-			house = Instantiate(housePrefab, transform.position, Quaternion.identity, transform);
+			house = Instantiate(housePrefab, transform.position , Quaternion.Euler(0, -180, 0), transform);
 		}
 
 		private void OnButtonClickedHouseUpgradeAction()

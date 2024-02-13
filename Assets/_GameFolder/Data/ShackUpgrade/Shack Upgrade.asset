@@ -24,7 +24,7 @@ MonoBehaviour:
   maxLevelShack: 20
   shackGameObejct:
   - {fileID: 3108085623975464314, guid: c6615daa70a969c4298675f4cce7d1c9, type: 3}
-  - {fileID: 1929310762350667951, guid: b41bb36b4d5eeaf45848c10999e7c9b8, type: 3}
+  - {fileID: 3635007108555396725, guid: 2ef8f845b1f9aa94ba5f8577c3e2dfba, type: 3}
   dockWorkerGameObejct:
   - {fileID: 7173126154287363673, guid: 5a2962c61e3afca439f4d713aa2e93fe, type: 3}
   - {fileID: 2847763904055573858, guid: 8ba2b909803eb1e418a35163d5c4b042, type: 3}
