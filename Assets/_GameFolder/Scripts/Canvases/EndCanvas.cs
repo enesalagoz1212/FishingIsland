@@ -39,7 +39,9 @@ namespace FishingIsland.Canvases
 		private void NextButton()
 		{
 			Debug.Log("Next button clicked");
+			UpgradeManager.Instance.ActivateUpgradeCanvases();
 			GameManager.OnGameReset?.Invoke();
+			UpgradeManager.Instance.DisableUpgradeCanvases();
 			levelCompleteImage.gameObject.SetActive(false);
 		}
 	}

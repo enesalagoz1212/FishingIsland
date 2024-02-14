@@ -22,6 +22,7 @@ namespace FishingIsland.Controllers
 
 		private GameObject house;
 		private List<GameObject> housePrefabs;
+		private int _currentHouseIndex = 0;
 
 		public void Initialize(UpgradeManager upgradeManager)
 		{
@@ -29,7 +30,8 @@ namespace FishingIsland.Controllers
 			_houseUpgrade = HouseUpgradeManager.Instance.GetHouseUpgrade();
 			housePrefabs = _houseUpgrade.GetHouseGameObjects();
 
-			Instantiate(housePrefabs[0]);
+			LoadCurrentShackIndex();
+			Instantiate(housePrefabs[_currentHouseIndex]);
 		}
 
 		private void Start()
@@ -55,12 +57,14 @@ namespace FishingIsland.Controllers
 		{
 			GameManager.OnCloseButton += OnCloseButtonAction;
 			GameManager.OnButtonClickedHouseUpgrade += OnButtonClickedHouseUpgradeAction;
+			GameManager.OnGameReset += OnGameResetAction;
 		}
 
 		private void OnDisable()
 		{
 			GameManager.OnCloseButton -= OnCloseButtonAction;
 			GameManager.OnButtonClickedHouseUpgrade -= OnButtonClickedHouseUpgradeAction;
+			GameManager.OnGameReset -= OnGameResetAction;
 		}
 
 		private void Instantiate(GameObject housePrefab)
@@ -123,9 +127,26 @@ namespace FishingIsland.Controllers
 			houseUpImage.rectTransform.anchoredPosition = _initialHouseUpPosition;
 		}
 
+		private void OnGameResetAction()
+		{
+			_currentHouseIndex++;
+			SaveCurrentShackIndex();
+		}
+
 		public void ResetAnimation()
 		{
 			_hasAnimationPlayed = false;
+		}
+
+		private void SaveCurrentShackIndex()
+		{
+			PlayerPrefs.SetInt("CurrentShackIndex", _currentHouseIndex);
+			PlayerPrefs.Save();
+		}
+
+		private void LoadCurrentShackIndex()
+		{
+			_currentHouseIndex = PlayerPrefs.GetInt("CurrentShackIndex", 0);
 		}
 	}
 }

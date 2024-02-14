@@ -41,7 +41,6 @@ namespace FishingIsland.Managers
 		public static SoundManager Instance { get; private set; }
 		public AudioSource audioSource;
 
-		public AudioClip backgroundMusicClip;
 
 		public StateSoundSetBoat boatSounds;
 		public StateSoundSetDockWorker dockWorkerSounds;
@@ -51,7 +50,6 @@ namespace FishingIsland.Managers
 		public void Initialize()
 		{
 			audioSource = GetComponent<AudioSource>();
-			PlayBackgroundMusic(backgroundMusicClip);
 		}
 
 		private void Awake()

@@ -78,11 +78,11 @@ namespace FishingIsland.Managers
 			fishBoxController.Initialize();
 			upgradeManager.Initialize(this);
 			levelManager.Initialize(dockUpgradeManager,shackUpgradeManager,houseUpgradeManager,saveLoadManager);
+			saveLoadManager.Initialize(boatController, dockController, houseController, shackController);
 			moneyManager.Initialize();
 			dockUpgradeManager.Initialize();
 			shackUpgradeManager.Initialize();
-			houseUpgradeManager.Initialize();
-			saveLoadManager.Initialize(boatController,dockController,houseController,shackController);
+			houseUpgradeManager.Initialize();	
 			dockController.Initialize(upgradeManager);
 			shackController.Initialize(upgradeManager);
 			houseController.Initialize(upgradeManager);

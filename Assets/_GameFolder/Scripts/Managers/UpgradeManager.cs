@@ -54,5 +54,19 @@ namespace FishingIsland.Managers
 			houseUpgradeCanvas.gameObject.SetActive(true);
 			shackUpgradeCanvas.gameObject.SetActive(false);
 		}
+
+		public void ActivateUpgradeCanvases()
+		{
+			dockUpgradeCanvas.gameObject.SetActive(true);
+			shackUpgradeCanvas.gameObject.SetActive(true);
+			houseUpgradeCanvas.gameObject.SetActive(true);
+		}
+
+		public void DisableUpgradeCanvases()
+		{
+			dockUpgradeCanvas.gameObject.SetActive(false);
+			shackUpgradeCanvas.gameObject.SetActive(false);
+			houseUpgradeCanvas.gameObject.SetActive(false);
+		}
 	}
 }

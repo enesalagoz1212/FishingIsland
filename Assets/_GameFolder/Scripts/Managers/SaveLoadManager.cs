@@ -86,6 +86,8 @@ namespace FishingIsland.Managers
 			HouseUpgradeData savedDataHouse = LoadHouseUpgradeData();
 			HouseUpgradeManager.Instance.houseUpgradeData = savedDataHouse;
 			HouseUpgradeManager.Instance.UpdateUpgradeCosts();
+
+			
 		}
 
 		public int CurrentLevel()
@@ -218,19 +220,7 @@ namespace FishingIsland.Managers
 			}
 		}
 
-		public int LoadCurrentLevelIndex()
-		{
-			if (File.Exists(savePath))
-			{
-				string jsonData = File.ReadAllText(savePath);
-				SaveData loadedData = JsonUtility.FromJson<SaveData>(jsonData);
-				return loadedData.currentLevelIndex;
-			}
-			else
-			{
-				return 0;
-			}
-		}
+
 		public void ResetGame()
 		{
 			saveData = new SaveData();

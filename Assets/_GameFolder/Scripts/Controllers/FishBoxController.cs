@@ -49,12 +49,14 @@ namespace FishingIsland.Controllers
 		{
 			OnBoatArrivedBox += OnBoatArrivedBoxAction;
 			OnDockWorkerArrivedBox += OnDockWorkerArrivedBoxAction;
+			GameManager.OnGameReset += OnGameResetAction;
 		}
 
 		private void OnDisable()
 		{
 			OnBoatArrivedBox -= OnBoatArrivedBoxAction;
 			OnDockWorkerArrivedBox -= OnDockWorkerArrivedBoxAction;
+			GameManager.OnGameReset -= OnGameResetAction;
 		}
 
 		public int GetTotalFishCount()
@@ -152,7 +154,11 @@ namespace FishingIsland.Controllers
 			UpdateFishCountText();
 		}
 
-		
+		private void OnGameResetAction()
+		{
+			_totalFishCount = 0;
+			UpdateFishCountText();
+		}
 	}
 }
 

@@ -2,19 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FishingIsland.UpgradeScriptableObjects;
+using FishingIsland.LevelScriptableObject;
 
 namespace FishingIsland.Managers
 {
 	public class LevelManager : MonoBehaviour
 	{
 		public static LevelManager Instance { get; private set; }
+		public LevelData levelData;
 
 		private SaveLoadManager _saveLoadManager;
 		private DockUpgradeManager _dockUpgradeManager;
 		private ShackUpgradeManager _shackUpgradeManager;
 		private HouseUpgradeManager _houseUpgradeManager;
 
-		public List<GameObject> levelGameObjects = new List<GameObject>();
+		private List<GameObject> activeLevels = new List<GameObject>();
 		private int _currentLevelIndex = 0;
 
 
@@ -60,15 +62,17 @@ namespace FishingIsland.Managers
 
 		public void Initialize(DockUpgradeManager dockUpgradeManager, ShackUpgradeManager shackUpgradeManager, HouseUpgradeManager houseUpgradeManager ,SaveLoadManager saveLoadManager)
 		{
-			//_currentLevelIndex = SaveLoadManager.Instance.LoadCurrentLevelIndex();
-			StartLevelSequence();
+			LoadCurrentLevelIndex();
+
+
 			_dockUpgradeManager = dockUpgradeManager;
 			_shackUpgradeManager = shackUpgradeManager;
 			_houseUpgradeManager = houseUpgradeManager;
 		}
+
 		private void Start()
 		{
-			
+			StartLevelSequence();
 		}
 		public Transform GetRandomBoatSpawnPoint()
 		{
@@ -84,9 +88,11 @@ namespace FishingIsland.Managers
 
 		private void StartLevelSequence()
 		{
-			if (_currentLevelIndex < levelGameObjects.Count)
+			if (_currentLevelIndex < levelData.levelObjects.Count)
 			{
-				levelGameObjects[_currentLevelIndex].SetActive(true);
+				GameObject newLevelObject = Instantiate(levelData.levelObjects[_currentLevelIndex]);
+				newLevelObject.SetActive(true);
+				activeLevels.Add(newLevelObject);
 			}
 			else
 			{
@@ -111,8 +117,9 @@ namespace FishingIsland.Managers
 
 		private void OnGameResetAction()
 		{
-			levelGameObjects[_currentLevelIndex].SetActive(false);
+			DestroyCurrentLevel();
 			_currentLevelIndex++;
+			SetCurrentLevelIndex(_currentLevelIndex);
 			StartLevelSequence();
 		}
 
@@ -145,6 +152,24 @@ namespace FishingIsland.Managers
 		public void SetCurrentLevelIndex(int index)
 		{
 			_currentLevelIndex = index;
+			PlayerPrefs.SetInt("CurrentLevelIndex", _currentLevelIndex);
+			PlayerPrefs.Save();
+		}
+
+		private void LoadCurrentLevelIndex()
+		{
+			_currentLevelIndex = PlayerPrefs.GetInt("CurrentLevelIndex", 0);
+			
+		}
+
+
+		private void DestroyCurrentLevel()
+		{
+			if (_currentLevelIndex < activeLevels.Count)
+			{
+				Destroy(activeLevels[_currentLevelIndex]);
+				activeLevels.RemoveAt(_currentLevelIndex);
+			}
 		}
 	}
 }

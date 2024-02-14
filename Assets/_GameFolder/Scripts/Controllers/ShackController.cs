@@ -27,6 +27,7 @@ namespace FishingIsland.Controllers
 
 		private GameObject shack;
 		private List<GameObject> shackPrefabs;
+		private int _currentShackIndex = 0;
 
 		private Sequence _shackUpAnimation;
 
@@ -42,12 +43,15 @@ namespace FishingIsland.Controllers
 		public static Action<FishWorkerController> OnFishWorkerArrivedBox;
 		public static Action<DockWorkerController> OnDockWorkerArrivedShack;
 
+	
 		public void Initialize(UpgradeManager upgradeManager)
 		{
 			_shackUpgrade = ShackUpgradeManager.Instance.GetShackUpgrade();
 			_upgradeManager = upgradeManager;
 			shackPrefabs = _shackUpgrade.GetShackGameObjects();
-			Instantiate(shackPrefabs[0]);
+
+			LoadCurrentShackIndex();
+			Instantiate(shackPrefabs[_currentShackIndex]);
 		}
 
 		private void Awake()
@@ -75,6 +79,7 @@ namespace FishingIsland.Controllers
 			OnDockWorkerArrivedShack += OnFishWorkerArrivedShackAction;
 			GameManager.OnCloseButton += OnCloseButtonAction;
 			GameManager.OnButtonClickedShackUpgrade += OnButtonClickedShackUpgradeAction;
+			GameManager.OnGameReset += OnGameResetAction;
 		}
 
 		private void OnDisable()
@@ -83,6 +88,7 @@ namespace FishingIsland.Controllers
 			OnDockWorkerArrivedShack -= OnFishWorkerArrivedShackAction;
 			GameManager.OnCloseButton -= OnCloseButtonAction;
 			GameManager.OnButtonClickedShackUpgrade -= OnButtonClickedShackUpgradeAction;
+			GameManager.OnGameReset += OnGameResetAction;
 		}
 
 		private void Update()
@@ -103,6 +109,15 @@ namespace FishingIsland.Controllers
 			shackUpImage.gameObject.SetActive(false);
 			KillShackUpAnimation();
 			_upgradeManager.ActivateShackUpgradeCanvas();
+		}
+
+		private void OnGameResetAction()
+		{
+			_currentShackIndex++;
+			SaveCurrentShackIndex();
+
+			_shackFishCount = 0;
+			UpdateFishCountText();
 		}
 
 		public int GetTotalFishCount()
@@ -261,6 +276,17 @@ namespace FishingIsland.Controllers
 		{
 			_shackFishCount = 0;
 			UpdateFishCountText();
+		}
+
+		private void SaveCurrentShackIndex()
+		{
+			PlayerPrefs.SetInt("CurrentShackIndex", _currentShackIndex);
+			PlayerPrefs.Save();
+		}
+
+		private void LoadCurrentShackIndex()
+		{
+			_currentShackIndex = PlayerPrefs.GetInt("CurrentShackIndex", 0);
 		}
 	}
 
