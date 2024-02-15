@@ -94,7 +94,7 @@ namespace FishingIsland.Controllers
 				Destroy(dockWorker);
 			}
 
-			dockWorker = Instantiate(dockWorkerPrefab, transform.position, Quaternion.identity, transform);
+			dockWorker = Instantiate(dockWorkerPrefab, transform.position+new Vector3(0,0.3F,0), Quaternion.identity, transform);
 		}
 		private void OnButtonClickedShackUpgradeAction()
 		{
@@ -102,11 +102,11 @@ namespace FishingIsland.Controllers
 			int speedLevel = _shackUpgrade.shackUpgradeData.speedLevel;
 			int capacityLevel = _shackUpgrade.shackUpgradeData.capacityLevel;
 
-			if (dockWorkerLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
-			{
-				Destroy(dockWorker);
-				Instantiate(dockWorkerPrefabs[1]);
-			}
+			//if (dockWorkerLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
+			//{
+			//	Destroy(dockWorker);
+			//	Instantiate(dockWorkerPrefabs[1]);
+			//}
 		}
 
 		public override void WorkerMouseDown()

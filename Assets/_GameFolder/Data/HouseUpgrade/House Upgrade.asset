@@ -26,5 +26,4 @@ MonoBehaviour:
   - {fileID: 7832622113756981692, guid: e9efc7f0aee13aa4a8c0e4039a8e37c9, type: 3}
   - {fileID: 7239724381228402366, guid: 5e907daa71a7d224ca468e1a9214f0bf, type: 3}
   fishWorkerGameObejct:
-  - {fileID: 1373025676863018150, guid: e374c282c94191149a1e3967cfcf728d, type: 3}
-  - {fileID: 5098612089306447564, guid: 45798a30daccf0d40bd0457c46b5b694, type: 3}
+  - {fileID: 7628108606261811880, guid: ac5bae50a73225b4e961578f241e607c, type: 3}

@@ -22,6 +22,7 @@ namespace FishingIsland.Controllers
 	{
 		public FishWorkerState FishWorkerState { get; private set; }
 		private HouseUpgrade _houseUpgrade;
+		public CarController carController;
 
 		private Vector3 _initialFishWorkerDownPosition;
 		private int _fishCapacity;
@@ -44,6 +45,7 @@ namespace FishingIsland.Controllers
 		public Image fishWorkerBarImage;
 		public Image circularProgressBar;
 
+		private Vector3 lastPosition;
 		public override void Initialize(string name, float speed, int initialCapacity)
 		{
 			base.Initialize(name, speed, initialCapacity);
@@ -85,8 +87,11 @@ namespace FishingIsland.Controllers
 				Destroy(fishWorker);
 			}
 
-			fishWorker = Instantiate(fishWorkerPrefab, transform.position, Quaternion.identity, transform);
+			fishWorker = Instantiate(fishWorkerPrefab, transform.position + new Vector3(0, 0.3f, 0), Quaternion.Euler(0, 180, 0), transform);
+
+
 		}
+
 
 		private void OnButtonClickedHouseUpgradeAction()
 		{
@@ -94,11 +99,11 @@ namespace FishingIsland.Controllers
 			int speedLevel = _houseUpgrade.houseUpgradeData.speedLevel;
 			int capacityLevel = _houseUpgrade.houseUpgradeData.capacityLevel;
 
-			if (fishWorkerLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
-			{
-				Destroy(fishWorker);
-				Instantiate(fishWorkerPrefabs[1]);
-			}
+			//if (fishWorkerLevel >= 10 && speedLevel >= 10 && capacityLevel >= 10)
+			//{
+			//	Destroy(fishWorker);
+			//	Instantiate(fishWorkerPrefabs[1]);
+			//}
 		}
 
 		public override void WorkerMouseDown()
@@ -205,12 +210,10 @@ namespace FishingIsland.Controllers
 				Sequence pathSequence = DOTween.Sequence();
 
 				pathSequence.Append(transform.DOMove(pathList[0].position, _fishWorkerSpeed).SetEase(Ease.Linear));
-
 				for (int i = 1; i < pathList.Count; i++)
 				{
 					pathSequence.Append(transform.DOMove(pathList[i].position, _fishWorkerSpeed).SetEase(Ease.Linear));
 				}
-
 				pathSequence.OnComplete(() => onCompleteAction?.Invoke());
 			}
 			else
@@ -248,5 +251,9 @@ namespace FishingIsland.Controllers
 		{
 			totalMoneyText.text = $" {MoneyManager.Instance.GetMoney()}";
 		}
+
+
+
+
 	}
 }
